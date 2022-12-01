@@ -1,16 +1,15 @@
+# Use for development to test production environment
 version: "3.9"
 services:
   api:
-    container_name: huebot_api_dev
+    container_name: huebot_api_prod
     build:
       context: .
       dockerfile: docker/Dockerfile.api
-      target: development
-    volumes:
-      - .:/usr/app
+      target: production
     ports:
       - 3000:3000
-    command: yarn workspace @huebot-hub-core/api start:dev
+    # command: yarn workspace @huebot-hub-core/api start:prod
     networks:
       - huebot-proxy-net
 
