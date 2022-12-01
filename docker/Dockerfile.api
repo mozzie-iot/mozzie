@@ -62,6 +62,7 @@ USER node
 # PRODUCTION
 ###################
 FROM node:18-alpine As production
+LABEL org.opencontainers.image.source https://github.com/huebot-iot/hub-core-next
 WORKDIR /usr/app
 COPY --chown=node:node package.json .
 COPY --chown=node:node --from=build /usr/app/node_modules ./node_modules

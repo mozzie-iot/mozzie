@@ -14,4 +14,5 @@ Note: worth developing in Docker container as some services are referenced by th
 2. `docker push ghcr.io/huebot-iot/hub-core-next:latest` (just tags as 'latest')
 
 ### Notes
-For `denied: permission_denied: The token provided does not match expected scopes.` error, login into GHCR with `docker login ghcr.io`
+- For `denied: permission_denied: The token provided does not match expected scopes.` error, login into GHCR with `docker login ghcr.io`
+- Issues pushing larger Docker images over SSH connection. May need to put hub on WiFi network if getting `connection reset by peer` timeout

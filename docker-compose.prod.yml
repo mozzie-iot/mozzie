@@ -9,7 +9,6 @@ services:
       target: production
     ports:
       - 3000:3000
-    # command: yarn workspace @huebot-hub-core/api start:prod
     networks:
       - huebot-proxy-net
 
