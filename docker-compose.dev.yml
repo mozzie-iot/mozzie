@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  api:
+    container_name: huebot-api
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.dev
+    volumes:
+      - .:/usr/app
+    ports:
+      - 3000:3000
+    command: yarn workspace @huebot-hub-core/api start:dev
+    networks:
+      - huebot-proxy-net
+
+networks:
+  huebot-proxy-net:
+    external:
+      name: hubNetwork

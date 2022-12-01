@@ -1,0 +1,34 @@
+FROM node:18-alpine
+
+WORKDIR /usr/app
+COPY package.json .
+COPY yarn.lock .
+COPY tsconfig.json .
+COPY .yarnrc.yml .
+COPY .yarn ./.yarn
+
+WORKDIR /usr/app/packages/common
+COPY packages/common/package.json .
+COPY packages/common/tsconfig.json .
+
+WORKDIR /usr/app/packages/api
+COPY packages/api/package.json .
+COPY packages/api/tsconfig.json .
+
+WORKDIR /usr/app
+RUN yarn install
+
+
+
+# WORKDIR /usr/app/packages/common
+# COPY --from=huebot-common:latest /usr/app/packages/common .
+
+# WORKDIR /usr/app/packages/api
+# COPY packages/api/package.json .
+# COPY packages/api/tsconfig.json .
+# COPY packages/api/tsconfig.build.json .
+# COPY packages/api/nest-cli.json .
+# COPY packages/api/src ./src
+
+# RUN yarn workspace @huebot-hub-core/api install
+# RUN yarn workspace @huebot-hub-core/api build

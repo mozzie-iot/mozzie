@@ -1,0 +1,41 @@
+FROM node:18-alpine AS build
+
+WORKDIR /usr/app
+COPY package.json .
+COPY yarn.lock .
+COPY tsconfig.json .
+COPY .yarnrc.yml .
+COPY .yarn ./.yarn
+
+WORKDIR /usr/app/packages/common
+COPY --from=huebot-common:latest /usr/app/packages/common .
+
+WORKDIR /usr/app/packages/api
+COPY packages/api/package.json .
+COPY packages/api/tsconfig.json .
+COPY packages/api/tsconfig.build.json .
+COPY packages/api/nest-cli.json .
+COPY packages/api/src ./src
+
+RUN yarn workspace @huebot-hub-core/api install
+RUN yarn workspace @huebot-hub-core/api build
+
+FROM node:18-alpine AS production
+
+WORKDIR /usr/app
+COPY package.json .
+COPY yarn.lock .
+COPY .yarnrc.yml .
+COPY .yarn ./.yarn
+# Needed to use 'yarn workspaces focus' which installs prod deps in current dir (yarn 2)
+RUN yarn plugin import workspace-tools
+
+WORKDIR /usr/app/packages/common
+COPY --from=huebot-common:latest /usr/app/packages/common .
+
+WORKDIR /usr/app/packages/api
+COPY packages/api/package.json .
+RUN yarn workspaces focus --production
+COPY --from=build /usr/app/packages/api/dist ./dist
+
+EXPOSE 4000

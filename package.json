@@ -1,0 +1,11 @@
+{
+    "name": "@huebot-hub-core/main",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "workspaces": [
+        "packages/*"
+    ],
+    "license": "ISC",
+    "packageManager": "yarn@3.3.0"
+}
