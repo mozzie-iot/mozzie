@@ -29,8 +29,6 @@ RUN yarn workspace @huebot-hub-core/api install
 
 COPY --chown=node:node packages/api .packages/api
 
-ENV NODE_ENV development
-
 USER node
 
 ###################

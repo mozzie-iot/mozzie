@@ -13,6 +13,8 @@ export class GqlService implements GqlOptionsFactory {
     return {
       path: '/core',
       debug: this.configService.NODE_ENV !== 'production',
+      cache:
+        this.configService.NODE_ENV === 'production' ? 'bounded' : undefined,
       autoSchemaFile: 'schema.gql',
       definitions: {
         outputAs: 'class',
