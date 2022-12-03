@@ -10,7 +10,6 @@ import { ConfigService } from './config.service';
       load: [
         () => ({
           API_PORT: 3000,
-          DB_NAME: 'hub_db',
           REDIS_HOST: 'redis',
           REDIS_PORT: 6379,
         }),

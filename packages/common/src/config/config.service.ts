@@ -9,10 +9,6 @@ export class ConfigService {
     return parseInt(this.configService.get<string>('API_PORT'), 10);
   }
 
-  get DB_NAME() {
-    return this.configService.get<string>('DB_NAME');
-  }
-
   get REDIS_HOST() {
     return this.configService.get<string>('REDIS_HOST');
   }

@@ -9,6 +9,8 @@ async function bootstrap() {
 
   const configService = app.get(ConfigService);
 
+  console.log('ENV: ', configService.NODE_ENV);
+
   await app.listen(configService.API_PORT);
 }
 bootstrap();
