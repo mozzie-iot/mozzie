@@ -6,8 +6,11 @@ services:
       context: .
       dockerfile: docker/Dockerfile.api
       target: development
+    environment:
+      - NODE_ENV=development
     volumes:
       - .:/usr/app
+      - ${HOME}/db:/usr/db
     ports:
       - 3000:3000
     command: yarn workspace @huebot-hub-core/api start:dev
