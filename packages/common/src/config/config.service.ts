@@ -13,16 +13,20 @@ export class ConfigService {
     return this.configService.get<string>('DB_NAME');
   }
 
-  get SECRET_KEY() {
-    return this.configService.get<string>('SECRET_KEY');
-  }
-
   get REDIS_HOST() {
     return this.configService.get<string>('REDIS_HOST');
   }
 
   get REDIS_PORT() {
     return parseInt(this.configService.get<string>('REDIS_PORT'), 10);
+  }
+
+  get API_KEY() {
+    return this.configService.get<string>('HUEBOT_API_KEY');
+  }
+
+  get SECRET_KEY() {
+    return this.configService.get<string>('HUEBOT_SECRET_KEY');
   }
 
   get HOME() {
