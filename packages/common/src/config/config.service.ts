@@ -17,6 +17,10 @@ export class ConfigService {
     return parseInt(this.configService.get<string>('REDIS_PORT'), 10);
   }
 
+  get NETWORK_NODE_AP_IP() {
+    return this.configService.get<string>('NETWORK_NODE_AP_IP');
+  }
+
   get API_KEY() {
     return this.configService.get<string>('HUEBOT_API_KEY');
   }

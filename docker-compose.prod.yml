@@ -13,6 +13,16 @@ services:
       - ../db:/usr/db
     networks:
       - huebot-proxy-net
+  native:
+    container_name: huebot_native_prod
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.native
+      target: production
+    ports:
+      - 9000:9000
+    networks:
+      - huebot-proxy-net
 
 networks:
   huebot-proxy-net:

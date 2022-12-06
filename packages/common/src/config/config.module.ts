@@ -12,6 +12,7 @@ import { ConfigService } from './config.service';
           API_PORT: 3000,
           REDIS_HOST: 'redis',
           REDIS_PORT: 6379,
+          NETWORK_NODE_AP_IP: '192.168.101.1',
         }),
       ],
     }),

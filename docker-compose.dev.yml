@@ -16,6 +16,21 @@ services:
     command: yarn workspace @huebot-hub-core/api start:dev
     networks:
       - huebot-proxy-net
+  native:
+    container_name: huebot_native_dev
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.native
+      target: development
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - .:/usr/app
+    ports:
+      - 9000:9000
+    command: yarn workspace @huebot-hub-core/native start:dev
+    networks:
+      - huebot-proxy-net
 
 networks:
   huebot-proxy-net:
