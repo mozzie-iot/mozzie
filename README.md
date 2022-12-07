@@ -2,6 +2,7 @@
 (Will replace hub and hub-core repos)
 
 ## Packages
+Run all packages in development with `docker-compose -f docker-compose.dev.yml up` or production with `docker-compose -f docker-compose.prod.yml up`
 
 ### API
 

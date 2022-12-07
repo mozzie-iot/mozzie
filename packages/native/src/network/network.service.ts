@@ -5,18 +5,18 @@ import { Address4 } from 'ip-address';
 import generatePassword from 'omgopass';
 import UNG from 'unique-names-generator';
 
-import { ConfigService } from '@huebot-hub-core/common';
-
-import { NetworkError } from './network.error';
 import {
-  ActiveNetworkInterface,
-  ApCredentials,
-  AvailableInterface,
+  ConfigService,
+  NetworkActiveInterface,
+  NetworkApCredentials,
+  NetworkAvailableInterface,
   NetworkDetailUnion,
   NetworkIp4AddressTypeEnum,
   NetworkTypeEnum,
-  WifiNetwork,
-} from './network.interface';
+  NetworkWifiDto,
+} from '@huebot-hub-core/common';
+
+import { NetworkError } from './network.error';
 
 const AP_NAME = 'hubap';
 
@@ -153,7 +153,7 @@ export class NetworkService {
       ),
     );
   }
-  public scan_wifi(): Promise<WifiNetwork[]> {
+  public scan_wifi(): Promise<NetworkWifiDto[]> {
     return new Promise((resolve, reject) =>
       exec(
         'nmcli --get-value SSID,SIGNAL,SECURITY device wifi',
@@ -164,7 +164,7 @@ export class NetworkService {
 
           const rows = stdout.split('\n');
 
-          const result = rows.reduce((acc: WifiNetwork[], item) => {
+          const result = rows.reduce((acc: NetworkWifiDto[], item) => {
             const row = item.split(':');
 
             // if req'd wifi components missing, then skip
@@ -187,7 +187,9 @@ export class NetworkService {
       ),
     );
   }
-  public async get_available_interfaces(): Promise<AvailableInterface[]> {
+  public async get_available_interfaces(): Promise<
+    NetworkAvailableInterface[]
+  > {
     return new Promise((resolve, reject) =>
       exec(
         'nmcli  -t -f DEVICE,TYPE,STATE device status',
@@ -206,7 +208,7 @@ export class NetworkService {
 
           const results = stdout
             .split('\n')
-            .reduce((acc: AvailableInterface[], line: string) => {
+            .reduce((acc: NetworkAvailableInterface[], line: string) => {
               if (!line.includes(':ethernet:') && !line.includes(':wifi:')) {
                 return acc;
               }
@@ -221,7 +223,7 @@ export class NetworkService {
               return [
                 ...acc,
                 { name, type: type === 'wifi' ? 'wifi' : 'wired' },
-              ] as AvailableInterface[];
+              ] as NetworkAvailableInterface[];
             }, []);
 
           console.log('get_available_interfaces: ', results);
@@ -232,7 +234,7 @@ export class NetworkService {
     );
   }
 
-  public async get_active_interface(): Promise<ActiveNetworkInterface | null> {
+  public async get_active_interface(): Promise<NetworkActiveInterface | null> {
     return new Promise((resolve, reject) =>
       exec('nmcli -t -f NAME,TYPE c show --active', (error, stdout, stderr) => {
         if (error || stderr) {
@@ -517,7 +519,7 @@ export class NetworkService {
     return;
   }
 
-  public async get_ap_credentials(): Promise<ApCredentials> {
+  public async get_ap_credentials(): Promise<NetworkApCredentials> {
     const ifname = await this.get_ap_interface();
 
     const output = await this.nmcli_device(
@@ -525,7 +527,7 @@ export class NetworkService {
     );
 
     return output.split('\n').reduce(
-      (acc: ApCredentials, line) => {
+      (acc: NetworkApCredentials, line) => {
         if (line.includes('SSID')) {
           return {
             ...acc,

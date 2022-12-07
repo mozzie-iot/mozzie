@@ -2,6 +2,14 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type NetworkWifiDto {
+  ssid: String!
+  signal: Int!
+  security: String
+  channel: Int
+}
+
 type Query {
   pingNetwork: Boolean!
+  testGetAvailableWifiNetworks: [NetworkWifiDto!]!
 }

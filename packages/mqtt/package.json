@@ -1,5 +1,5 @@
 {
-  "name": "@huebot-hub-core/api",
+  "name": "@huebot-hub-core/mqtt",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -22,15 +22,11 @@
   },
   "dependencies": {
     "@huebot-hub-core/common": "workspace:^",
-    "@nestjs/apollo": "^10.1.6",
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
-    "@nestjs/graphql": "^10.1.6",
     "@nestjs/microservices": "^9.2.1",
     "@nestjs/platform-express": "^9.0.0",
-    "apollo-server-express": "^3.11.1",
-    "express": "^4.18.2",
-    "graphql": "^16.6.0",
+    "mqtt": "^4.3.7",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0"
@@ -47,7 +43,6 @@
     "@typescript-eslint/parser": "^5.0.0",
     "eslint": "^8.0.1",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^4.0.0",
     "jest": "28.1.3",
     "prettier": "^2.3.2",

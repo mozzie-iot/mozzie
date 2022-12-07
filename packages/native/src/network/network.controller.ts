@@ -2,12 +2,12 @@ import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 
 import {
-  ActiveNetworkInterface,
-  ApCredentials,
-  AvailableInterface,
+  NetworkApCredentials,
+  NetworkAvailableInterface,
   NetworkDetailUnion,
-  WifiNetwork,
-} from './network.interface';
+  NetworkWifi,
+} from '@huebot-hub-core/common';
+
 import { NetworkService } from './network.service';
 
 @Controller()
@@ -20,17 +20,17 @@ export class NetworkController {
   }
 
   @MessagePattern({ cmd: 'network_wifi_scan' })
-  async network_scan_wifi(): Promise<WifiNetwork[]> {
+  async network_scan_wifi(): Promise<NetworkWifi[]> {
     return this.networkService.scan_wifi();
   }
 
   @MessagePattern({ cmd: 'get_available_interfaces' })
-  async get_available_interfaces(): Promise<AvailableInterface[]> {
+  async get_available_interfaces(): Promise<NetworkAvailableInterface[]> {
     return this.networkService.get_available_interfaces();
   }
 
   @MessagePattern({ cmd: 'get_active_interface' })
-  async get_active_interface(): Promise<ActiveNetworkInterface | null> {
+  async get_active_interface(): Promise<NetworkAvailableInterface | null> {
     return this.networkService.get_active_interface();
   }
 
@@ -75,7 +75,7 @@ export class NetworkController {
   }
 
   @MessagePattern({ cmd: 'get_ap_credentials' })
-  async get_ap_credentials(): Promise<ApCredentials> {
+  async get_ap_credentials(): Promise<NetworkApCredentials> {
     return this.networkService.get_ap_credentials();
   }
 }

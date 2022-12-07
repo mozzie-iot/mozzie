@@ -8,6 +8,8 @@ services:
       target: development
     environment:
       - NODE_ENV=development
+      - HUEBOT_API_KEY=$HUEBOT_API_KEY
+      - HUEBOT_SECRET_KEY=$HUEBOT_SECRET_KEY
     volumes:
       - .:/usr/app
       - ${HOME}/db:/usr/db
@@ -18,6 +20,7 @@ services:
       - huebot-proxy-net
   native:
     container_name: huebot_native_dev
+    privileged: true
     build:
       context: .
       dockerfile: docker/Dockerfile.native
@@ -26,9 +29,25 @@ services:
       - NODE_ENV=development
     volumes:
       - .:/usr/app
+      - /var/run/dbus:/var/run/dbus
     ports:
       - 9000:9000
     command: yarn workspace @huebot-hub-core/native start:dev
+    networks:
+      - huebot-proxy-net
+  mqtt:
+    container_name: huebot_mqtt_dev
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.mqtt
+      target: development
+    environment:
+      - NODE_ENV=development
+      - MQTT_USERNAME=$MQTT_USERNAME
+      - MQTT_PASSWORD=$MQTT_PASSWORD
+    volumes:
+      - .:/usr/app
+    command: yarn workspace @huebot-hub-core/mqtt start:dev
     networks:
       - huebot-proxy-net
 

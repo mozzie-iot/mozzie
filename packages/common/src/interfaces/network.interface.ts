@@ -1,22 +1,22 @@
-export interface WifiNetwork {
+export interface NetworkWifi {
   ssid: string;
   signal: number;
   security?: string;
   channel?: number;
 }
 
-export interface AvailableInterface {
+export interface NetworkAvailableInterface {
   name: string;
   type: 'wifi' | 'wired';
 }
 
-export interface ActiveNetworkInterface {
+export interface NetworkActiveInterface {
   name: string;
   type: 'wifi' | 'wired';
   type_raw: string;
 }
 
-export interface ApCredentials {
+export interface NetworkApCredentials {
   ssid: string;
   password: string;
 }
@@ -31,7 +31,7 @@ export enum NetworkIp4AddressTypeEnum {
   DYNAMIC = 'dynamic',
 }
 
-interface BaseNetworkDetail {
+interface NetworkBaseDetail {
   id: string;
   type: NetworkTypeEnum;
   ip4_address: string;
@@ -40,10 +40,10 @@ interface BaseNetworkDetail {
   interface_name: string;
 }
 
-type NetworkWifiDetail = BaseNetworkDetail & {
+type NetworkWifiDetail = NetworkBaseDetail & {
   ssid: string;
 };
 
-type NetworkWiredDetail = BaseNetworkDetail;
+type NetworkWiredDetail = NetworkBaseDetail;
 
 export type NetworkDetailUnion = NetworkWifiDetail | NetworkWiredDetail;

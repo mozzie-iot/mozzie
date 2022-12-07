@@ -1,4 +1,9 @@
+import { UseGuards } from '@nestjs/common';
 import { Resolver, Query } from '@nestjs/graphql';
+import { Observable } from 'rxjs';
+
+import { DevGuard } from '@huebot-api/routes/routes-dev.guard';
+import { NetworkWifiDto } from '@huebot-hub-core/common';
 
 import { NetworkService } from './network.service';
 
@@ -13,5 +18,12 @@ export class NetworkResolver {
   @Query(() => Boolean)
   async pingNetwork(): Promise<boolean> {
     return this.networkService.pingNetwork();
+  }
+
+  // Testing Routes
+  @UseGuards(DevGuard)
+  @Query(() => [NetworkWifiDto])
+  testGetAvailableWifiNetworks(): Observable<NetworkWifiDto[]> {
+    return this.networkService.getAvailableWifiNetworks();
   }
 }
