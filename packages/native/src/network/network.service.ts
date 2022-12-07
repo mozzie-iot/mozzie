@@ -7,9 +7,9 @@ import UNG from 'unique-names-generator';
 
 import {
   ConfigService,
-  NetworkActiveInterface,
-  NetworkApCredentials,
-  NetworkAvailableInterface,
+  NetworkActiveDto,
+  NetworkApCredentialsDto,
+  NetworkAvailableDto,
   NetworkDetailUnion,
   NetworkIp4AddressTypeEnum,
   NetworkTypeEnum,
@@ -187,9 +187,7 @@ export class NetworkService {
       ),
     );
   }
-  public async get_available_interfaces(): Promise<
-    NetworkAvailableInterface[]
-  > {
+  public async get_available_interfaces(): Promise<NetworkAvailableDto[]> {
     return new Promise((resolve, reject) =>
       exec(
         'nmcli  -t -f DEVICE,TYPE,STATE device status',
@@ -208,7 +206,7 @@ export class NetworkService {
 
           const results = stdout
             .split('\n')
-            .reduce((acc: NetworkAvailableInterface[], line: string) => {
+            .reduce((acc: NetworkAvailableDto[], line: string) => {
               if (!line.includes(':ethernet:') && !line.includes(':wifi:')) {
                 return acc;
               }
@@ -223,7 +221,7 @@ export class NetworkService {
               return [
                 ...acc,
                 { name, type: type === 'wifi' ? 'wifi' : 'wired' },
-              ] as NetworkAvailableInterface[];
+              ] as NetworkAvailableDto[];
             }, []);
 
           console.log('get_available_interfaces: ', results);
@@ -234,7 +232,7 @@ export class NetworkService {
     );
   }
 
-  public async get_active_interface(): Promise<NetworkActiveInterface | null> {
+  public async get_active_interface(): Promise<NetworkActiveDto | null> {
     return new Promise((resolve, reject) =>
       exec('nmcli -t -f NAME,TYPE c show --active', (error, stdout, stderr) => {
         if (error || stderr) {
@@ -299,7 +297,9 @@ export class NetworkService {
 
         return resolve({
           name,
-          type: type.includes('wireless') ? 'wifi' : 'wired',
+          type: type.includes('wireless')
+            ? NetworkTypeEnum.WIFI
+            : NetworkTypeEnum.WIRED,
           type_raw: type.trim(),
         });
       }),
@@ -358,7 +358,7 @@ export class NetworkService {
 
   // 1. Get active interface details
   // 2. Get connection details (type, dynamic/static ip) by interface name
-  public async get_network_details(): Promise<NetworkDetailUnion> {
+  public async get_network_details(): Promise<typeof NetworkDetailUnion> {
     const active_interface = await this.get_active_interface();
 
     if (!active_interface) {
@@ -428,7 +428,7 @@ export class NetworkService {
 
   public async set_ip_address_static(
     static_ip: string,
-  ): Promise<NetworkDetailUnion> {
+  ): Promise<typeof NetworkDetailUnion> {
     try {
       // First validate IP address
       new Address4(static_ip);
@@ -468,7 +468,7 @@ export class NetworkService {
     };
   }
 
-  public async set_ip_address_dynamic(): Promise<NetworkDetailUnion> {
+  public async set_ip_address_dynamic(): Promise<typeof NetworkDetailUnion> {
     const network = await this.get_network_details();
 
     if (!network) {
@@ -519,7 +519,7 @@ export class NetworkService {
     return;
   }
 
-  public async get_ap_credentials(): Promise<NetworkApCredentials> {
+  public async get_ap_credentials(): Promise<NetworkApCredentialsDto> {
     const ifname = await this.get_ap_interface();
 
     const output = await this.nmcli_device(
@@ -527,7 +527,7 @@ export class NetworkService {
     );
 
     return output.split('\n').reduce(
-      (acc: NetworkApCredentials, line) => {
+      (acc: NetworkApCredentialsDto, line) => {
         if (line.includes('SSID')) {
           return {
             ...acc,
