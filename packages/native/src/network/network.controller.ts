@@ -2,6 +2,7 @@ import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 
 import {
+  BasicResponseEnum,
   NetworkApCredentialsDto,
   NetworkAvailableDto,
   NetworkDetailUnion,
@@ -65,7 +66,7 @@ export class NetworkController {
   }
 
   @MessagePattern({ cmd: 'create_ap_interface' })
-  async create_ap_interface(): Promise<void> {
+  async create_ap_interface(): Promise<BasicResponseEnum> {
     return this.networkService.create_ap_interface();
   }
 
