@@ -3,6 +3,7 @@ import { ClientProxy } from '@nestjs/microservices';
 
 import { NATIVE_CLIENT_PROVIDER } from '@huebot-api/native-client/native-client.constants';
 import {
+  BasicResponseEnum,
   NetworkApCredentialsDto,
   NetworkDetailUnion,
   NetworkWifiDto,
@@ -29,5 +30,10 @@ export class NetworkService {
   public getAvailableWifiNetworks() {
     const pattern = { cmd: 'network_wifi_scan' };
     return this.client.send<NetworkWifiDto[]>(pattern, []);
+  }
+
+  public createApInterface() {
+    const pattern = { cmd: 'create_ap_interface' };
+    return this.client.send<BasicResponseEnum>(pattern, []);
   }
 }

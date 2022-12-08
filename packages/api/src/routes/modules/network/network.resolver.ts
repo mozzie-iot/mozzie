@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { DevGuard } from '@huebot-api/routes/routes-dev.guard';
 import {
+  BasicResponseEnum,
   NetworkApCredentialsDto,
   NetworkDetailUnion,
   NetworkWifiDto,
@@ -39,5 +40,11 @@ export class NetworkResolver {
   @Query(() => [NetworkWifiDto])
   testGetAvailableWifiNetworks(): Observable<NetworkWifiDto[]> {
     return this.networkService.getAvailableWifiNetworks();
+  }
+
+  @UseGuards(DevGuard)
+  @Query(() => BasicResponseEnum)
+  testCreateApInterface(): Observable<BasicResponseEnum> {
+    return this.networkService.createApInterface();
   }
 }

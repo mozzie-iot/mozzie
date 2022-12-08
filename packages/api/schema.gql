@@ -19,6 +19,7 @@ type Query {
   getNodeApCredentials: NetworkApCredentialsDto!
   networkGetDetails: NetworkDetailUnion
   testGetAvailableWifiNetworks: [NetworkWifiDto!]!
+  testCreateApInterface: BasicResponseEnum!
 }
 
 union NetworkDetailUnion = NetworkWifiDetailDto | NetworkWiredDetailDto
@@ -52,11 +53,11 @@ type NetworkWiredDetailDto {
   interface_name: String!
 }
 
-type Mutation {
-  setupHubInstance(token: String!): BasicResponseEnum!
-}
-
 enum BasicResponseEnum {
   SUCCESS
   FAIL
+}
+
+type Mutation {
+  setupHubInstance(token: String!): BasicResponseEnum!
 }
