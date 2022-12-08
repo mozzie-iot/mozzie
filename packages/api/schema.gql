@@ -51,3 +51,12 @@ type NetworkWiredDetailDto {
   ip4_gateway: String!
   interface_name: String!
 }
+
+type Mutation {
+  setupHubInstance(token: String!): BasicResponseEnum!
+}
+
+enum BasicResponseEnum {
+  SUCCESS
+  FAIL
+}
