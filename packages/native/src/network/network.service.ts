@@ -29,7 +29,7 @@ export class NetworkService {
   // when setting up hub - maybe set it as env var
   private async create_interface(args: string): Promise<boolean> {
     return new Promise((resolve, reject) =>
-      exec(`sudo nmcli con add type wifi ${args}`, (error, stdout, stderr) => {
+      exec(`nmcli con add type wifi ${args}`, (error, stdout, stderr) => {
         if (error || stderr) {
           return reject(
             new NetworkError(
@@ -67,7 +67,7 @@ export class NetworkService {
 
   private async interface_mod(action: string): Promise<boolean> {
     return new Promise((resolve, reject) =>
-      exec(`sudo nmcli con mod ${action}`, (error, stdout, stderr) => {
+      exec(`nmcli con mod ${action}`, (error, stdout, stderr) => {
         if (error || stderr) {
           return reject(
             new NetworkError('interface_mod', error ? error.message : stderr),
@@ -99,7 +99,7 @@ export class NetworkService {
 
   private async interface_up(interface_id: string): Promise<boolean> {
     return new Promise((resolve, reject) =>
-      exec(`sudo nmcli con up "${interface_id}"`, (error, stdout, stderr) => {
+      exec(`nmcli con up "${interface_id}"`, (error, stdout, stderr) => {
         if (error || stderr) {
           return reject(
             new NetworkError('interface_up', error ? error.message : stderr),
