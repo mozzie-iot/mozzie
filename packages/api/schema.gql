@@ -9,7 +9,45 @@ type NetworkWifiDto {
   channel: Int
 }
 
+type NetworkApCredentialsDto {
+  ssid: String!
+  password: String!
+}
+
 type Query {
   pingNetwork: Boolean!
+  getNodeApCredentials: NetworkApCredentialsDto!
+  networkGetDetails: NetworkDetailUnion
   testGetAvailableWifiNetworks: [NetworkWifiDto!]!
+}
+
+union NetworkDetailUnion = NetworkWifiDetailDto | NetworkWiredDetailDto
+
+type NetworkWifiDetailDto {
+  id: String!
+  type: NetworkTypeEnum!
+  ip4_address: String!
+  ip4_address_type: NetworkIp4AddressTypeEnum!
+  ip4_gateway: String!
+  interface_name: String!
+  ssid: String!
+}
+
+enum NetworkTypeEnum {
+  WIRED
+  WIFI
+}
+
+enum NetworkIp4AddressTypeEnum {
+  STATIC
+  DYNAMIC
+}
+
+type NetworkWiredDetailDto {
+  id: String!
+  type: NetworkTypeEnum!
+  ip4_address: String!
+  ip4_address_type: NetworkIp4AddressTypeEnum!
+  ip4_gateway: String!
+  interface_name: String!
 }

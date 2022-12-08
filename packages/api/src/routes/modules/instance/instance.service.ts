@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
+import { InjectDataSource } from '@nestjs/typeorm';
 import jwt from 'jsonwebtoken';
 import { firstValueFrom } from 'rxjs';
 import { DataSource } from 'typeorm';
@@ -22,7 +23,7 @@ interface SetupJwtDecoded {
 export class InstanceService {
   constructor(
     @Inject(NATIVE_CLIENT_PROVIDER) private client: ClientProxy,
-    private readonly dataSource: DataSource,
+    @InjectDataSource() private dataSource: DataSource,
     private readonly configService: ConfigService,
   ) {}
 
