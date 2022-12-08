@@ -1,11 +1,6 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { validate, ValidatorOptions } from 'class-validator';
-import {
-  DeepPartial,
-  FindManyOptions,
-  FindOneOptions,
-  Repository,
-} from 'typeorm';
+import { DeepPartial, Repository } from 'typeorm';
 
 import { BaseEntity } from '../entities/base';
 
@@ -18,16 +13,8 @@ export class CrudService<T extends BaseEntity> {
     }
   }
 
-  public async find(options?: FindManyOptions<T>): Promise<T[]> {
-    return this.repository.find(options);
-  }
-
-  public async findOne(options?: FindOneOptions<T>): Promise<T | null> {
-    return this.repository.findOne(options);
-  }
-
-  public async findOneOrFail(options?: FindOneOptions<T>): Promise<T> {
-    return this.repository.findOneOrFail(options);
+  get repo() {
+    return this.repository;
   }
 
   public async save(data: DeepPartial<T>): Promise<T> {

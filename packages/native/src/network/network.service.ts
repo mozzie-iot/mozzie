@@ -6,6 +6,7 @@ import generatePassword from 'omgopass';
 import UNG from 'unique-names-generator';
 
 import {
+  BasicResponseEnum,
   ConfigService,
   NetworkActiveDto,
   NetworkApCredentialsDto,
@@ -487,30 +488,36 @@ export class NetworkService {
     return updated_network;
   }
 
-  public async create_ap_interface(): Promise<void> {
-    const ssid = UNG.uniqueNamesGenerator({
-      dictionaries: [UNG.names, UNG.animals],
-      separator: '-',
-      length: 2,
-      style: 'lowerCase',
-    });
+  public async create_ap_interface(): Promise<BasicResponseEnum> {
+    try {
+      const ssid = UNG.uniqueNamesGenerator({
+        dictionaries: [UNG.names, UNG.animals],
+        separator: '-',
+        length: 2,
+        style: 'lowerCase',
+      });
 
-    const password = generatePassword();
+      const password = generatePassword();
 
-    const ap_if_name = await this.get_ap_interface();
+      const ap_if_name = await this.get_ap_interface();
 
-    await this.create_interface(
-      `ifname ${ap_if_name} con-name ${AP_NAME} autoconnect yes ssid ${ssid}`,
-    );
+      await this.create_interface(
+        `ifname ${ap_if_name} con-name ${AP_NAME} autoconnect yes ssid ${ssid}`,
+      );
 
-    const static_ip = `${this.configService.NETWORK_NODE_AP_IP}/24`;
+      const static_ip = `${this.configService.NETWORK_NODE_AP_IP}/24`;
 
-    await this.interface_mod(
-      `${AP_NAME} 802-11-wireless.mode ap 802-11-wireless.band bg ipv4.method shared ipv4.addresses ${static_ip} wifi.hidden true wifi-sec.key-mgmt wpa-psk wifi-sec.psk "${password}"`,
-    );
+      await this.interface_mod(
+        `${AP_NAME} 802-11-wireless.mode ap 802-11-wireless.band bg ipv4.method shared ipv4.addresses ${static_ip} wifi.hidden true wifi-sec.key-mgmt wpa-psk wifi-sec.psk "${password}"`,
+      );
 
-    await this.interface_up(AP_NAME);
-    return;
+      await this.interface_up(AP_NAME);
+
+      return BasicResponseEnum.SUCCESS;
+    } catch (err) {
+      console.log('create_ap_interface err', err);
+      return BasicResponseEnum.FAIL;
+    }
   }
 
   public async delete_ap_interface(): Promise<void> {

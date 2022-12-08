@@ -2,6 +2,8 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 
+import { AuthRouteModule } from '@huebot-api/routes/auth/auth.module';
+
 import { GqlService } from './graphql.service';
 
 @Module({
@@ -9,6 +11,7 @@ import { GqlService } from './graphql.service';
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
       useClass: GqlService,
+      imports: [AuthRouteModule],
     }),
   ],
 })

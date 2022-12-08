@@ -3,5 +3,5 @@ import { BaseEntity as TypeOrmBaseEntity } from 'typeorm';
 
 @ObjectType()
 export class BaseEntity extends TypeOrmBaseEntity {
-  public id?: string;
+  public id?: string | number;
 }
