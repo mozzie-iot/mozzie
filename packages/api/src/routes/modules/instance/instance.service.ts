@@ -13,6 +13,7 @@ import {
 
 interface SetupJwtDecoded {
   user: string;
+  public_key: string;
   secret: string;
 }
 
