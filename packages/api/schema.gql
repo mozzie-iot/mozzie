@@ -19,6 +19,7 @@ type Query {
   getNodeApCredentials: NetworkApCredentialsDto!
   networkGetDetails: NetworkDetailUnion
   testGetAvailableWifiNetworks: [NetworkWifiDto!]!
+  testGetNetworkGetDetails: NetworkDetailUnion
   testCreateApInterface: BasicResponseEnum!
 }
 

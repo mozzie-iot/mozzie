@@ -43,6 +43,12 @@ export class NetworkResolver {
   }
 
   @UseGuards(DevGuard)
+  @Query(() => NetworkDetailUnion, { nullable: true })
+  testGetNetworkGetDetails(): Observable<typeof NetworkDetailUnion> {
+    return this.networkService.getDetails();
+  }
+
+  @UseGuards(DevGuard)
   @Query(() => BasicResponseEnum)
   testCreateApInterface(): Observable<BasicResponseEnum> {
     return this.networkService.createApInterface();
