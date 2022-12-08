@@ -1,4 +1,13 @@
+import { UseGuards } from '@nestjs/common';
 import { Resolver, Query } from '@nestjs/graphql';
+import { Observable } from 'rxjs';
+
+import { DevGuard } from '@huebot-api/routes/routes-dev.guard';
+import {
+  NetworkApCredentialsDto,
+  NetworkDetailUnion,
+  NetworkWifiDto,
+} from '@huebot-hub-core/common';
 
 import { NetworkService } from './network.service';
 
@@ -11,7 +20,24 @@ export class NetworkResolver {
    *  setup so no auth required.
    */
   @Query(() => Boolean)
-  async pingNetwork(): Promise<boolean> {
+  pingNetwork(): boolean {
     return this.networkService.pingNetwork();
+  }
+
+  @Query(() => NetworkApCredentialsDto)
+  getNodeApCredentials(): Observable<NetworkApCredentialsDto> {
+    return this.networkService.getNodeApCredentials();
+  }
+
+  @Query(() => NetworkDetailUnion, { nullable: true })
+  networkGetDetails(): Observable<typeof NetworkDetailUnion> {
+    return this.networkService.getDetails();
+  }
+
+  // Testing Routes
+  @UseGuards(DevGuard)
+  @Query(() => [NetworkWifiDto])
+  testGetAvailableWifiNetworks(): Observable<NetworkWifiDto[]> {
+    return this.networkService.getAvailableWifiNetworks();
   }
 }

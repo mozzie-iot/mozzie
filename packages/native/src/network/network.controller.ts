@@ -2,12 +2,12 @@ import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 
 import {
-  ActiveNetworkInterface,
-  ApCredentials,
-  AvailableInterface,
+  NetworkApCredentialsDto,
+  NetworkAvailableDto,
   NetworkDetailUnion,
-  WifiNetwork,
-} from './network.interface';
+  NetworkWifiDto,
+} from '@huebot-hub-core/common';
+
 import { NetworkService } from './network.service';
 
 @Controller()
@@ -20,17 +20,17 @@ export class NetworkController {
   }
 
   @MessagePattern({ cmd: 'network_wifi_scan' })
-  async network_scan_wifi(): Promise<WifiNetwork[]> {
+  async network_scan_wifi(): Promise<NetworkWifiDto[]> {
     return this.networkService.scan_wifi();
   }
 
   @MessagePattern({ cmd: 'get_available_interfaces' })
-  async get_available_interfaces(): Promise<AvailableInterface[]> {
+  async get_available_interfaces(): Promise<NetworkAvailableDto[]> {
     return this.networkService.get_available_interfaces();
   }
 
   @MessagePattern({ cmd: 'get_active_interface' })
-  async get_active_interface(): Promise<ActiveNetworkInterface | null> {
+  async get_active_interface(): Promise<NetworkAvailableDto | null> {
     return this.networkService.get_active_interface();
   }
 
@@ -48,19 +48,19 @@ export class NetworkController {
   }
 
   @MessagePattern({ cmd: 'get_network_details' })
-  async get_network_details(): Promise<NetworkDetailUnion> {
+  async get_network_details(): Promise<typeof NetworkDetailUnion> {
     return this.networkService.get_network_details();
   }
 
   @MessagePattern({ cmd: 'set_ip_address_static' })
   async set_ip_address_static(data: {
     static_ip: string;
-  }): Promise<NetworkDetailUnion> {
+  }): Promise<typeof NetworkDetailUnion> {
     return this.networkService.set_ip_address_static(data.static_ip);
   }
 
   @MessagePattern({ cmd: 'set_ip_address_dynamic' })
-  async set_ip_address_dynamic(): Promise<NetworkDetailUnion> {
+  async set_ip_address_dynamic(): Promise<typeof NetworkDetailUnion> {
     return this.networkService.set_ip_address_dynamic();
   }
 
@@ -75,7 +75,7 @@ export class NetworkController {
   }
 
   @MessagePattern({ cmd: 'get_ap_credentials' })
-  async get_ap_credentials(): Promise<ApCredentials> {
+  async get_ap_credentials(): Promise<NetworkApCredentialsDto> {
     return this.networkService.get_ap_credentials();
   }
 }

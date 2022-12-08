@@ -3,8 +3,6 @@
 ###################
 FROM node:18-slim AS development
 
-RUN apt update && apt install -y network-manager
-
 WORKDIR /usr/app
 COPY --chown=node:node package.json .
 COPY --chown=node:node yarn.lock .
@@ -19,17 +17,17 @@ COPY --chown=node:node packages/common/package.json .
 COPY --chown=node:node packages/common/tsconfig.json .
 COPY packages/common/src ./src
 
-WORKDIR /usr/app/packages/native
-COPY --chown=node:node packages/native/package.json .
+WORKDIR /usr/app/packages/mqtt
+COPY --chown=node:node packages/mqtt/package.json .
 
 WORKDIR /usr/app
 RUN yarn workspace @huebot-hub-core/common install
-# Need to build common before running native package install or 
+# Need to build common before running mqtt package install or 
 # the build stage will throw common package not found errors
 RUN yarn workspace @huebot-hub-core/common build
-RUN yarn workspace @huebot-hub-core/native install
+RUN yarn workspace @huebot-hub-core/mqtt install
 
-COPY --chown=node:node packages/native .packages/native
+COPY --chown=node:node packages/mqtt .packages/mqtt
 
 USER node
 
@@ -46,15 +44,15 @@ COPY --chown=node:node .yarn ./.yarn
 COPY --chown=node:node tsconfig.json .
 COPY --chown=node:node --from=development /usr/app/node_modules ./node_modules
 COPY --chown=node:node --from=development /usr/app/packages/common ./packages/common
-COPY --chown=node:node packages/native ./packages/native
-RUN yarn workspace @huebot-hub-core/native build
+COPY --chown=node:node packages/mqtt ./packages/mqtt
+RUN yarn workspace @huebot-hub-core/mqtt build
 
 # Needed to use 'yarn workspaces focus' which installs prod deps in current dir (yarn 2)
 RUN yarn plugin import workspace-tools
 
 ENV NODE_ENV production
 
-WORKDIR /usr/app/packages/native
+WORKDIR /usr/app/packages/mqtt
 # Only install production packages for current folder (overrides install from development stage)
 RUN yarn workspaces focus --production
 
@@ -73,7 +71,7 @@ WORKDIR /usr/app/packages/common
 COPY --chown=node:node packages/common/package.json .
 COPY --chown=node:node --from=build /usr/app/packages/common/dist ./dist
 
-WORKDIR /usr/app/packages/native
-COPY --chown=node:node --from=build /usr/app/packages/native/dist ./dist
+WORKDIR /usr/app/packages/mqtt
+COPY --chown=node:node --from=build /usr/app/packages/mqtt/dist ./dist
 ENV NODE_ENV production
 CMD [ "node", "dist/main.js" ]

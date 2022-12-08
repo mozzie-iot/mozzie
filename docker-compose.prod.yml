@@ -7,6 +7,9 @@ services:
       context: .
       dockerfile: docker/Dockerfile.api
       target: production
+    environment:
+      - HUEBOT_API_KEY=$HUEBOT_API_KEY
+      - HUEBOT_SECRET_KEY=$HUEBOT_SECRET_KEY
     ports:
       - 3000:3000
     volumes:
@@ -19,8 +22,22 @@ services:
       context: .
       dockerfile: docker/Dockerfile.native
       target: production
+    environment:
+      - MQTT_USERNAME=$MQTT_USERNAME
+      - MQTT_PASSWORD=$MQTT_PASSWORD
     ports:
       - 9000:9000
+    networks:
+      - huebot-proxy-net
+  mqtt:
+    container_name: huebot_mqtt_prod
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.mqtt
+      target: production
+    environment:
+      - MQTT_USERNAME=$MQTT_USERNAME
+      - MQTT_PASSWORD=$MQTT_PASSWORD
     networks:
       - huebot-proxy-net
 
