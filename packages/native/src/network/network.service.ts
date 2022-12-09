@@ -25,104 +25,12 @@ const AP_NAME = 'hubap';
 export class NetworkService {
   constructor(private readonly configService: ConfigService) {}
 
-  // To do: should probably indicate interface id (using ifname) based on user selection (if multiple)
-  // when setting up hub - maybe set it as env var
-  private async create_interface(args: string): Promise<boolean> {
+  private async cmd_promisify(name: string, cmd: string): Promise<string> {
     return new Promise((resolve, reject) =>
-      exec(`nmcli con add type wifi ${args}`, (error, stdout, stderr) => {
+      exec(cmd, (error, stdout, stderr) => {
         if (error || stderr) {
-          return reject(
-            new NetworkError(
-              'create_interface',
-              error ? error.message : stderr,
-            ),
-          );
+          return reject(new NetworkError(name, error ? error.message : stderr));
         }
-
-        console.log('create_interface output: ', stdout);
-
-        return resolve(true);
-      }),
-    );
-  }
-
-  private async delete_interface(con_name: string): Promise<boolean> {
-    return new Promise((resolve, reject) =>
-      exec(`nmcli c delete ${con_name}`, (error, stdout, stderr) => {
-        if (error || stderr) {
-          return reject(
-            new NetworkError(
-              'delete_interface',
-              error ? error.message : stderr,
-            ),
-          );
-        }
-
-        console.log('delete_interface output: ', stdout);
-
-        return resolve(true);
-      }),
-    );
-  }
-
-  private async interface_mod(action: string): Promise<boolean> {
-    return new Promise((resolve, reject) =>
-      exec(`nmcli con mod ${action}`, (error, stdout, stderr) => {
-        if (error || stderr) {
-          return reject(
-            new NetworkError('interface_mod', error ? error.message : stderr),
-          );
-        }
-
-        console.log('interface_mod output: ', stdout);
-
-        return resolve(true);
-      }),
-    );
-  }
-
-  private async interface_down(interface_id: string): Promise<boolean> {
-    return new Promise((resolve, reject) =>
-      exec(`mcli con down "${interface_id}"`, (error, stdout, stderr) => {
-        if (error || stderr) {
-          return reject(
-            new NetworkError('interface_down', error ? error.message : stderr),
-          );
-        }
-
-        console.log('interface_down output: ', stdout);
-
-        return resolve(true);
-      }),
-    );
-  }
-
-  private async interface_up(interface_id: string): Promise<boolean> {
-    return new Promise((resolve, reject) =>
-      exec(`nmcli con up "${interface_id}"`, (error, stdout, stderr) => {
-        if (error || stderr) {
-          return reject(
-            new NetworkError('interface_up', error ? error.message : stderr),
-          );
-        }
-
-        console.log('interface_up output: ', stdout);
-
-        return resolve(true);
-      }),
-    );
-  }
-
-  private async nmcli_device(args: string): Promise<string> {
-    return new Promise((resolve, reject) =>
-      exec(`sudo nmcli device ${args}`, (error, stdout, stderr) => {
-        if (error || stderr) {
-          return reject(
-            new NetworkError('nmcli_device', error ? error.message : stderr),
-          );
-        }
-
-        console.log('nmcli_device output: ', stdout);
 
         return resolve(stdout);
       }),
@@ -334,27 +242,16 @@ export class NetworkService {
       return false;
     }
 
-    return new Promise((resolve, reject) =>
-      exec(
-        `sudo nmcli dev wifi connect "${ssid}" password "${password}" ifname ${wifi_int.name}`,
-        (error, stdout, stderr) => {
-          if (error || stderr) {
-            return reject(
-              new NetworkError(
-                'connect_to_wifi',
-                error ? error.message : stderr,
-              ),
-            );
-          }
-
-          if (stdout.includes('successfully activated')) {
-            return resolve(true);
-          }
-
-          return resolve(false);
-        },
-      ),
+    const result = await this.cmd_promisify(
+      'connect to wifi',
+      `nmcli dev wifi connect "${ssid}" password "${password}" ifname ${wifi_int.name}`,
     );
+
+    if (result.includes('successfully activated')) {
+      return true;
+    }
+
+    return false;
   }
 
   // 1. Get active interface details
@@ -450,17 +347,17 @@ export class NetworkService {
       return network;
     }
 
-    await this.interface_mod(`"${network.id}" ipv4.addresses ${static_ip}/24`);
-
-    await this.interface_mod(
-      `"${network.id}" ipv4.gateway ${network.ip4_gateway}`,
+    await this.cmd_promisify(
+      'modfiy interface',
+      `
+      nmcli con mod "${network.id}" ipv4.addresses ${static_ip}/24 \
+      ipv4.gateway ${network.ip4_gateway} \
+      ipv4.dns "8.8.8.8" \
+      ipv4.method manual
+    `,
     );
 
-    await this.interface_mod(`"${network.id}" ipv4.dns "8.8.8.8"`);
-
-    await this.interface_mod(`"${network.id}" ipv4.method manual`);
-
-    await this.interface_up(network.id);
+    await this.cmd_promisify('interface up', `nmcli con up "${network.id}"`);
 
     return {
       ...network,
@@ -480,8 +377,12 @@ export class NetworkService {
       return network;
     }
 
-    await this.interface_mod(`"${network.id}" ipv4.method auto`);
-    await this.interface_up(network.id);
+    await this.cmd_promisify(
+      'modfiy interface',
+      `"${network.id}" ipv4.method auto`,
+    );
+
+    await this.cmd_promisify('interface up', `nmcli con up "${network.id}"`);
 
     const updated_network = await this.get_network_details();
 
@@ -501,17 +402,32 @@ export class NetworkService {
 
       const ap_if_name = await this.get_ap_interface();
 
-      await this.create_interface(
-        `ifname ${ap_if_name} con-name ${AP_NAME} autoconnect yes ssid ${ssid}`,
+      // Create AP interface
+      await this.cmd_promisify(
+        'create interface',
+        `
+        nmcli con add type wifi \
+        ifname ${ap_if_name} con-name \
+        ${AP_NAME} autoconnect yes ssid ${ssid}
+      `,
       );
 
       const static_ip = `${this.configService.NETWORK_NODE_AP_IP}/24`;
 
-      await this.interface_mod(
-        `${AP_NAME} 802-11-wireless.mode ap 802-11-wireless.band bg ipv4.method shared ipv4.addresses ${static_ip} wifi.hidden true wifi-sec.key-mgmt wpa-psk wifi-sec.psk "${password}"`,
+      // nmcli con mod
+
+      // Create AP interface
+      await this.cmd_promisify(
+        'modfiy interface',
+        `
+        nmcli con mod ${AP_NAME} 802-11-wireless.mode ap \
+        802-11-wireless.band bg ipv4.method shared \
+        ipv4.addresses ${static_ip} wifi.hidden true \
+        wifi-sec.key-mgmt wpa-psk wifi-sec.psk "${password}"
+      `,
       );
 
-      await this.interface_up(AP_NAME);
+      await this.cmd_promisify('interface up', `nmcli con up "${AP_NAME}"`);
 
       return BasicResponseEnum.SUCCESS;
     } catch (err) {
@@ -521,16 +437,17 @@ export class NetworkService {
   }
 
   public async delete_ap_interface(): Promise<void> {
-    await this.interface_down(AP_NAME);
-    await this.delete_interface(AP_NAME);
+    await this.cmd_promisify('interface down', `mcli con down ${AP_NAME}`);
+    await this.cmd_promisify('delete interface', `nmcli c delete ${AP_NAME}`);
     return;
   }
 
   public async get_ap_credentials(): Promise<NetworkApCredentialsDto> {
     const ifname = await this.get_ap_interface();
 
-    const output = await this.nmcli_device(
-      `wifi show-password ifname ${ifname}`,
+    const output = await this.cmd_promisify(
+      'find device',
+      `mcli device wifi show-password ifname ${ifname}`,
     );
 
     return output.split('\n').reduce(
