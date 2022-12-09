@@ -48,7 +48,7 @@ export class NetworkService {
 
   private async delete_interface(con_name: string): Promise<boolean> {
     return new Promise((resolve, reject) =>
-      exec(`sudo nmcli c delete ${con_name}`, (error, stdout, stderr) => {
+      exec(`nmcli c delete ${con_name}`, (error, stdout, stderr) => {
         if (error || stderr) {
           return reject(
             new NetworkError(
@@ -83,7 +83,7 @@ export class NetworkService {
 
   private async interface_down(interface_id: string): Promise<boolean> {
     return new Promise((resolve, reject) =>
-      exec(`sudo nmcli con down "${interface_id}"`, (error, stdout, stderr) => {
+      exec(`mcli con down "${interface_id}"`, (error, stdout, stderr) => {
         if (error || stderr) {
           return reject(
             new NetworkError('interface_down', error ? error.message : stderr),

@@ -31,11 +31,10 @@ RUN yarn workspace @huebot-hub-core/native install
 
 COPY --chown=node:node packages/native .packages/native
 
-# Required to allow current user to run nmcli without sudo
-# Security risk - to do: figure out how to assign user ownership
+# Give node group NMCLI access
+RUN chgrp node /usr/bin/nmcli
+RUN chmod o= /usr/bin/nmcli
 RUN chmod u+s,a-w /usr/bin/nmcli
-
-RUN ls -l /usr/bin/nmcli
 
 USER node
 
