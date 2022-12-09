@@ -44,7 +44,7 @@ export class NetworkController {
   async connect_to_wifi(data: {
     ssid: string;
     password: string;
-  }): Promise<boolean> {
+  }): Promise<BasicResponseEnum> {
     return this.networkService.connect_to_wifi(data.ssid, data.password);
   }
 
@@ -71,7 +71,7 @@ export class NetworkController {
   }
 
   @MessagePattern({ cmd: 'delete_ap_interface' })
-  async delete_ap_interface(): Promise<void> {
+  async delete_ap_interface(): Promise<BasicResponseEnum> {
     return this.networkService.delete_ap_interface();
   }
 

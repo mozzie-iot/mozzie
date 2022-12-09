@@ -9,6 +9,16 @@ type NetworkWifiDto {
   channel: Int
 }
 
+type NetworkAvailableDto {
+  name: String!
+  type: NetworkTypeEnum!
+}
+
+enum NetworkTypeEnum {
+  WIRED
+  WIFI
+}
+
 type NetworkApCredentialsDto {
   ssid: String!
   password: String!
@@ -18,9 +28,12 @@ type Query {
   pingNetwork: Boolean!
   getNodeApCredentials: NetworkApCredentialsDto!
   networkGetDetails: NetworkDetailUnion
-  testGetAvailableWifiNetworks: [NetworkWifiDto!]!
   testGetNetworkGetDetails: NetworkDetailUnion
-  testCreateApInterface: BasicResponseEnum!
+  testGetAvailableWifiNetworks: [NetworkWifiDto!]!
+  testGetApInteface: String!
+  testGetAvailableInterfaces: [NetworkAvailableDto!]!
+  testGetActiveInterface: NetworkAvailableDto
+  testGetActiveSSID: String
 }
 
 union NetworkDetailUnion = NetworkWifiDetailDto | NetworkWiredDetailDto
@@ -33,11 +46,6 @@ type NetworkWifiDetailDto {
   ip4_gateway: String!
   interface_name: String!
   ssid: String!
-}
-
-enum NetworkTypeEnum {
-  WIRED
-  WIFI
 }
 
 enum NetworkIp4AddressTypeEnum {
@@ -54,11 +62,14 @@ type NetworkWiredDetailDto {
   interface_name: String!
 }
 
+type Mutation {
+  testConnectToWifi(ssid: String!, password: String!): BasicResponseEnum!
+  testCreateApInterface: BasicResponseEnum!
+  testDeleteApInterface: BasicResponseEnum!
+  setupHubInstance(token: String!): BasicResponseEnum!
+}
+
 enum BasicResponseEnum {
   SUCCESS
   FAIL
-}
-
-type Mutation {
-  setupHubInstance(token: String!): BasicResponseEnum!
 }

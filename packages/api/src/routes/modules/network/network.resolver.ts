@@ -1,11 +1,12 @@
 import { UseGuards } from '@nestjs/common';
-import { Resolver, Query } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { Observable } from 'rxjs';
 
 import { DevGuard } from '@huebot-api/routes/routes-dev.guard';
 import {
   BasicResponseEnum,
   NetworkApCredentialsDto,
+  NetworkAvailableDto,
   NetworkDetailUnion,
   NetworkWifiDto,
 } from '@huebot-hub-core/common';
@@ -36,11 +37,6 @@ export class NetworkResolver {
   }
 
   // Testing Routes
-  @UseGuards(DevGuard)
-  @Query(() => [NetworkWifiDto])
-  testGetAvailableWifiNetworks(): Observable<NetworkWifiDto[]> {
-    return this.networkService.getAvailableWifiNetworks();
-  }
 
   @UseGuards(DevGuard)
   @Query(() => NetworkDetailUnion, { nullable: true })
@@ -49,8 +45,52 @@ export class NetworkResolver {
   }
 
   @UseGuards(DevGuard)
-  @Query(() => BasicResponseEnum)
+  @Query(() => [NetworkWifiDto])
+  testGetAvailableWifiNetworks(): Observable<NetworkWifiDto[]> {
+    return this.networkService.getAvailableWifiNetworks();
+  }
+
+  @UseGuards(DevGuard)
+  @Query(() => String)
+  testGetApInteface(): Observable<string> {
+    return this.networkService.getApInterface();
+  }
+
+  @UseGuards(DevGuard)
+  @Query(() => [NetworkAvailableDto])
+  testGetAvailableInterfaces(): Observable<NetworkAvailableDto[]> {
+    return this.networkService.getAvailableInterfaces();
+  }
+
+  @UseGuards(DevGuard)
+  @Query(() => NetworkAvailableDto, { nullable: true })
+  testGetActiveInterface(): Observable<NetworkAvailableDto | null> {
+    return this.networkService.getActiveInterface();
+  }
+
+  @UseGuards(DevGuard)
+  @Query(() => String, { nullable: true })
+  testGetActiveSSID(): Observable<string | null> {
+    return this.networkService.getActiveSSID();
+  }
+
+  @Mutation(() => BasicResponseEnum)
+  testConnectToWifi(
+    @Args('ssid') ssid: string,
+    @Args('password') password: string,
+  ): Observable<BasicResponseEnum> {
+    return this.networkService.connectToWifi(ssid, password);
+  }
+
+  @UseGuards(DevGuard)
+  @Mutation(() => BasicResponseEnum)
   testCreateApInterface(): Observable<BasicResponseEnum> {
     return this.networkService.createApInterface();
+  }
+
+  @UseGuards(DevGuard)
+  @Mutation(() => BasicResponseEnum)
+  testDeleteApInterface(): Observable<BasicResponseEnum> {
+    return this.networkService.deleteApInterface();
   }
 }

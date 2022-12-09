@@ -216,42 +216,57 @@ export class NetworkService {
   }
 
   public async get_active_ssid(): Promise<string | null> {
-    return new Promise((resolve, reject) =>
-      exec('nmcli -t -f active,ssid dev wifi', (error, stdout, stderr) => {
-        if (error || stderr) {
-          return reject(
-            new NetworkError('get_active_ssid', error ? error.message : stderr),
-          );
-        }
-
-        const result = stdout.split(':');
-        return resolve(result[1]);
-      }),
+    const raw_result = await this.cmd_promisify(
+      'get_active_ssid',
+      'nmcli -t -f active,ssid dev wifi',
     );
+
+    // console.log('get_active_ssid raw: ', raw_result);
+
+    const active_ssid = raw_result
+      .split('\n')
+      .filter((r) => r.split(':')[0] === 'yes');
+
+    if (active_ssid.length === 0) {
+      return null;
+    }
+
+    if (active_ssid.length > 1) {
+      console.log('get_active_ssid warning: More than 1 active SSID detected');
+    }
+
+    return active_ssid[0].split(':')[1];
   }
 
   public async connect_to_wifi(
     ssid: string,
     password: string,
-  ): Promise<boolean> {
-    const available_int = await this.get_available_interfaces();
+  ): Promise<BasicResponseEnum> {
+    try {
+      const available_int = await this.get_available_interfaces();
 
-    const wifi_int = available_int.find((int) => int.type === 'wifi');
+      const wifi_int = available_int.find((int) => int.type === 'wifi');
 
-    if (!wifi_int) {
-      return false;
+      if (!wifi_int) {
+        console.log('connect to wifi failed', 'no available interfaces');
+        return BasicResponseEnum.FAIL;
+      }
+
+      const result = await this.cmd_promisify(
+        'connect to wifi',
+        `nmcli dev wifi connect "${ssid}" password "${password}" ifname ${wifi_int.name}`,
+      );
+
+      if (result.includes('successfully activated')) {
+        return BasicResponseEnum.SUCCESS;
+      }
+
+      console.log('connect to wifi failed', result);
+      return BasicResponseEnum.FAIL;
+    } catch (err) {
+      console.log('connect to wifi failed', err);
+      return BasicResponseEnum.FAIL;
     }
-
-    const result = await this.cmd_promisify(
-      'connect to wifi',
-      `nmcli dev wifi connect "${ssid}" password "${password}" ifname ${wifi_int.name}`,
-    );
-
-    if (result.includes('successfully activated')) {
-      return true;
-    }
-
-    return false;
   }
 
   // 1. Get active interface details
@@ -436,10 +451,15 @@ export class NetworkService {
     }
   }
 
-  public async delete_ap_interface(): Promise<void> {
-    await this.cmd_promisify('interface down', `mcli con down ${AP_NAME}`);
-    await this.cmd_promisify('delete interface', `nmcli c delete ${AP_NAME}`);
-    return;
+  public async delete_ap_interface(): Promise<BasicResponseEnum> {
+    try {
+      await this.cmd_promisify('interface down', `nmcli con down ${AP_NAME}`);
+      await this.cmd_promisify('delete interface', `nmcli c delete ${AP_NAME}`);
+      return BasicResponseEnum.SUCCESS;
+    } catch (err) {
+      console.log('delete_ap_interface err: ', err);
+      return BasicResponseEnum.FAIL;
+    }
   }
 
   public async get_ap_credentials(): Promise<NetworkApCredentialsDto> {

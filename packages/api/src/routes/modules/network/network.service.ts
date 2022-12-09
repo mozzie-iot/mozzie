@@ -5,6 +5,7 @@ import { NATIVE_CLIENT_PROVIDER } from '@huebot-api/native-client/native-client.
 import {
   BasicResponseEnum,
   NetworkApCredentialsDto,
+  NetworkAvailableDto,
   NetworkDetailUnion,
   NetworkWifiDto,
 } from '@huebot-hub-core/common';
@@ -32,8 +33,38 @@ export class NetworkService {
     return this.client.send<NetworkWifiDto[]>(pattern, []);
   }
 
+  public getApInterface() {
+    const pattern = { cmd: 'get_ap_interface' };
+    return this.client.send<string>(pattern, []);
+  }
+
+  public getAvailableInterfaces() {
+    const pattern = { cmd: 'get_available_interfaces' };
+    return this.client.send<NetworkAvailableDto[]>(pattern, []);
+  }
+
+  public getActiveInterface() {
+    const pattern = { cmd: 'get_active_interface' };
+    return this.client.send<NetworkAvailableDto | null>(pattern, []);
+  }
+
+  public getActiveSSID() {
+    const pattern = { cmd: 'get_active_ssid' };
+    return this.client.send<string | null>(pattern, []);
+  }
+
+  public connectToWifi(ssid: string, password: string) {
+    const pattern = { cmd: 'connect_to_wifi' };
+    return this.client.send<BasicResponseEnum>(pattern, { ssid, password });
+  }
+
   public createApInterface() {
     const pattern = { cmd: 'create_ap_interface' };
+    return this.client.send<BasicResponseEnum>(pattern, []);
+  }
+
+  public deleteApInterface() {
+    const pattern = { cmd: 'delete_ap_interface' };
     return this.client.send<BasicResponseEnum>(pattern, []);
   }
 }
