@@ -2,6 +2,7 @@ import { UseGuards } from '@nestjs/common';
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { Observable } from 'rxjs';
 
+import { AuthRouteGuard } from '@huebot-api/routes/auth/auth.guard';
 import { DevGuard } from '@huebot-api/routes/routes-dev.guard';
 import {
   BasicResponseEnum,
@@ -26,14 +27,30 @@ export class NetworkResolver {
     return this.networkService.pingNetwork();
   }
 
+  @UseGuards(AuthRouteGuard)
   @Query(() => NetworkApCredentialsDto)
   getNodeApCredentials(): Observable<NetworkApCredentialsDto> {
     return this.networkService.getNodeApCredentials();
   }
 
+  @UseGuards(AuthRouteGuard)
   @Query(() => NetworkDetailUnion, { nullable: true })
   networkGetDetails(): Observable<typeof NetworkDetailUnion> {
     return this.networkService.getDetails();
+  }
+
+  @UseGuards(AuthRouteGuard)
+  @Mutation(() => NetworkDetailUnion)
+  networkSetIpAddressStatic(
+    @Args('ip') ip: string,
+  ): Observable<typeof NetworkDetailUnion> {
+    return this.networkService.setIpAddressStatic(ip);
+  }
+
+  @UseGuards(AuthRouteGuard)
+  @Mutation(() => NetworkDetailUnion)
+  networkSetIpAddressDynamic(): Observable<typeof NetworkDetailUnion> {
+    return this.networkService.setIpAddressDynamic();
   }
 
   // Testing Routes

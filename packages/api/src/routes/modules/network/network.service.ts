@@ -28,6 +28,16 @@ export class NetworkService {
     return this.client.send<typeof NetworkDetailUnion>(pattern, []);
   }
 
+  public setIpAddressStatic(ip: string) {
+    const pattern = { cmd: 'set_ip_address_static' };
+    return this.client.send<typeof NetworkDetailUnion>(pattern, { ip });
+  }
+
+  public setIpAddressDynamic() {
+    const pattern = { cmd: 'set_ip_address_dynamic' };
+    return this.client.send<typeof NetworkDetailUnion>(pattern, []);
+  }
+
   public getAvailableWifiNetworks() {
     const pattern = { cmd: 'network_wifi_scan' };
     return this.client.send<NetworkWifiDto[]>(pattern, []);
