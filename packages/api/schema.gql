@@ -63,6 +63,8 @@ type NetworkWiredDetailDto {
 }
 
 type Mutation {
+  networkSetIpAddressStatic(ip: String!): NetworkDetailUnion!
+  networkSetIpAddressDynamic: NetworkDetailUnion!
   testConnectToWifi(ssid: String!, password: String!): BasicResponseEnum!
   testCreateApInterface: BasicResponseEnum!
   testDeleteApInterface: BasicResponseEnum!

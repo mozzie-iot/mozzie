@@ -164,11 +164,13 @@ export class NetworkService {
 
         let interface_parts: string[];
 
-        // Only consider ethernet or wifi interfaces
+        // Only consider ethernet or wifi interfaces but not interface designated for node AP
         const interfaces = stdout
           .split('\n')
           .filter(
-            (int) => int.includes('ethernet') || int.includes('wireless'),
+            (int) =>
+              int.includes('ethernet') ||
+              (int.includes('wireless') && !int.includes(AP_NAME)),
           );
 
         if (interfaces.length === 0) {
