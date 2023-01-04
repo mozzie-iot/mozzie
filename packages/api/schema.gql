@@ -2,6 +2,20 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type NodeEntity {
+  id: ID!
+  public_key: ID!
+  type: NodeTypeEnum!
+  name: String!
+  nickname: String!
+  icon: String!
+}
+
+enum NodeTypeEnum {
+  INPUT
+  OUTPUT
+}
+
 type NetworkWifiDto {
   ssid: String!
   signal: Int!
@@ -34,6 +48,7 @@ type Query {
   testGetAvailableInterfaces: [NetworkAvailableDto!]!
   testGetActiveInterface: NetworkAvailableDto
   testGetActiveSSID: String
+  findAllNodes: [NodeEntity!]!
 }
 
 union NetworkDetailUnion = NetworkWifiDetailDto | NetworkWiredDetailDto

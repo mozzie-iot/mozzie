@@ -5,10 +5,6 @@ import { NodeTypeEnum } from '@huebot-common/enums';
 
 import { BaseEntity } from '../base';
 
-// Currently, whenever a user signs up they will get assigned an admin account
-// because all inital Huebot users will be open source users.
-// Eventually user's will need to deliberately sign up for admin accounts
-
 @Entity('nodes')
 @ObjectType()
 export class NodeEntity extends BaseEntity {
