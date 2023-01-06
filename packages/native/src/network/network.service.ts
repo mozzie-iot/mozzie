@@ -19,6 +19,14 @@ import {
 
 import { NetworkError } from './network.error';
 
+interface NetworkDetailField {
+  cmd_key: string;
+  parse_key: string;
+  field_key: string;
+  format?: (value: string) => string;
+  connection_type: NetworkTypeEnum[];
+}
+
 const AP_NAME = 'hubap';
 
 @Injectable()
@@ -282,18 +290,64 @@ export class NetworkService {
 
     const { name, type, type_raw } = active_interface;
 
-    let cmd = '';
-
+    let connection_type: NetworkTypeEnum = null;
     if (type === 'wifi') {
-      cmd = `nmcli -t -g ipv4.method,IP4.ADDRESS,IP4.GATEWAY,${type_raw}.ssid,connection.interface-name con show "${name}"`;
+      connection_type = NetworkTypeEnum.WIFI;
+    } else if (type === 'wired') {
+      connection_type = NetworkTypeEnum.WIRED;
+    } else {
+      throw Error(`Unsupported network type: ${type}`);
     }
 
-    if (type === 'wired') {
-      cmd = `nmcli -t -g ipv4.method,IP4.ADDRESS,IP4.GATEWAY,connection.interface-name con show "${name}"`;
-    }
+    const fields: NetworkDetailField[] = [
+      {
+        cmd_key: 'ipv4.method',
+        parse_key: 'ipv4.method',
+        field_key: 'ip4_address_type',
+        format: (value: string) => {
+          return value === 'auto'
+            ? NetworkIp4AddressTypeEnum.DYNAMIC
+            : NetworkIp4AddressTypeEnum.STATIC;
+        },
+        connection_type: [NetworkTypeEnum.WIRED, NetworkTypeEnum.WIFI],
+      },
+      {
+        cmd_key: 'IP4.ADDRESS',
+        parse_key: 'IP4.ADDRESS[1]',
+        field_key: 'ip4_address',
+        format: (value: string) => {
+          // Remove network bit size ("/24")
+          return value.split('/')[0];
+        },
+        connection_type: [NetworkTypeEnum.WIRED, NetworkTypeEnum.WIFI],
+      },
+      {
+        cmd_key: 'IP4.GATEWAY',
+        parse_key: 'IP4.GATEWAY',
+        field_key: 'ip4_gateway',
+        connection_type: [NetworkTypeEnum.WIRED, NetworkTypeEnum.WIFI],
+      },
+      {
+        cmd_key: 'connection.interface-name',
+        parse_key: 'connection.interface-name',
+        field_key: 'interface_name',
+        connection_type: [NetworkTypeEnum.WIRED, NetworkTypeEnum.WIFI],
+      },
+      {
+        cmd_key: `${type_raw}.ssid`,
+        parse_key: `${type_raw}.ssid`,
+        field_key: 'ssid',
+        connection_type: [NetworkTypeEnum.WIFI],
+      },
+    ];
 
+    const connection_fields = fields.filter((field) =>
+      field.connection_type.includes(connection_type),
+    );
+
+    const cmdArgs = connection_fields.map((f) => f.cmd_key).join(',');
+    const cmd = `nmcli -t -f ${cmdArgs} con show "${name}"`;
     console.log('RUNNING CMD: ', cmd);
-
     return new Promise((resolve, reject) =>
       exec(cmd, (error, stdout, stderr) => {
         if (error || stderr) {
@@ -305,38 +359,47 @@ export class NetworkService {
           );
         }
 
-        console.log('RAW RESULTS: ', stdout);
+        console.log('CMD OUTPUT: ', stdout);
 
-        const results = stdout.split('\n').filter((item) => item);
-
-        console.log('RESULTS: ', results);
-
-        if (type === 'wifi') {
-          return resolve({
-            id: name,
-            type: NetworkTypeEnum.WIFI,
-            ip4_address: results[3].split('/')[0],
-            ip4_address_type:
-              results[0] === 'auto'
-                ? NetworkIp4AddressTypeEnum.DYNAMIC
-                : NetworkIp4AddressTypeEnum.STATIC,
-            ip4_gateway: results[4],
-            ssid: results[1],
-            interface_name: results[2],
+        const rows = stdout
+          .split('\n')
+          .filter((item) => item)
+          .map((item) => {
+            const row = item.split(':');
+            return {
+              parse_key: row[0],
+              value: row[1],
+            };
           });
+
+        // Validate and format output
+
+        const result = connection_fields.reduce(
+          (acc: any, field: NetworkDetailField) => {
+            const row = rows.find((r) => r.parse_key === field.parse_key);
+            console.log('ROW', row);
+            if (!row) {
+              return { error: `failed to find field ${field.parse_key}` };
+            }
+
+            return {
+              ...acc,
+              values: {
+                ...acc.values,
+                [field.field_key]: field.format
+                  ? field.format(row.value)
+                  : row.value,
+              },
+            };
+          },
+          { values: { id: name, type: connection_type }, error: null },
+        );
+
+        if (result.error) {
+          return reject(result.error);
         }
 
-        resolve({
-          id: name,
-          type: NetworkTypeEnum.WIRED,
-          ip4_address: results[2].split('/')[0],
-          ip4_address_type:
-            results[0] === 'auto'
-              ? NetworkIp4AddressTypeEnum.DYNAMIC
-              : NetworkIp4AddressTypeEnum.STATIC,
-          ip4_gateway: results[3],
-          interface_name: results[1],
-        });
+        resolve(result.values);
       }),
     );
   }
