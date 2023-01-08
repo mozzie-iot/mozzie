@@ -18,11 +18,6 @@ export class NetworkService {
     return true;
   }
 
-  public getNodeApCredentials() {
-    const pattern = { cmd: 'get_ap_credentials' };
-    return this.client.send<NetworkApCredentialsDto>(pattern, []);
-  }
-
   public getDetails() {
     const pattern = { cmd: 'get_network_details' };
     return this.client.send<typeof NetworkDetailUnion>(pattern, []);
@@ -66,6 +61,11 @@ export class NetworkService {
   public connectToWifi(ssid: string, password: string) {
     const pattern = { cmd: 'connect_to_wifi' };
     return this.client.send<BasicResponseEnum>(pattern, { ssid, password });
+  }
+
+  public getNodeApCredentials() {
+    const pattern = { cmd: 'get_ap_credentials' };
+    return this.client.send<NetworkApCredentialsDto>(pattern, []);
   }
 
   public createApInterface() {

@@ -1,9 +1,10 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
-import { Entity, Column, PrimaryColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn, OneToMany } from 'typeorm';
 
 import { NodeTypeEnum } from '@huebot-common/enums';
 
 import { BaseEntity } from '../base';
+import { NodeChannelEntity } from '../node-channel';
 
 @Entity('nodes')
 @ObjectType()
@@ -30,7 +31,9 @@ export class NodeEntity extends BaseEntity {
   @Field(() => String, { nullable: false })
   public nickname!: string;
 
-  @Column('text', { nullable: false })
-  @Field(() => String, { nullable: false })
-  public icon!: string;
+  @OneToMany(() => NodeChannelEntity, (channel) => channel.node, {
+    cascade: true,
+  })
+  @Field(() => [NodeChannelEntity])
+  public channels: NodeChannelEntity[];
 }
