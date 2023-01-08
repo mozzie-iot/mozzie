@@ -28,12 +28,6 @@ export class NetworkResolver {
   }
 
   @UseGuards(AuthRouteGuard)
-  @Query(() => NetworkApCredentialsDto)
-  getNodeApCredentials(): Observable<NetworkApCredentialsDto> {
-    return this.networkService.getNodeApCredentials();
-  }
-
-  @UseGuards(AuthRouteGuard)
   @Query(() => NetworkDetailUnion, { nullable: true })
   networkGetDetails(): Observable<typeof NetworkDetailUnion> {
     return this.networkService.getDetails();
@@ -97,6 +91,12 @@ export class NetworkResolver {
     @Args('password') password: string,
   ): Observable<BasicResponseEnum> {
     return this.networkService.connectToWifi(ssid, password);
+  }
+
+  @UseGuards(DevGuard)
+  @Query(() => NetworkApCredentialsDto)
+  testGetNodeApCredentials(): Observable<NetworkApCredentialsDto> {
+    return this.networkService.getNodeApCredentials();
   }
 
   @UseGuards(DevGuard)

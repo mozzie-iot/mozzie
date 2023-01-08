@@ -4,14 +4,17 @@ services:
     container_name: huebot_api_dev
     build:
       context: .
-      dockerfile: docker/Dockerfile.api
-      target: development
+      dockerfile: Dockerfile
+      target: api_development
     environment:
       - NODE_ENV=development
       - HUEBOT_API_KEY=$HUEBOT_API_KEY
       - HUEBOT_SECRET_KEY=$HUEBOT_SECRET_KEY
+      - MQTT_USERNAME=$MQTT_USERNAME
+      - MQTT_PASSWORD=$MQTT_PASSWORD
     volumes:
-      - .:/usr/app
+      - ./packages/api:/usr/app/packages/api
+      - ./packages/common:/usr/app/packages/common
       - ${HOME}/db:/usr/db
     ports:
       - 3000:3000
@@ -23,12 +26,13 @@ services:
     privileged: true
     build:
       context: .
-      dockerfile: docker/Dockerfile.native
-      target: development
+      dockerfile: Dockerfile
+      target: native_development
     environment:
       - NODE_ENV=development
     volumes:
-      - .:/usr/app
+      - ./packages/native:/usr/app/packages/native
+      - ./packages/common:/usr/app/packages/common
       - /etc/NetworkManager:/etc/NetworkManager
       - /var/run/dbus:/var/run/dbus
     ports:
@@ -40,14 +44,15 @@ services:
     container_name: huebot_mqtt_dev
     build:
       context: .
-      dockerfile: docker/Dockerfile.mqtt
-      target: development
+      dockerfile: Dockerfile
+      target: mqtt_development
     environment:
       - NODE_ENV=development
       - MQTT_USERNAME=$MQTT_USERNAME
       - MQTT_PASSWORD=$MQTT_PASSWORD
     volumes:
-      - .:/usr/app
+      - ./packages/mqtt:/usr/app/packages/mqtt
+      - ./packages/common:/usr/app/packages/common
     command: yarn workspace @huebot-hub-core/mqtt start:dev
     networks:
       - huebot-proxy-net

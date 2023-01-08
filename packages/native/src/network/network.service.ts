@@ -532,7 +532,7 @@ export class NetworkService {
 
     const output = await this.cmd_promisify(
       'find device',
-      `mcli device wifi show-password ifname ${ifname}`,
+      `nmcli device wifi show-password ifname ${ifname}`,
     );
 
     return output.split('\n').reduce(

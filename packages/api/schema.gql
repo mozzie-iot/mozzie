@@ -2,6 +2,28 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type NodeChannelEntity {
+  id: ID!
+  name: String!
+  channel: Int!
+  node: NodeEntity!
+  node_id: ID!
+}
+
+type NodeEntity {
+  id: ID!
+  public_key: ID!
+  type: NodeTypeEnum!
+  name: String!
+  nickname: String!
+  channels: [NodeChannelEntity!]!
+}
+
+enum NodeTypeEnum {
+  INPUT
+  OUTPUT
+}
+
 type NetworkWifiDto {
   ssid: String!
   signal: Int!
@@ -24,9 +46,15 @@ type NetworkApCredentialsDto {
   password: String!
 }
 
+type NodeSetupCredentialsDto {
+  ap_ssid: String!
+  ap_password: String!
+  mqtt_username: String!
+  mqtt_password: String!
+}
+
 type Query {
   pingNetwork: Boolean!
-  getNodeApCredentials: NetworkApCredentialsDto!
   networkGetDetails: NetworkDetailUnion
   testGetNetworkGetDetails: NetworkDetailUnion
   testGetAvailableWifiNetworks: [NetworkWifiDto!]!
@@ -34,6 +62,9 @@ type Query {
   testGetAvailableInterfaces: [NetworkAvailableDto!]!
   testGetActiveInterface: NetworkAvailableDto
   testGetActiveSSID: String
+  testGetNodeApCredentials: NetworkApCredentialsDto!
+  getNodeSetupCredentials: NodeSetupCredentialsDto!
+  findAllNodes: [NodeEntity!]!
 }
 
 union NetworkDetailUnion = NetworkWifiDetailDto | NetworkWiredDetailDto
@@ -69,9 +100,24 @@ type Mutation {
   testCreateApInterface: BasicResponseEnum!
   testDeleteApInterface: BasicResponseEnum!
   setupHubInstance(token: String!): BasicResponseEnum!
+  createNode(input: CreateNodeInput!): NodeEntity!
 }
 
 enum BasicResponseEnum {
   SUCCESS
   FAIL
+}
+
+input CreateNodeInput {
+  model_name: String!
+  public_key: String!
+  instance_key: ID!
+  nickname: String!
+  type: NodeTypeEnum!
+  channels: [CreateNodeChannel!]
+}
+
+input CreateNodeChannel {
+  name: String!
+  channel: Int!
 }

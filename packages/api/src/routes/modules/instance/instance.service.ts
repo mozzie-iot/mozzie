@@ -1,15 +1,14 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { InjectDataSource } from '@nestjs/typeorm';
 import jwt from 'jsonwebtoken';
 import { firstValueFrom } from 'rxjs';
-import { DataSource } from 'typeorm';
 
 import { NATIVE_CLIENT_PROVIDER } from '@huebot-api/native-client/native-client.constants';
 import {
   BasicResponseEnum,
   ConfigEntity,
   ConfigService,
+  DataSource,
   UserEntity,
 } from '@huebot-hub-core/common';
 
@@ -23,7 +22,7 @@ interface SetupJwtDecoded {
 export class InstanceService {
   constructor(
     @Inject(NATIVE_CLIENT_PROVIDER) private client: ClientProxy,
-    @InjectDataSource() private dataSource: DataSource,
+    private dataSource: DataSource,
     private readonly configService: ConfigService,
   ) {}
 

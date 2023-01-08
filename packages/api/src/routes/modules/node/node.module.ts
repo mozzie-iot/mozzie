@@ -1,14 +1,13 @@
 import { Module } from '@nestjs/common';
 
-//
 import { NativeClientModule } from '@huebot-api/native-client/native-client.module';
 import { NodeEntityModule } from '@huebot-hub-core/common';
 
-import { InstanceResolver } from './instance.resolver';
-import { InstanceService } from './instance.service';
+import { NodeResolver } from './node.resolver';
+import { NodeService } from './node.service';
 
 @Module({
   imports: [NativeClientModule, NodeEntityModule],
-  providers: [InstanceService, InstanceResolver],
+  providers: [NodeService, NodeResolver],
 })
-export class InstanceModule {}
+export class NodeModule {}
