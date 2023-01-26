@@ -7,7 +7,8 @@
 - In repo dir: `yarn set version berry`
 - Add `nodeLinker: node-modules` to `.yarnrc.yml` file
 - Run `yarn`
-- Note: Will need to build common ``yarn workspace @huebot-hub-core/common build` 
+- Run `yarn workspace @huebot-hub-core/common build` (Not sure why this needs to be done outside the container - need to look into this)
+- Note: You might get some error about a busy connection for SQLite - I think this is due to it synchronizing. Just restart and it works. 
 
 ## Packages
 Run all packages in development with `docker-compose -f docker-compose.dev.yml up` or production with `docker-compose -f docker-compose.prod.yml up`
