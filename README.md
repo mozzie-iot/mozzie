@@ -1,6 +1,12 @@
 # Huebot Hub Core 
 (Will replace hub and hub-core repos)
 
+## Development Setup
+- Make sure corepack has been enabled: `corepack enable`
+- Update global Yarn version: `corepack prepare yarn@stable --activate`
+- In repo dir: `yarn set version berry`
+- Add `nodeLinker: node-modules` to `.yarnrc.yml` file
+
 ## Packages
 Run all packages in development with `docker-compose -f docker-compose.dev.yml up` or production with `docker-compose -f docker-compose.prod.yml up`
 
