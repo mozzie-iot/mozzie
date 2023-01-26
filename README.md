@@ -2,10 +2,11 @@
 (Will replace hub and hub-core repos)
 
 ## Development Setup
-- Make sure corepack has been enabled: `corepack enable`
+- Make sure corepack has been enabled: `sudo corepack enable` (not sure why `sudo` req'd)
 - Update global Yarn version: `corepack prepare yarn@stable --activate`
 - In repo dir: `yarn set version berry`
 - Add `nodeLinker: node-modules` to `.yarnrc.yml` file
+- Run `yarn`
 - Note: Will need to build common ``yarn workspace @huebot-hub-core/common build` 
 
 ## Packages
