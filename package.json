@@ -14,5 +14,5 @@
         "migration:revert": "yarn workspace @huebot-hub-core/common run typeorm:migration-revert"
     },
     "license": "ISC",
-    "packageManager": "yarn@3.3.0"
+    "packageManager": "yarn@3.3.1"
 }
