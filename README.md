@@ -6,6 +6,7 @@
 - Update global Yarn version: `corepack prepare yarn@stable --activate`
 - In repo dir: `yarn set version berry`
 - Add `nodeLinker: node-modules` to `.yarnrc.yml` file
+- Note: Will need to build common ``yarn workspace @huebot-hub-core/common build` 
 
 ## Packages
 Run all packages in development with `docker-compose -f docker-compose.dev.yml up` or production with `docker-compose -f docker-compose.prod.yml up`
