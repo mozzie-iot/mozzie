@@ -19,7 +19,7 @@ Run all packages in development with `docker-compose -f docker-compose.dev.yml u
 `docker-compose -f docker-compose.dev.yml up api`
 
 #### Build
-`docker build -t ghcr.io/huebot-iot/hub-core-api:[version] -t ghcr.io/huebot-iot/hub-core-api:latest -f ./docker/Dockerfile.api .`
+`docker build -t ghcr.io/huebot-iot/hub-core-api:[version] -t ghcr.io/huebot-iot/hub-core-api:latest --target api_production .`
 
 #### Push
 1. `docker push ghcr.io/huebot-iot/hub-core-api:[version]`
@@ -31,11 +31,23 @@ Run all packages in development with `docker-compose -f docker-compose.dev.yml u
 `docker-compose -f docker-compose.dev.yml up native`
 
 #### Build
-`docker build -t ghcr.io/huebot-iot/hub-core-native:[version] -t ghcr.io/huebot-iot/hub-core-native:latest -f ./docker/Dockerfile.native .`
+`docker build -t ghcr.io/huebot-iot/hub-core-native:[version] -t ghcr.io/huebot-iot/hub-core-native:latest --target native_production .`
 
 #### Push
 1. `docker push ghcr.io/huebot-iot/hub-core-native:[version]`
 2. `docker push ghcr.io/huebot-iot/hub-core-native:latest` (just tags as 'latest')
+
+### MQTT Transporter
+
+#### Run (development)
+`docker-compose -f docker-compose.dev.yml up mqtt`
+
+#### Build
+`docker build -t ghcr.io/huebot-iot/hub-core-mqtt:[version] -t ghcr.io/huebot-iot/hub-core-mqtt:latest --target mqtt_production .`
+
+#### Push
+1. `docker push ghcr.io/huebot-iot/hub-core-mqtt:[version]`
+2. `docker push ghcr.io/huebot-iot/hub-core-mqtt:latest` (just tags as 'latest')
 
 ## DB Migrations
 - Run migration commands inside Docker container: `docker exec -it huebot_api_dev sh`

@@ -80,9 +80,12 @@ USER node
 ###################
 FROM node:18-alpine As api_production
 LABEL org.opencontainers.image.source https://github.com/huebot-iot/hub-core-next
+
 WORKDIR /usr/app
 COPY --chown=node:node package.json .
 COPY --chown=node:node --from=api_build /usr/app/node_modules ./node_modules
+
+RUN cat /usr/app/package.json
 
 WORKDIR /usr/app/packages/common
 COPY --chown=node:node packages/common/package.json .
@@ -119,13 +122,6 @@ WORKDIR /usr/app
 RUN yarn workspace @huebot-hub-core/native install
 
 COPY --chown=node:node packages/native .packages/native
-
-RUN echo "STEP 1"
-RUN ls /usr/app
-RUN echo "STEP 2"
-RUN ls /usr/app/packages
-RUN echo "STEP 3"
-RUN ls /usr/app/packages/native
 
 # Give node group NMCLI access
 RUN chgrp node /usr/bin/nmcli
@@ -243,13 +239,13 @@ FROM node:18-alpine As mqtt_production
 LABEL org.opencontainers.image.source https://github.com/huebot-iot/hub-core-next
 WORKDIR /usr/app
 COPY --chown=node:node package.json .
-COPY --chown=node:node --from=build /usr/app/node_modules ./node_modules
+COPY --chown=node:node --from=mqtt_build /usr/app/node_modules ./node_modules
 
 WORKDIR /usr/app/packages/common
 COPY --chown=node:node packages/common/package.json .
-COPY --chown=node:node --from=build /usr/app/packages/common/dist ./dist
+COPY --chown=node:node --from=mqtt_build /usr/app/packages/common/dist ./dist
 
 WORKDIR /usr/app/packages/mqtt
-COPY --chown=node:node --from=build /usr/app/packages/mqtt/dist ./dist
+COPY --chown=node:node --from=mqtt_build /usr/app/packages/mqtt/dist ./dist
 ENV NODE_ENV production
 CMD [ "node", "dist/main.js" ]
