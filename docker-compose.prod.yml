@@ -28,8 +28,6 @@ services:
     environment:
       - NODE_ENV=production
     volumes:
-      - ./packages/native:/usr/app/packages/native
-      - ./packages/common:/usr/app/packages/common
       - /etc/NetworkManager:/etc/NetworkManager
       - /var/run/dbus:/var/run/dbus
     ports:
@@ -43,12 +41,9 @@ services:
       dockerfile: Dockerfile
       target: mqtt_production
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
       - MQTT_USERNAME=$MQTT_USERNAME
       - MQTT_PASSWORD=$MQTT_PASSWORD
-    volumes:
-      - ./packages/mqtt:/usr/app/packages/mqtt
-      - ./packages/common:/usr/app/packages/common
     networks:
       - huebot-proxy-net
 
