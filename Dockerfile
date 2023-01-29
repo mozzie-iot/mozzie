@@ -94,8 +94,9 @@ COPY --chown=node:node --from=common_build /usr/app/packages/common/dist ./dist
 WORKDIR /usr/app/packages/api
 COPY --chown=node:node --from=api_build /usr/app/packages/api/dist ./dist
 ENV NODE_ENV production
-CMD [ "node", "dist/main.js" ]
-
+COPY --chown=node:node docker-entrypoint.sh ./entrypoint.sh
+RUN chmod +x entrypoint.sh
+CMD ./entrypoint.sh
 
 ###################
 # NATIVE DEVELOPMENT

@@ -4,7 +4,7 @@ import { Entity, Column, PrimaryColumn, OneToMany } from 'typeorm';
 import { NodeTypeEnum } from '@huebot-common/enums';
 
 import { BaseEntity } from '../base';
-import { NodeChannelEntity } from '../node-channel';
+import { NodeChannelEntity } from '../node-channel/node-channel.entity';
 
 @Entity('nodes')
 @ObjectType()

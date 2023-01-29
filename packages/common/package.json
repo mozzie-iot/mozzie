@@ -4,8 +4,7 @@
     "description": "",
     "main": "dist/index.js",
     "scripts": {
-        "prebuild": "rimraf dist",
-        "build": "tsc --project tsconfig.json && tscpaths -p tsconfig.json -s ./src -o ./dist",
+        "build": "rimraf dist && tsc --project tsconfig.json && tscpaths -p tsconfig.json -s ./src -o ./dist",
         "test": "echo \"Error: no test specified\" && exit 1",
         "typeorm": "ts-node ./node_modules/typeorm/cli",
         "typeorm:migration-generate": "typeorm-ts-node-commonjs migration:generate -d ./dist/typeorm/typeorm.migration.js ./src/migrations/$0",
