@@ -95,6 +95,7 @@ WORKDIR /usr/app/packages/api
 COPY --chown=node:node --from=api_build /usr/app/packages/api/dist ./dist
 ENV NODE_ENV production
 CMD [ "node", "dist/main.js" ]
+USER node
 
 
 ###################
@@ -160,8 +161,11 @@ USER node
 ###################
 # NATIVE PRODUCTION
 ###################
-FROM node:18-alpine As native_production
+FROM node:18-slim As native_production
 LABEL org.opencontainers.image.source https://github.com/huebot-iot/hub-core-next
+
+RUN apt update && apt install -y network-manager 
+
 WORKDIR /usr/app
 COPY --chown=node:node package.json .
 COPY --chown=node:node --from=native_build /usr/app/node_modules ./node_modules
@@ -170,10 +174,16 @@ WORKDIR /usr/app/packages/common
 COPY --chown=node:node packages/common/package.json .
 COPY --chown=node:node --from=common_build /usr/app/packages/common/dist ./dist
 
+# Give node group NMCLI access
+RUN chgrp node /usr/bin/nmcli
+RUN chmod o= /usr/bin/nmcli
+RUN chmod u+s,a-w /usr/bin/nmcli
+
 WORKDIR /usr/app/packages/native
 COPY --chown=node:node --from=native_build /usr/app/packages/native/dist ./dist
 ENV NODE_ENV production
 CMD [ "node", "dist/main.js" ]
+USER node
 
 
 ###################
@@ -249,3 +259,4 @@ WORKDIR /usr/app/packages/mqtt
 COPY --chown=node:node --from=mqtt_build /usr/app/packages/mqtt/dist ./dist
 ENV NODE_ENV production
 CMD [ "node", "dist/main.js" ]
+USER node

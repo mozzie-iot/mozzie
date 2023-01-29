@@ -21,6 +21,7 @@ services:
       - huebot-proxy-net
   native:
     container_name: huebot_native_prod
+    privileged: true
     build:
       context: .
       dockerfile: Dockerfile
