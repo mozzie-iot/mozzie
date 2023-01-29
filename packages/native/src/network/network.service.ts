@@ -70,6 +70,7 @@ export class NetworkService {
       ),
     );
   }
+
   public scan_wifi(): Promise<NetworkWifiDto[]> {
     return new Promise((resolve, reject) =>
       exec(
@@ -104,6 +105,7 @@ export class NetworkService {
       ),
     );
   }
+
   public async get_available_interfaces(): Promise<NetworkAvailableDto[]> {
     return new Promise((resolve, reject) =>
       exec(
@@ -149,9 +151,25 @@ export class NetworkService {
     );
   }
 
+  public async ethernet_has_domain(connection_name: string):Promise<boolean>{
+    return new Promise((resolve, reject) =>
+      exec(`nmcli -t -f IP4.DOMAIN con show "${connection_name}"`, (error, stdout, stderr) => {
+        if (error || stderr) {
+          return reject(
+            new NetworkError(
+              'ethernet_has_domain',
+              error ? error.message : stderr,
+            ),
+          );
+        }
+
+        resolve(!!stdout)
+      }))
+  } 
+
   public async get_active_interface(): Promise<NetworkActiveDto | null> {
     return new Promise((resolve, reject) =>
-      exec('nmcli -t -f NAME,TYPE c show --active', (error, stdout, stderr) => {
+      exec('nmcli -t -f NAME,TYPE c show --active',async  (error, stdout, stderr) => {
         if (error || stderr) {
           return reject(
             new NetworkError(
@@ -165,10 +183,10 @@ export class NetworkService {
         // via ethernet to computer (so you can view terminal output). This connection will create
         // an IP on the ethernet interface that wont work when app attemtps to test a
         // a connection using the IP address
-        // Solution for now: In development env, if we detect 2 interfaces we will use the
-        // 2nd option (which will be wifi) but in production env we will use the first (in a
-        // situation where ethernet and wifi are connected) because prefer ethernet as it is
-        // stronger.
+        // The only difference in profile between shared ethernet from device and direct ethernet connection
+        // is the lack of IP4.DOMAIN when shared. So for now, if the interface is ethernet we will look for IP4.DOMAIN 
+        // and if it does not exist we will ignore it
+
 
         let interface_parts: string[];
 
@@ -185,27 +203,45 @@ export class NetworkService {
           return resolve(null);
         }
 
-        if (this.configService.NODE_ENV === 'development') {
-          interface_parts =
-            interfaces.length > 1
-              ? interfaces[1].split(':')
-              : interfaces[0].split(':');
-        } else {
-          interface_parts = interfaces[0].split(':');
+        console.log("FILTERED ACTIVE INTERFACES: ", interfaces)
+
+        // Prefer ethernet connection over WiFi, so let's check for that first
+        const ethIndex = interfaces.findIndex((int) => int.includes("ethernet"))
+
+        if(ethIndex > -1) {
+            // Lets confirm it's not shared internet over ethernet
+            const [name, type] = interfaces[ethIndex].split(":")
+            const hasDomain = await this.ethernet_has_domain(name)
+
+            // Deemed not to be shared internet if domain available - this could be flawed logic.. 
+            if(hasDomain){
+              return resolve({
+                name,
+                type: NetworkTypeEnum.WIRED,
+                type_raw: type.trim(),
+              });
+            }
+
+            // Else, let's remove this int option
+            interfaces.splice(ethIndex, 1)
         }
 
-        if (interface_parts.length !== 2) {
-          return reject(
-            new NetworkError(
-              'get_active_interface',
-              'Unexpected result returned',
-            ),
-          );
+        console.log("ACTIVE INTERFACES (AFTER ETH): ", interfaces)
+
+        if(interfaces.length ===0){
+          return resolve(null);
         }
 
-        const [name, type] = interface_parts;
+        // There should only be one active interface by this point so lets
+        // throw a warning if that's not the case
+        if(interfaces.length > 1){
+          console.warn(`Expected at most 1 active interface, but found: ${interfaces.length}`)
+        }
 
-        if (!type.includes('wireless') && !type.includes('ethernet')) {
+        const [name, type] = interfaces[0]
+
+        // This should be a wifi interface
+        if (!type.includes('wireless')) {
           return reject(
             new NetworkError(
               'get_active_interface',
@@ -216,9 +252,7 @@ export class NetworkService {
 
         return resolve({
           name,
-          type: type.includes('wireless')
-            ? NetworkTypeEnum.WIFI
-            : NetworkTypeEnum.WIRED,
+          type: NetworkTypeEnum.WIFI,
           type_raw: type.trim(),
         });
       }),

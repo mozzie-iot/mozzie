@@ -95,7 +95,6 @@ WORKDIR /usr/app/packages/api
 COPY --chown=node:node --from=api_build /usr/app/packages/api/dist ./dist
 ENV NODE_ENV production
 CMD [ "node", "dist/main.js" ]
-USER node
 
 
 ###################
@@ -259,4 +258,3 @@ WORKDIR /usr/app/packages/mqtt
 COPY --chown=node:node --from=mqtt_build /usr/app/packages/mqtt/dist ./dist
 ENV NODE_ENV production
 CMD [ "node", "dist/main.js" ]
-USER node
