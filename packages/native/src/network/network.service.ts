@@ -238,7 +238,7 @@ export class NetworkService {
           console.warn(`Expected at most 1 active interface, but found: ${interfaces.length}`)
         }
 
-        const [name, type] = interfaces[0]
+        const [name, type] = interfaces[0].split(":")
 
         // This should be a wifi interface
         if (!type.includes('wireless')) {
