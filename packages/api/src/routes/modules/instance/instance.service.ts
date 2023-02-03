@@ -40,18 +40,33 @@ export class InstanceService {
         artifact_secret,
       ) as SetupJwtDecoded;
 
-      const existing_instance_secret = await this.dataSource.manager.findOne(
-        ConfigEntity,
-        {
-          where: {
-            name: 'instance_secret',
-          },
-        },
+      // RESET HUB (IF PREVIOUSLY SETUP)
+
+      await this.dataSource.manager.getRepository(ConfigEntity).clear()
+      await this.dataSource.manager.getRepository(UserEntity).clear()
+
+      const ap_delete_interface_response = await firstValueFrom(
+        this.client.send<BasicResponseEnum>({ cmd: 'delete_ap_interface' }, []),
       );
 
-      if (existing_instance_secret) {
-        await queryRunner.manager.remove(existing_instance_secret);
+      if (ap_delete_interface_response === BasicResponseEnum.FAIL) {
+        throw Error('Failed to delete AP interface');
       }
+
+      // const existing_instance_secret = await this.dataSource.manager.findOne(
+      //   ConfigEntity,
+      //   {
+      //     where: {
+      //       name: 'instance_secret',
+      //     },
+      //   },
+      // );
+
+      // if (existing_instance_secret) {
+      //   await queryRunner.manager.remove(existing_instance_secret);
+      // }
+
+      // END RESET HUB
 
       const new_instance = new ConfigEntity();
       new_instance.name = 'instance_secret';
