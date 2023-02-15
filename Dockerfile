@@ -79,7 +79,7 @@ USER node
 # API PRODUCTION
 ###################
 FROM node:18-alpine As api_production
-LABEL org.opencontainers.image.source https://github.com/huebot-iot/hub-core-next
+LABEL org.opencontainers.image.source https://github.com/huebot-iot/hub-core
 
 WORKDIR /usr/app
 COPY --chown=node:node package.json .
@@ -162,7 +162,7 @@ USER node
 # NATIVE PRODUCTION
 ###################
 FROM node:18-slim As native_production
-LABEL org.opencontainers.image.source https://github.com/huebot-iot/hub-core-next
+LABEL org.opencontainers.image.source https://github.com/huebot-iot/hub-core
 
 RUN apt update && apt install -y network-manager 
 
@@ -246,7 +246,7 @@ USER node
 # MQTT PRODUCTION
 ###################
 FROM node:18-alpine As mqtt_production
-LABEL org.opencontainers.image.source https://github.com/huebot-iot/hub-core-next
+LABEL org.opencontainers.image.source https://github.com/huebot-iot/hub-core
 WORKDIR /usr/app
 COPY --chown=node:node package.json .
 COPY --chown=node:node --from=mqtt_build /usr/app/node_modules ./node_modules
