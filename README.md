@@ -1,5 +1,5 @@
 # Huebot Hub Core 
-(Will replace hub and hub-core repos)
+Yarn workspace containing API, MQTT transport, Native packages
 
 ## Development Setup
 - Make sure corepack has been enabled: `sudo corepack enable` (not sure why `sudo` req'd)
