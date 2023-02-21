@@ -10,9 +10,8 @@ services:
       - NODE_ENV=development
       - HUEBOT_API_KEY=$HUEBOT_API_KEY
       - HUEBOT_SECRET_KEY=$HUEBOT_SECRET_KEY
-      - MQTT_USERNAME=$MQTT_USERNAME
-      - MQTT_PASSWORD=$MQTT_PASSWORD
     volumes:
+      - /usr/local/bin/mosquitto/config.json:/usr/app/mqtt.json
       - ./packages/api:/usr/app/packages/api
       - ./packages/common:/usr/app/packages/common
       - ${HOME}/db:/usr/db
@@ -48,9 +47,8 @@ services:
       target: mqtt_development
     environment:
       - NODE_ENV=development
-      - MQTT_USERNAME=$MQTT_USERNAME
-      - MQTT_PASSWORD=$MQTT_PASSWORD
     volumes:
+      - /usr/local/bin/mosquitto/config.json:/usr/app/mqtt.json
       - ./packages/mqtt:/usr/app/packages/mqtt
       - ./packages/common:/usr/app/packages/common
     command: yarn workspace @huebot-hub-core/mqtt start:dev
