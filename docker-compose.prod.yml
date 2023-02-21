@@ -17,6 +17,7 @@ services:
       - 3000:3000
     volumes:
       - ${HOME}/db:/usr/db
+      - /usr/local/bin/mosquitto/config.json:/usr/app/mqtt.json
     networks:
       - huebot-proxy-net
   native:
@@ -45,6 +46,8 @@ services:
       - NODE_ENV=production
       - MQTT_USERNAME=$MQTT_USERNAME
       - MQTT_PASSWORD=$MQTT_PASSWORD
+    volumes:
+      - /usr/local/bin/mosquitto/config.json:/usr/app/mqtt.json
     networks:
       - huebot-proxy-net
 
