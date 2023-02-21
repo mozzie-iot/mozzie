@@ -8,7 +8,7 @@ Yarn workspace containing API, MQTT transport, Native packages
 - Add `nodeLinker: node-modules` to `.yarnrc.yml` file
 - Run `yarn`
 - Run `yarn workspace @huebot-hub-core/common build` (Not sure why this needs to be done outside the container - need to look into this)
-- Note: When initially running you might get the following error: "QueryFailedError: SQLITE_BUSY: database is locked" - I think this is due to multiple packages attemtping to synchronize the DB. Restart and it will work. 
+- Note: When initially running you might get the following error: "QueryFailedError: SQLITE_BUSY: database is locked". I believe this is due to TypeORM synchronizing the db, let it run fully. Should not occur on restart. 
 
 ## Packages
 Run all packages in development with `docker-compose -f docker-compose.dev.yml up` or production with `docker-compose -f docker-compose.prod.yml up`
