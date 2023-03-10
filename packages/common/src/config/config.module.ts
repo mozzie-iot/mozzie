@@ -1,14 +1,13 @@
 import { DynamicModule, Global, Module } from '@nestjs/common';
 import { ConfigModule as NestConfigModule } from '@nestjs/config';
 
-import { MqttCredentials } from '../interfaces';
-
+import { ConfigModuleArgs } from './config.interface';
 import { ConfigService } from './config.service';
 
 @Global()
 @Module({})
 export class ConfigModule {
-  static forRoot(mqtt_credentials?: MqttCredentials): DynamicModule {
+  static forRoot(args?: ConfigModuleArgs): DynamicModule {
     return {
       module: ConfigModule,
       imports: [
@@ -24,12 +23,10 @@ export class ConfigModule {
                 MQTT_PORT: 1883,
                 NATIVE_HOST: 'native',
                 NATIVE_PORT: 9000,
-                MQTT_USERNAME: mqtt_credentials
-                  ? mqtt_credentials.mqtt_username
-                  : undefined,
-                MQTT_PASSWORD: mqtt_credentials
-                  ? mqtt_credentials.mqtt_password
-                  : undefined,
+                API_KEY: args.api_key,
+                SECRET_KEY: args.secret_key,
+                MQTT_USERNAME: args.mqtt_username,
+                MQTT_PASSWORD: args.mqtt_password,
               };
             },
           ],

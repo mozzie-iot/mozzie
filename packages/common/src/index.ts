@@ -5,4 +5,3 @@ export * from './enums';
 export * from './redis';
 export * from './dto';
 export * from './unions';
-export * from './interfaces';
