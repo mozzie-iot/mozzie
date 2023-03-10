@@ -9,15 +9,12 @@ services:
       target: api_production
     environment:
       - NODE_ENV=production
-      - HUEBOT_API_KEY=$HUEBOT_API_KEY
-      - HUEBOT_SECRET_KEY=$HUEBOT_SECRET_KEY
-      - MQTT_USERNAME=$MQTT_USERNAME
-      - MQTT_PASSWORD=$MQTT_PASSWORD
     ports:
       - 3000:3000
     volumes:
       - ${HOME}/db:/usr/db
-      - /usr/local/bin/mosquitto/config.json:/usr/app/mqtt.json
+      - /usr/local/bin/huebot/config.json:/usr/app/huebot-config.json
+      - /usr/local/bin/mosquitto/config.json:/usr/app/mqtt-config.json
     networks:
       - huebot-proxy-net
   native:
@@ -44,10 +41,8 @@ services:
       target: mqtt_production
     environment:
       - NODE_ENV=production
-      - MQTT_USERNAME=$MQTT_USERNAME
-      - MQTT_PASSWORD=$MQTT_PASSWORD
     volumes:
-      - /usr/local/bin/mosquitto/config.json:/usr/app/mqtt.json
+      - /usr/local/bin/mosquitto/config.json:/usr/app/mqtt-config.json
     networks:
       - huebot-proxy-net
 

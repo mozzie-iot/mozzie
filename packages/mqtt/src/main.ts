@@ -2,7 +2,7 @@ import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { Transport } from '@nestjs/microservices';
 
-import { ConfigService } from '@huebot-hub-core/common';
+import { configParseMqtt, ConfigService } from '@huebot-hub-core/common';
 
 import { AppModule } from './app.module';
 
@@ -10,9 +10,19 @@ async function bootstrap() {
   const logger = new Logger('Main:bootstrap');
 
   try {
-    const app = await NestFactory.create(AppModule, {
-      logger,
-    });
+    const mqtt_config = configParseMqtt();
+
+    const app = await NestFactory.create(
+      AppModule.forRoot({
+        api_key: undefined,
+        secret_key: undefined,
+        mqtt_username: mqtt_config.mqtt_username,
+        mqtt_password: mqtt_config.mqtt_password,
+      }),
+      {
+        logger,
+      },
+    );
 
     const configService: ConfigService = app.get(ConfigService);
 
