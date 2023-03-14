@@ -74,3 +74,14 @@ Run all packages in development with `docker-compose -f docker-compose.dev.yml u
 ## Notes
 - For `denied: permission_denied: The token provided does not match expected scopes.` error, login into GHCR with `docker login ghcr.io`
 - Issues pushing larger Docker images over SSH connection. May need to put hub on WiFi network if getting `connection reset by peer` timeout
+
+## License
+See [License.txt](https://github.com/huebot-iot/hub-core/blob/main/LICENSE.txt)
+
+Huebot is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+Huebot is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+A full copy of the GNU General Public License can be found at http://www.gnu.org/licenses/gpl-3.0.en.html
+
+This software includes third party open source software components. Please see individual files for license information, if applicable.
