@@ -46,6 +46,11 @@ type NetworkApCredentialsDto {
   password: String!
 }
 
+type HubInstanceMqttCredentialsDto {
+  username: String!
+  password: String!
+}
+
 type NodeSetupCredentialsDto {
   ap_ssid: String!
   ap_password: String!
@@ -63,6 +68,7 @@ type Query {
   testGetActiveInterface: NetworkAvailableDto
   testGetActiveSSID: String
   testGetNodeApCredentials: NetworkApCredentialsDto!
+  getHubMqttCredentials: HubInstanceMqttCredentialsDto!
   getNodeSetupCredentials: NodeSetupCredentialsDto!
   findAllNodes: [NodeEntity!]!
 }
