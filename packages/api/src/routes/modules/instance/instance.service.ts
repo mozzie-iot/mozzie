@@ -1,3 +1,5 @@
+import { promises as fs } from 'fs';
+
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import jwt from 'jsonwebtoken';
@@ -12,10 +14,17 @@ import {
   UserEntity,
 } from '@huebot-hub-core/common';
 
+import { HubInstanceMqttCredentialsDto } from './dto/mqtt-credentials.dto';
+
 interface SetupJwtDecoded {
   user_id: string;
   public_key: string;
   secret: string;
+}
+
+interface MqttConfig {
+  mqtt_username: string;
+  mqtt_password: string;
 }
 
 @Injectable()
@@ -24,7 +33,7 @@ export class InstanceService {
     @Inject(NATIVE_CLIENT_PROVIDER) private client: ClientProxy,
     private dataSource: DataSource,
     private readonly configService: ConfigService,
-  ) {}
+  ) { }
 
   public async setup(token: string): Promise<BasicResponseEnum> {
     const queryRunner = this.dataSource.createQueryRunner();
@@ -42,8 +51,8 @@ export class InstanceService {
 
       // RESET HUB (IF PREVIOUSLY SETUP)
 
-      await this.dataSource.manager.getRepository(ConfigEntity).clear()
-      await this.dataSource.manager.getRepository(UserEntity).clear()
+      await this.dataSource.manager.getRepository(ConfigEntity).clear();
+      await this.dataSource.manager.getRepository(UserEntity).clear();
 
       const ap_delete_interface_response = await firstValueFrom(
         this.client.send<BasicResponseEnum>({ cmd: 'delete_ap_interface' }, []),
@@ -96,5 +105,19 @@ export class InstanceService {
     } finally {
       await queryRunner.release();
     }
+  }
+
+  public async get_mqtt_credentials(): Promise<HubInstanceMqttCredentialsDto> {
+    const config_str = await fs.readFile('/usr/app/mqtt-config.json', {
+      encoding: 'utf8',
+      flag: 'r',
+    });
+
+    const config = JSON.parse(config_str) as MqttConfig;
+
+    return {
+      username: config.mqtt_username,
+      password: config.mqtt_password,
+    };
   }
 }

@@ -22,7 +22,7 @@ export class AuthRouteService {
   constructor(
     private readonly configEntityService: ConfigEntityService,
     private readonly userService: UserEntityService,
-  ) {}
+  ) { }
 
   async validate(req: Request): Promise<AuthRouteDto | null> {
     this.logger.debug('Enter validate');
