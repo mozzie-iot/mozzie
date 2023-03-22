@@ -18,7 +18,7 @@ async function bootstrap() {
 
     const configService = app.get(ConfigService);
 
-    await app.listen(configService.PING_PORT);
+    await app.listen(configService.UTILITY_PORT);
 
     logger.log('Started successfully');
   } catch (error) {

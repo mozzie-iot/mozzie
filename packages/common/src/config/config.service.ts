@@ -37,8 +37,8 @@ export class ConfigService {
     return parseInt(this.configService.get<string>('NATIVE_PORT'), 10);
   }
 
-  get PING_PORT() {
-    return parseInt(this.configService.get<string>('PING_PORT'), 10);
+  get UTILITY_PORT() {
+    return parseInt(this.configService.get<string>('UTILITY_PORT'), 10);
   }
 
   get MQTT_USERNAME() {
