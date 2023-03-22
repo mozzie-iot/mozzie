@@ -931,9 +931,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@huebot-hub-core/ping@workspace:packages/ping":
+"@huebot-hub-core/utility@workspace:packages/utility":
   version: 0.0.0-use.local
-  resolution: "@huebot-hub-core/ping@workspace:packages/ping"
+  resolution: "@huebot-hub-core/utility@workspace:packages/utility"
   dependencies:
     "@huebot-hub-core/common": "workspace:^"
     "@nestjs/apollo": ^10.1.6

@@ -45,12 +45,12 @@ services:
       - /usr/local/bin/mosquitto/config.json:/usr/app/mqtt-config.json
     networks:
       - huebot-proxy-net
-  ping:
-    container_name: huebot_ping_prod
+  utility:
+    container_name: huebot_utility_prod
     build:
       context: .
       dockerfile: Dockerfile
-      target: ping_production
+      target: utility_production
     environment:
       - NODE_ENV=production
     volumes:

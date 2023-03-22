@@ -1,7 +1,7 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
 
-import { ExpressContext } from '@huebot-ping/types/context.interface';
+import { ExpressContext } from '@huebot-utility/types/context.interface';
 
 import { AuthRouteDto } from './auth.dto';
 

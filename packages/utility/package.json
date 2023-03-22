@@ -1,5 +1,5 @@
 {
-  "name": "@huebot-hub-core/ping",
+  "name": "@huebot-hub-core/utility",
   "version": "0.0.1",
   "description": "Hub status check",
   "author": "",

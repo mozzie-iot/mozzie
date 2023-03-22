@@ -3,8 +3,8 @@ import { Injectable } from '@nestjs/common';
 import { GqlOptionsFactory } from '@nestjs/graphql';
 
 import { ConfigService } from '@huebot-hub-core/common';
-import { AuthRouteService } from '@huebot-ping/routes/auth/auth.service';
-import { ExpressContext } from '@huebot-ping/types/context.interface';
+import { AuthRouteService } from '@huebot-utility/routes/auth/auth.service';
+import { ExpressContext } from '@huebot-utility/types/context.interface';
 
 @Injectable()
 export class GqlService implements GqlOptionsFactory {
