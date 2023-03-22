@@ -15,7 +15,7 @@ export class GqlService implements GqlOptionsFactory {
 
   createGqlOptions(): ApolloDriverConfig {
     return {
-      path: '/ping',
+      path: '/utility',
       debug: this.configService.NODE_ENV !== 'production',
       cache:
         this.configService.NODE_ENV === 'production' ? 'bounded' : undefined,
