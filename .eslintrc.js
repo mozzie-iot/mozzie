@@ -12,14 +12,14 @@ module.exports = {
   },
   ignorePatterns: [".eslintrc.js"],
   rules: {
-    "prettier/prettier": ["error", { singleQuote: true, endOfLine: "auto", bracketSpacing: true }],
+    "prettier/prettier": ["error", { "singleQuote": true, "endOfLine": "auto",  "tabWidth": 2 }],
     "@typescript-eslint/interface-name-prefix": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "import/order": [
       "error",
-      {
+      { 
         groups: [
           "builtin",
           "external",

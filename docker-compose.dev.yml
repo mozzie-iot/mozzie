@@ -53,6 +53,23 @@ services:
     command: yarn workspace @huebot-hub-core/mqtt start:dev
     networks:
       - huebot-proxy-net
+  ping:
+    container_name: huebot_ping_dev
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: ping_development
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./packages/ping:/usr/app/packages/ping
+      - ./packages/common:/usr/app/packages/common
+      - ${HOME}/db:/usr/db
+    ports:
+      - 4000:4000
+    command: yarn workspace @huebot-hub-core/ping start:dev
+    networks:
+      - huebot-proxy-net
 
 networks:
   huebot-proxy-net:

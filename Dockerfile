@@ -259,3 +259,82 @@ WORKDIR /usr/app/packages/mqtt
 COPY --chown=node:node --from=mqtt_build /usr/app/packages/mqtt/dist ./dist
 ENV NODE_ENV production
 CMD [ "node", "dist/main.js" ]
+
+###################
+# PING DEVELOPMENT
+###################
+FROM node:18-slim AS ping_development
+
+# Needed to reload app when watching for changes
+RUN apt-get update && apt-get -y install procps
+
+WORKDIR /usr/app
+COPY --chown=node:node package.json .
+COPY --chown=node:node yarn.lock .
+COPY --chown=node:node .yarnrc.yml .
+COPY --chown=node:node .yarn ./.yarn
+COPY --chown=node:node tsconfig.json .
+
+WORKDIR /usr/app/packages/common
+COPY --chown=node:node packages/common/package.json .
+COPY --chown=node:node --from=common_build /usr/app/packages/common/dist ./dist
+
+WORKDIR /usr/app/packages/ping
+COPY --chown=node:node packages/ping/package.json .
+
+WORKDIR /usr/app
+RUN yarn workspace @huebot-hub-core/ping install
+
+COPY --chown=node:node packages/ping ./packages/ping
+
+USER node
+
+###################
+# PING BUILD (FOR PRODUCTION)
+###################
+FROM node:18-alpine AS ping_build
+
+WORKDIR /usr/app
+COPY --chown=node:node package.json .
+COPY --chown=node:node yarn.lock .
+COPY --chown=node:node .yarnrc.yml .
+COPY --chown=node:node .yarn ./.yarn
+COPY --chown=node:node tsconfig.json .
+COPY --chown=node:node --from=ping_development /usr/app/node_modules ./node_modules
+COPY --chown=node:node --from=ping_development /usr/app/packages/common ./packages/common
+COPY --chown=node:node packages/ping ./packages/ping
+RUN yarn workspace @huebot-hub-core/ping build
+
+# Needed to use 'yarn workspaces focus' which installs prod deps in current dir (yarn 2)
+RUN yarn plugin import workspace-tools
+
+ENV NODE_ENV production
+
+WORKDIR /usr/app/packages/ping
+# Only install production packages for current folder (overrides install from development stage)
+RUN yarn workspaces focus --production
+
+USER node
+
+###################
+# PING PRODUCTION
+###################
+FROM node:18-alpine As ping_production
+LABEL org.opencontainers.image.source https://github.com/huebot-iot/hub-core
+
+WORKDIR /usr/app
+COPY --chown=node:node package.json .
+COPY --chown=node:node --from=ping_build /usr/app/node_modules ./node_modules
+
+RUN cat /usr/app/package.json
+
+WORKDIR /usr/app/packages/common
+COPY --chown=node:node packages/common/package.json .
+COPY --chown=node:node --from=common_build /usr/app/packages/common/dist ./dist
+
+WORKDIR /usr/app/packages/ping
+COPY --chown=node:node --from=ping_build /usr/app/packages/ping/dist ./dist
+ENV NODE_ENV production
+COPY --chown=node:node docker-entrypoint.sh ./entrypoint.sh
+RUN chmod +x entrypoint.sh
+CMD ./entrypoint.sh

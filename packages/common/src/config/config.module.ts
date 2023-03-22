@@ -23,6 +23,7 @@ export class ConfigModule {
                 MQTT_PORT: 1883,
                 NATIVE_HOST: 'native',
                 NATIVE_PORT: 9000,
+                PING_PORT: 4000,
                 API_KEY: args.api_key,
                 SECRET_KEY: args.secret_key,
                 MQTT_USERNAME: args.mqtt_username,

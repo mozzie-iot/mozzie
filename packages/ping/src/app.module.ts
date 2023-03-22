@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 
-import { ConfigModule } from '@huebot-hub-core/common';
+import { ConfigModule, TypeOrmModule } from '@huebot-hub-core/common';
 
-import { NetworkModule } from './network/network.module';
+import { GqlModule } from './graphql/graphql.module';
+import { StatusModule } from './routes/modules/status/status.module';
 
 @Module({
   imports: [
@@ -12,7 +13,9 @@ import { NetworkModule } from './network/network.module';
       mqtt_username: undefined,
       mqtt_password: undefined,
     }),
-    NetworkModule,
+    GqlModule,
+    TypeOrmModule,
+    StatusModule,
   ],
 })
 export class AppModule {}
