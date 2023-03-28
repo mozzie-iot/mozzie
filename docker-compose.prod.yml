@@ -45,20 +45,6 @@ services:
       - /usr/local/bin/mosquitto/config.json:/usr/app/mqtt-config.json
     networks:
       - huebot-proxy-net
-  utility:
-    container_name: huebot_utility_prod
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: utility_production
-    environment:
-      - NODE_ENV=production
-    volumes:
-      - ${HOME}/db:/usr/db
-    ports:
-      - 4000:4000
-    networks:
-      - huebot-proxy-net
 
 networks:
   huebot-proxy-net:
