@@ -1,4 +1,4 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { compareSync } from 'bcryptjs';
 import { Request, Response } from 'express';
 
@@ -19,6 +19,17 @@ export class UserService {
   ) {}
 
   public async create(input: UserCreateDto): Promise<void> {
+    const user_exists = await this.userService.repo.findOne({
+      where: { username: input.username },
+    });
+
+    if (user_exists) {
+      throw new HttpException(
+        `Username '${input.username}' is already in use`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
     const user = new UserEntity();
     user.username = input.username;
     user.password = input.password;
@@ -32,7 +43,10 @@ export class UserService {
     });
 
     if (!user || !compareSync(input.password, user.password)) {
-      throw Error('Invalid email or password!');
+      throw new HttpException(
+        'Invalid email or password!',
+        HttpStatus.BAD_REQUEST,
+      );
     }
 
     req.session.userId = user.id;
