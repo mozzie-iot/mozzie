@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { compareSync } from 'bcryptjs';
 import { Request, Response } from 'express';
 
+import { ROLES } from '@huebot-api/roles/roles.constant';
 import {
   UserEntityService,
   ConfigService,
@@ -26,6 +27,20 @@ export class UserService {
     if (user_exists) {
       throw new HttpException(
         `Username '${input.username}' is already in use`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    if (!ROLES.includes(input.role)) {
+      throw new HttpException(
+        `Unsupported role provided: ${input.role}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    if (input.role === 'admin') {
+      throw new HttpException(
+        "Users with 'admin' role must be created via CLI",
         HttpStatus.BAD_REQUEST,
       );
     }

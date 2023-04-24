@@ -6,15 +6,19 @@ import {
   Post,
   Req,
   Res,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 
 import { UserEntity } from '@huebot-hub-core/common';
 
+import { Roles } from '../../roles/roles.decorator';
+
 import { UserCreateDto } from './dto/create.dto';
 import { UserLoginDto } from './dto/login.dto';
 import { User } from './user.decorator';
+import { UserGuard } from './user.guard';
 import { UserService } from './user.service';
 
 @UseInterceptors(ClassSerializerInterceptor)
@@ -23,6 +27,8 @@ export class UserController {
   constructor(private userService: UserService) {}
 
   @Post('create')
+  @Roles('admin')
+  @UseGuards(UserGuard)
   async create(@Body() input: UserCreateDto) {
     return this.userService.create(input);
   }
