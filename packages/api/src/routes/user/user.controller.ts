@@ -14,11 +14,11 @@ import { Request, Response } from 'express';
 import { UserEntity } from '@huebot-hub-core/common';
 
 import { Roles } from '../../roles/roles.decorator';
+import { RolesGuard } from '../../roles/roles.guard';
 
 import { UserCreateDto } from './dto/create.dto';
 import { UserLoginDto } from './dto/login.dto';
 import { User } from './user.decorator';
-import { UserGuard } from './user.guard';
 import { UserService } from './user.service';
 
 @UseInterceptors(ClassSerializerInterceptor)
@@ -28,7 +28,7 @@ export class UserController {
 
   @Post('create')
   @Roles('admin')
-  @UseGuards(UserGuard)
+  @UseGuards(RolesGuard)
   async create(@Body() input: UserCreateDto) {
     return this.userService.create(input);
   }

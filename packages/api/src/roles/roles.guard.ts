@@ -11,14 +11,18 @@ import { Request } from 'express';
 import { ROLES } from '@huebot-api/roles/roles.constant';
 
 @Injectable()
-export class UserGuard implements CanActivate {
+export class RolesGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {
     const role = this.reflector.get<string>('role', context.getHandler());
     if (!role) {
-      return true;
+      throw new HttpException(
+        'Must include Roles decorator when using RolesGuard',
+        HttpStatus.BAD_REQUEST,
+      );
     }
+
     const request = context.switchToHttp().getRequest<Request>();
     const user = request.user;
 
