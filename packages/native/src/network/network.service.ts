@@ -151,70 +151,77 @@ export class NetworkService {
     );
   }
 
-  public async ethernet_has_domain(connection_name: string):Promise<boolean>{
+  public async ethernet_has_domain(connection_name: string): Promise<boolean> {
     return new Promise((resolve, reject) =>
-      exec(`nmcli -t -f IP4.DOMAIN con show "${connection_name}"`, (error, stdout, stderr) => {
-        if (error || stderr) {
-          return reject(
-            new NetworkError(
-              'ethernet_has_domain',
-              error ? error.message : stderr,
-            ),
-          );
-        }
+      exec(
+        `nmcli -t -f IP4.DOMAIN con show "${connection_name}"`,
+        (error, stdout, stderr) => {
+          if (error || stderr) {
+            return reject(
+              new NetworkError(
+                'ethernet_has_domain',
+                error ? error.message : stderr,
+              ),
+            );
+          }
 
-        resolve(!!stdout)
-      }))
-  } 
+          resolve(!!stdout);
+        },
+      ),
+    );
+  }
 
   public async get_active_interface(): Promise<NetworkActiveDto | null> {
     return new Promise((resolve, reject) =>
-      exec('nmcli -t -f NAME,TYPE c show --active',async  (error, stdout, stderr) => {
-        if (error || stderr) {
-          return reject(
-            new NetworkError(
-              'get_active_interface',
-              error ? error.message : stderr,
-            ),
+      exec(
+        'nmcli -t -f NAME,TYPE c show --active',
+        async (error, stdout, stderr) => {
+          if (error || stderr) {
+            return reject(
+              new NetworkError(
+                'get_active_interface',
+                error ? error.message : stderr,
+              ),
+            );
+          }
+
+          // Note: in order to test wifi setup/connection you need to connect to hub
+          // via ethernet to computer (so you can view terminal output). This connection will create
+          // an IP on the ethernet interface that wont work when app attemtps to test a
+          // a connection using the IP address
+          // The only difference in profile between shared ethernet from device and direct ethernet connection
+          // is the lack of IP4.DOMAIN when shared. So for now, if the interface is ethernet we will look for IP4.DOMAIN
+          // and if it does not exist we will ignore it
+
+          let interface_parts: string[];
+
+          // Only consider ethernet or wifi interfaces but not interface designated for node AP
+          const interfaces = stdout
+            .split('\n')
+            .filter(
+              (int) =>
+                int.includes('ethernet') ||
+                (int.includes('wireless') && !int.includes(AP_NAME)),
+            );
+
+          if (interfaces.length === 0) {
+            return resolve(null);
+          }
+
+          console.log('FILTERED ACTIVE INTERFACES: ', interfaces);
+
+          // Prefer ethernet connection over WiFi, so let's check for that first
+          const ethIndex = interfaces.findIndex((int) =>
+            int.includes('ethernet'),
           );
-        }
 
-        // Note: in order to test wifi setup/connection you need to connect to hub
-        // via ethernet to computer (so you can view terminal output). This connection will create
-        // an IP on the ethernet interface that wont work when app attemtps to test a
-        // a connection using the IP address
-        // The only difference in profile between shared ethernet from device and direct ethernet connection
-        // is the lack of IP4.DOMAIN when shared. So for now, if the interface is ethernet we will look for IP4.DOMAIN 
-        // and if it does not exist we will ignore it
-
-
-        let interface_parts: string[];
-
-        // Only consider ethernet or wifi interfaces but not interface designated for node AP
-        const interfaces = stdout
-          .split('\n')
-          .filter(
-            (int) =>
-              int.includes('ethernet') ||
-              (int.includes('wireless') && !int.includes(AP_NAME)),
-          );
-
-        if (interfaces.length === 0) {
-          return resolve(null);
-        }
-
-        console.log("FILTERED ACTIVE INTERFACES: ", interfaces)
-
-        // Prefer ethernet connection over WiFi, so let's check for that first
-        const ethIndex = interfaces.findIndex((int) => int.includes("ethernet"))
-
-        if(ethIndex > -1) {
+          if (ethIndex > -1) {
             // Lets confirm it's not shared internet over ethernet
-            const [name, type] = interfaces[ethIndex].split(":")
-            const hasDomain = await this.ethernet_has_domain(name)
+            const [name, type] = interfaces[ethIndex].split(':');
+            const hasDomain = await this.ethernet_has_domain(name);
 
-            // Deemed not to be shared internet if domain available - this could be flawed logic.. 
-            if(hasDomain){
+            // Deemed not to be shared internet if domain available - this could be flawed logic..
+            if (hasDomain) {
               return resolve({
                 name,
                 type: NetworkTypeEnum.WIRED,
@@ -223,39 +230,42 @@ export class NetworkService {
             }
 
             // Else, let's remove this int option
-            interfaces.splice(ethIndex, 1)
-        }
+            interfaces.splice(ethIndex, 1);
+          }
 
-        console.log("ACTIVE INTERFACES (AFTER ETH): ", interfaces)
+          console.log('ACTIVE INTERFACES (AFTER ETH): ', interfaces);
 
-        if(interfaces.length ===0){
-          return resolve(null);
-        }
+          if (interfaces.length === 0) {
+            return resolve(null);
+          }
 
-        // There should only be one active interface by this point so lets
-        // throw a warning if that's not the case
-        if(interfaces.length > 1){
-          console.warn(`Expected at most 1 active interface, but found: ${interfaces.length}`)
-        }
+          // There should only be one active interface by this point so lets
+          // throw a warning if that's not the case
+          if (interfaces.length > 1) {
+            console.warn(
+              `Expected at most 1 active interface, but found: ${interfaces.length}`,
+            );
+          }
 
-        const [name, type] = interfaces[0].split(":")
+          const [name, type] = interfaces[0].split(':');
 
-        // This should be a wifi interface
-        if (!type.includes('wireless')) {
-          return reject(
-            new NetworkError(
-              'get_active_interface',
-              'Unexpected interface type returned',
-            ),
-          );
-        }
+          // This should be a wifi interface
+          if (!type.includes('wireless')) {
+            return reject(
+              new NetworkError(
+                'get_active_interface',
+                'Unexpected interface type returned',
+              ),
+            );
+          }
 
-        return resolve({
-          name,
-          type: NetworkTypeEnum.WIFI,
-          type_raw: type.trim(),
-        });
-      }),
+          return resolve({
+            name,
+            type: NetworkTypeEnum.WIFI,
+            type_raw: type.trim(),
+          });
+        },
+      ),
     );
   }
 

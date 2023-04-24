@@ -17,6 +17,22 @@ export class ConfigService {
     return parseInt(this.configService.get<string>('REDIS_PORT'), 10);
   }
 
+  get REDIS_PASSWORD() {
+    return this.configService.get<string>('REDIS_PASSWORD');
+  }
+
+  get SESSION_NAME() {
+    return this.configService.get<string>('SESSION_NAME');
+  }
+
+  get SESSION_SECRET() {
+    return this.configService.get<string>('SESSION_SECRET');
+  }
+
+  get SESSION_MAX_AGE() {
+    return parseInt(this.configService.get<string>('SESSION_MAX_AGE'), 10);
+  }
+
   get NETWORK_NODE_AP_IP() {
     return this.configService.get<string>('NETWORK_NODE_AP_IP');
   }

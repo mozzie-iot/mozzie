@@ -8,6 +8,8 @@ services:
       target: api_development
     environment:
       - NODE_ENV=development
+      - REDIS_PASSWORD=$REDIS_PASSWORD
+      - SESSION_SECRET=$SESSION_SECRET
     volumes:
       - /usr/local/bin/huebot/config.json:/usr/app/huebot-config.json
       - /usr/local/bin/mosquitto/config.json:/usr/app/mqtt-config.json

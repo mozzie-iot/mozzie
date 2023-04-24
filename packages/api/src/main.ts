@@ -1,4 +1,4 @@
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 
 import {
@@ -31,6 +31,8 @@ async function bootstrap() {
     });
 
     const configService = app.get(ConfigService);
+
+    app.useGlobalPipes(new ValidationPipe());
 
     await app.listen(configService.API_PORT);
 

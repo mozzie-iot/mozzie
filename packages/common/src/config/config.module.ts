@@ -28,6 +28,9 @@ export class ConfigModule {
                 SECRET_KEY: args.secret_key,
                 MQTT_USERNAME: args.mqtt_username,
                 MQTT_PASSWORD: args.mqtt_password,
+                SESSION_NAME: 'sid',
+                //  1000 * 60 * 60 * 24 * 7 = 604800000 (7 days)
+                SESSION_MAX_AGE: 604800000,
               };
             },
           ],

@@ -16,6 +16,10 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "preserveSymlinks": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "typeRoots": [
+      "./node_modules/@types",
+      "./packages/*/src/types"
+    ]
   }
 }

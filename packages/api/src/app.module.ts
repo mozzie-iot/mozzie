@@ -7,8 +7,8 @@ import {
   TypeOrmModule,
 } from '@huebot-hub-core/common';
 
-import { GqlModule } from './graphql/graphql.module';
 import { RoutesModule } from './routes/routes.module';
+import { SessionModule } from './session/session.module';
 
 @Module({})
 export class AppModule {
@@ -17,9 +17,9 @@ export class AppModule {
       module: AppModule,
       imports: [
         ConfigModule.forRoot(config_args),
+        SessionModule,
         TypeOrmModule,
         RedisModule,
-        GqlModule,
         RoutesModule,
       ],
     };

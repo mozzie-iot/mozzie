@@ -1,11 +1,15 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 
-import { AuthRouteModule } from './auth/auth.module';
-import { InstanceModule } from './modules/instance/instance.module';
-import { NetworkModule } from './modules/network/network.module';
-import { NodeModule } from './modules/node/node.module';
+import { AuthMiddleware } from '@huebot-api/middlewares/auth.middleware';
+import { UserEntityModule } from '@huebot-hub-core/common';
+
+import { UserModule } from './user/user.module';
 
 @Module({
-  imports: [AuthRouteModule, NetworkModule, InstanceModule, NodeModule],
+  imports: [UserEntityModule, UserModule],
 })
-export class RoutesModule {}
+export class RoutesModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(AuthMiddleware).forRoutes('*');
+  }
+}

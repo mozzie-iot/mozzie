@@ -22,7 +22,7 @@ import { TypeormService } from './typeorm.service';
       provide: DataSource,
       useFactory: async (configService: ConfigService) => {
         const dataSource = await new DataSource(
-          typeormConfig(configService.NODE_ENV)
+          typeormConfig(configService.NODE_ENV, true)
         ).initialize();
         return dataSource;
       },
