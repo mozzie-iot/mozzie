@@ -17,22 +17,6 @@ services:
       - /usr/local/bin/mosquitto/config.json:/usr/app/mqtt-config.json
     networks:
       - huebot-proxy-net
-  native:
-    container_name: huebot_native_prod
-    privileged: true
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: native_production
-    environment:
-      - NODE_ENV=production
-    volumes:
-      - /etc/NetworkManager:/etc/NetworkManager
-      - /var/run/dbus:/var/run/dbus
-    ports:
-      - 9000:9000
-    networks:
-      - huebot-proxy-net
   mqtt:
     container_name: huebot_mqtt_prod
     build:
