@@ -11,8 +11,6 @@ services:
       - REDIS_PASSWORD=$REDIS_PASSWORD
       - SESSION_SECRET=$SESSION_SECRET
     volumes:
-      - /usr/local/bin/huebot/config.json:/usr/app/huebot-config.json
-      - /usr/local/bin/mosquitto/config.json:/usr/app/mqtt-config.json
       - ./packages/api:/usr/app/packages/api
       - ./packages/common:/usr/app/packages/common
       - ${HOME}/db:/usr/db
@@ -29,8 +27,9 @@ services:
       target: mqtt_development
     environment:
       - NODE_ENV=development
+      - MQTT_USERNAME=$MQTT_USERNAME
+      - MQTT_PASSWORD=$MQTT_PASSWORD
     volumes:
-      - /usr/local/bin/mosquitto/config.json:/usr/app/mqtt-config.json
       - ./packages/mqtt:/usr/app/packages/mqtt
       - ./packages/common:/usr/app/packages/common
     command: yarn workspace @huebot-hub-core/mqtt start:dev

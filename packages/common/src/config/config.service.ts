@@ -33,10 +33,6 @@ export class ConfigService {
     return parseInt(this.configService.get<string>('SESSION_MAX_AGE'), 10);
   }
 
-  get NETWORK_NODE_AP_IP() {
-    return this.configService.get<string>('NETWORK_NODE_AP_IP');
-  }
-
   get MQTT_HOST() {
     return this.configService.get<string>('MQTT_HOST');
   }
@@ -45,32 +41,12 @@ export class ConfigService {
     return parseInt(this.configService.get<string>('MQTT_PORT'), 10);
   }
 
-  get NATIVE_HOST() {
-    return this.configService.get<string>('NATIVE_HOST');
-  }
-
-  get NATIVE_PORT() {
-    return parseInt(this.configService.get<string>('NATIVE_PORT'), 10);
-  }
-
-  get UTILITY_PORT() {
-    return parseInt(this.configService.get<string>('UTILITY_PORT'), 10);
-  }
-
   get MQTT_USERNAME() {
     return this.configService.get<string>('MQTT_USERNAME');
   }
 
   get MQTT_PASSWORD() {
     return this.configService.get<string>('MQTT_PASSWORD');
-  }
-
-  get API_KEY() {
-    return this.configService.get<string>('HUEBOT_API_KEY');
-  }
-
-  get SECRET_KEY() {
-    return this.configService.get<string>('HUEBOT_SECRET_KEY');
   }
 
   get HOME() {
