@@ -1,4 +1,5 @@
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
+import cookieParser from 'cookie-parser';
 import session from 'express-session';
 
 import {
@@ -37,6 +38,7 @@ export class SessionModule implements NestModule {
             secure: this.configService.NODE_ENV === 'production',
           },
         }),
+        cookieParser(),
       )
       .forRoutes('*');
   }

@@ -66,7 +66,7 @@ export class UserService {
 
     req.session.userId = user.id;
 
-    return req.sessionID;
+    return req.cookies ? req.cookies.sid : undefined;
   }
 
   public async logout(req: Request, res: Response): Promise<void> {
