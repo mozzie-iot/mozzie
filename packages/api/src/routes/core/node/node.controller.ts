@@ -6,13 +6,13 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 
-import { Roles } from '../../roles/roles.decorator';
-import { RolesGuard } from '../../roles/roles.guard';
+import { Roles } from '@huebot-api/roles/roles.decorator';
+import { RolesGuard } from '@huebot-api/roles/roles.guard';
 
 import { NodeService } from './node.service';
 
 @UseInterceptors(ClassSerializerInterceptor)
-@Controller('node')
+@Controller('')
 export class NodeController {
   constructor(private nodeService: NodeService) {}
 

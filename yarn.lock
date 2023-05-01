@@ -899,47 +899,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@huebot-hub-core/native@workspace:packages/native":
-  version: 0.0.0-use.local
-  resolution: "@huebot-hub-core/native@workspace:packages/native"
-  dependencies:
-    "@huebot-hub-core/common": "workspace:^"
-    "@nestjs/cli": ^9.0.0
-    "@nestjs/common": ^9.0.0
-    "@nestjs/core": ^9.0.0
-    "@nestjs/microservices": ^9.2.1
-    "@nestjs/platform-express": ^9.0.0
-    "@nestjs/schematics": ^9.0.0
-    "@nestjs/testing": ^9.0.0
-    "@types/express": ^4.17.13
-    "@types/jest": 28.1.8
-    "@types/node": ^16.0.0
-    "@types/omgopass": ^3.2.1
-    "@types/supertest": ^2.0.11
-    "@typescript-eslint/eslint-plugin": ^5.0.0
-    "@typescript-eslint/parser": ^5.0.0
-    eslint: ^8.0.1
-    eslint-config-prettier: ^8.3.0
-    eslint-plugin-prettier: ^4.0.0
-    ip-address: ^8.1.0
-    jest: 28.1.3
-    omgopass: ^3.2.1
-    prettier: ^2.3.2
-    reflect-metadata: ^0.1.13
-    rimraf: ^3.0.2
-    rxjs: ^7.2.0
-    source-map-support: ^0.5.20
-    supertest: ^6.1.3
-    ts-jest: 28.0.8
-    ts-loader: ^9.2.3
-    ts-node: ^10.0.0
-    tsconfig-paths: 4.1.0
-    typescript: ^4.7.4
-    unique-names-generator: ^4.7.1
-    webpack: ^5.75.0
-  languageName: unknown
-  linkType: soft
-
 "@humanwhocodes/config-array@npm:^0.11.8":
   version: 0.11.8
   resolution: "@humanwhocodes/config-array@npm:0.11.8"
@@ -2200,13 +2159,6 @@ __metadata:
   version: 16.18.11
   resolution: "@types/node@npm:16.18.11"
   checksum: 2a3b1da13063debe6e26f732defb5f03ef4ef732c3e08daba838d8850433bd00e537ce1a97ce9bcfc4b15db5218d701d1265fae94e0d6926906bec157e6b46e0
-  languageName: node
-  linkType: hard
-
-"@types/omgopass@npm:^3.2.1":
-  version: 3.2.1
-  resolution: "@types/omgopass@npm:3.2.1"
-  checksum: 2cf10e795ee7fea1708195c4a8ab22a557edfd20a4b95a5f49b2e59bc0c03b4491ec7bfc8d15e45859b4b9b398925dee42dd41699c9e3adf76756b99cb87d1a0
   languageName: node
   linkType: hard
 
@@ -5906,16 +5858,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ip-address@npm:^8.1.0":
-  version: 8.1.0
-  resolution: "ip-address@npm:8.1.0"
-  dependencies:
-    jsbn: 1.1.0
-    sprintf-js: 1.1.2
-  checksum: abea52788176040b45d35548b369157c11b31a331f5e36517b2e8192068cce78fdca567ecdfab0690ee8b4ad9df55cd2940ac3f20871eeb3687e4447208c4803
-  languageName: node
-  linkType: hard
-
 "ip@npm:^2.0.0":
   version: 2.0.0
   resolution: "ip@npm:2.0.0"
@@ -6850,13 +6792,6 @@ __metadata:
   bin:
     js-yaml: bin/js-yaml.js
   checksum: c7830dfd456c3ef2c6e355cc5a92e6700ceafa1d14bba54497b34a99f0376cecbb3e9ac14d3e5849b426d5a5140709a66237a8c991c675431271c4ce5504151a
-  languageName: node
-  linkType: hard
-
-"jsbn@npm:1.1.0":
-  version: 1.1.0
-  resolution: "jsbn@npm:1.1.0"
-  checksum: 944f924f2bd67ad533b3850eee47603eed0f6ae425fd1ee8c760f477e8c34a05f144c1bd4f5a5dd1963141dc79a2c55f89ccc5ab77d039e7077f3ad196b64965
   languageName: node
   linkType: hard
 
@@ -7994,13 +7929,6 @@ __metadata:
     define-properties: ^1.1.4
     es-abstract: ^1.20.4
   checksum: f6fff9fd817c24cfd8107f50fb33061d81cd11bacc4e3dbb3852e9ff7692fde4dbce823d4333ea27cd9637ef1b6690df5fbb61f1ed314fa2959598dc3ae23d8e
-  languageName: node
-  linkType: hard
-
-"omgopass@npm:^3.2.1":
-  version: 3.2.1
-  resolution: "omgopass@npm:3.2.1"
-  checksum: b843e1aaa71ac6b6fc2412dd10172599f0855278aa122b63f6d517d91073d6915e1bba654ba7875618eb65968824c476823440c07fd75a660c3987535cedf5ca
   languageName: node
   linkType: hard
 
@@ -9148,13 +9076,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sprintf-js@npm:1.1.2":
-  version: 1.1.2
-  resolution: "sprintf-js@npm:1.1.2"
-  checksum: d4bb46464632b335e5faed381bd331157e0af64915a98ede833452663bc672823db49d7531c32d58798e85236581fb7342fd0270531ffc8f914e186187bf1c90
-  languageName: node
-  linkType: hard
-
 "sprintf-js@npm:~1.0.2":
   version: 1.0.3
   resolution: "sprintf-js@npm:1.0.3"
@@ -10033,13 +9954,6 @@ __metadata:
   dependencies:
     unique-slug: ^3.0.0
   checksum: 807acf3381aff319086b64dc7125a9a37c09c44af7620bd4f7f3247fcd5565660ac12d8b80534dcbfd067e6fe88a67e621386dd796a8af828d1337a8420a255f
-  languageName: node
-  linkType: hard
-
-"unique-names-generator@npm:^4.7.1":
-  version: 4.7.1
-  resolution: "unique-names-generator@npm:4.7.1"
-  checksum: 81b58efee72458fd0c84f54a89d731b2570305d331ce62c4156273e54ece77b6488fc6c607169f4b8f6644fa48b42aef8689dbe7e310ae2c4bafbd5c0a625354
   languageName: node
   linkType: hard
 

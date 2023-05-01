@@ -15,7 +15,7 @@ export class UserEntity extends BaseEntity {
   public username!: string;
 
   @Column({ type: 'text' })
-  @MinLength(8, { message: '8 character minimum' })
+  @MinLength(6, { message: 'must be 6 character minimum' })
   @Exclude()
   public password!: string;
 
