@@ -22,6 +22,10 @@ export class UserEntity extends BaseEntity {
   @Column({ type: 'text' })
   public role!: string;
 
+  @Exclude()
+  @Column({ type: 'text', nullable: true })
+  public refresh_token!: string | null;
+
   @BeforeInsert()
   hashPasswordBeforeInsert() {
     if (this.password) {

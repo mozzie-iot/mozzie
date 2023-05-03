@@ -1,13 +1,9 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { compareSync } from 'bcryptjs';
-import { Request, Response } from 'express';
 
+import { AuthService } from '@huebot-api/auth/auth.service';
 import { ROLES } from '@huebot-api/roles/roles.constant';
-import {
-  UserEntityService,
-  ConfigService,
-  UserEntity,
-} from '@huebot-hub-core/common';
+import { UserEntityService, UserEntity } from '@huebot-hub-core/common';
 
 import { UserCreateDto } from './dto/create.dto';
 import { UserLoginDto } from './dto/login.dto';
@@ -16,7 +12,7 @@ import { UserLoginDto } from './dto/login.dto';
 export class UserService {
   constructor(
     private userService: UserEntityService,
-    private readonly configService: ConfigService,
+    private readonly authService: AuthService,
   ) {}
 
   public async create(input: UserCreateDto): Promise<void> {
@@ -52,7 +48,7 @@ export class UserService {
     await this.userService.save(user);
   }
 
-  public async login(req: Request, input: UserLoginDto): Promise<string> {
+  public async login(input: UserLoginDto) {
     const user = await this.userService.repo.findOne({
       where: { username: input.username },
     });
@@ -64,28 +60,28 @@ export class UserService {
       );
     }
 
-    req.session.userId = user.id;
+    const tokens = await this.authService.getTokens(user);
 
-    return req.cookies ? req.cookies.sid : undefined;
+    await this.userService.repo.update(user.id, {
+      refresh_token: tokens.refreshToken,
+    });
+
+    return tokens;
   }
 
-  public async logout(req: Request, res: Response): Promise<void> {
-    const destroy = new Promise((resolve, reject) =>
-      req.session.destroy((err) => {
-        if (err) {
-          return reject(err);
-        }
+  public async refreshTokens(user: UserEntity) {
+    const tokens = await this.authService.getTokens(user);
 
-        return resolve(null);
-      }),
-    );
+    await this.userService.repo.update(user.id, {
+      refresh_token: tokens.refreshToken,
+    });
 
-    try {
-      await destroy;
-      res.clearCookie(this.configService.SESSION_NAME);
-      res.status(HttpStatus.OK);
-    } catch (error) {
-      res.status(HttpStatus.BAD_REQUEST);
-    }
+    return tokens;
+  }
+
+  public async logout(userId: string): Promise<void> {
+    await this.userService.repo.update(userId, {
+      refresh_token: null,
+    });
   }
 }

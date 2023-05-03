@@ -21,16 +21,20 @@ export class ConfigService {
     return this.configService.get<string>('REDIS_PASSWORD');
   }
 
-  get SESSION_NAME() {
-    return this.configService.get<string>('SESSION_NAME');
+  get ACCESS_TOKEN_SECRET() {
+    return this.configService.get<string>('ACCESS_TOKEN_SECRET');
   }
 
-  get SESSION_SECRET() {
-    return this.configService.get<string>('SESSION_SECRET');
+  get REFRESH_TOKEN_SECRET() {
+    return this.configService.get<string>('REFRESH_TOKEN_SECRET');
   }
 
-  get SESSION_MAX_AGE() {
-    return parseInt(this.configService.get<string>('SESSION_MAX_AGE'), 10);
+  get ACCESS_TOKEN_EXP() {
+    return this.configService.get<string>('ACCESS_TOKEN_EXP');
+  }
+
+  get REFRESH_TOKEN_EXP() {
+    return this.configService.get<string>('REFRESH_TOKEN_EXP');
   }
 
   get MQTT_HOST() {
