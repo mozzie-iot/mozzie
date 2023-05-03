@@ -9,8 +9,10 @@ services:
       target: api_production
     environment:
       - NODE_ENV=production
-      - REDIS_PASSWORD=$REDIS_PASSWORD
-      - SESSION_SECRET=$SESSION_SECRET
+      - ACCESS_TOKEN_SECRET=$ACCESS_TOKEN_SECRET
+      - REFRESH_TOKEN_SECRET=$REFRESH_TOKEN_SECRET
+      - ACCESS_TOKEN_EXP=$ACCESS_TOKEN_EXP
+      - REFRESH_TOKEN_EXP=$REFRESH_TOKEN_EXP
     ports:
       - 3000:3000
     volumes:
