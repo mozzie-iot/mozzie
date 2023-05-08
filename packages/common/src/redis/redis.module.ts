@@ -11,13 +11,13 @@ import { RedisService } from './redis.service';
 @Module({
   imports: [
     NestjsRedisModule.forRootAsync({
-      useFactory: (config: ConfigService): RedisModuleOptions => {
-        return {
-          config: {
-            url: `redis://${config.REDIS_HOST}:${config.REDIS_PORT}/0`,
-          },
-        };
-      },
+      useFactory: (config: ConfigService): RedisModuleOptions => ({
+        config: {
+          host: config.REDIS_HOST,
+          port: config.REDIS_PORT,
+          password: config.REDIS_PASSWORD,
+        },
+      }),
       inject: [ConfigService],
     }),
   ],

@@ -1,11 +1,42 @@
 import { Module } from '@nestjs/common';
+import { RouterModule } from '@nestjs/core';
 
-import { AuthRouteModule } from './auth/auth.module';
-import { InstanceModule } from './modules/instance/instance.module';
-import { NetworkModule } from './modules/network/network.module';
-import { NodeModule } from './modules/node/node.module';
+import { AdminModule } from './admin/admin.module';
+import { AdminUserModule } from './admin/user/user.module';
+import { CoreModule } from './core/core.module';
+import { NodeModule } from './core/node/node.module';
+import { UserModule } from './core/user/user.module';
 
 @Module({
-  imports: [AuthRouteModule, NetworkModule, InstanceModule, NodeModule],
+  imports: [
+    CoreModule,
+    AdminModule,
+    RouterModule.register([
+      {
+        path: 'core',
+        module: CoreModule,
+        children: [
+          {
+            path: 'user',
+            module: UserModule,
+          },
+          {
+            path: 'node',
+            module: NodeModule,
+          },
+        ],
+      },
+      {
+        path: 'admin',
+        module: AdminModule,
+        children: [
+          {
+            path: 'user',
+            module: AdminUserModule,
+          },
+        ],
+      },
+    ]),
+  ],
 })
 export class RoutesModule {}

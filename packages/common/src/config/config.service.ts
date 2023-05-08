@@ -17,8 +17,24 @@ export class ConfigService {
     return parseInt(this.configService.get<string>('REDIS_PORT'), 10);
   }
 
-  get NETWORK_NODE_AP_IP() {
-    return this.configService.get<string>('NETWORK_NODE_AP_IP');
+  get REDIS_PASSWORD() {
+    return this.configService.get<string>('REDIS_PASSWORD');
+  }
+
+  get ACCESS_TOKEN_SECRET() {
+    return this.configService.get<string>('ACCESS_TOKEN_SECRET');
+  }
+
+  get REFRESH_TOKEN_SECRET() {
+    return this.configService.get<string>('REFRESH_TOKEN_SECRET');
+  }
+
+  get ACCESS_TOKEN_EXP() {
+    return this.configService.get<string>('ACCESS_TOKEN_EXP');
+  }
+
+  get REFRESH_TOKEN_EXP() {
+    return this.configService.get<string>('REFRESH_TOKEN_EXP');
   }
 
   get MQTT_HOST() {
@@ -29,32 +45,12 @@ export class ConfigService {
     return parseInt(this.configService.get<string>('MQTT_PORT'), 10);
   }
 
-  get NATIVE_HOST() {
-    return this.configService.get<string>('NATIVE_HOST');
-  }
-
-  get NATIVE_PORT() {
-    return parseInt(this.configService.get<string>('NATIVE_PORT'), 10);
-  }
-
-  get UTILITY_PORT() {
-    return parseInt(this.configService.get<string>('UTILITY_PORT'), 10);
-  }
-
   get MQTT_USERNAME() {
     return this.configService.get<string>('MQTT_USERNAME');
   }
 
   get MQTT_PASSWORD() {
     return this.configService.get<string>('MQTT_PASSWORD');
-  }
-
-  get API_KEY() {
-    return this.configService.get<string>('HUEBOT_API_KEY');
-  }
-
-  get SECRET_KEY() {
-    return this.configService.get<string>('HUEBOT_SECRET_KEY');
   }
 
   get HOME() {
