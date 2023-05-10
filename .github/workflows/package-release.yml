@@ -1,0 +1,13 @@
+name: package-release
+
+on:
+  push:
+    branches:
+      - test_release
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Tester
+        run: echo "HELLLLLLO"
