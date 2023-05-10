@@ -18,5 +18,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Set Node.js 18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+
+      - name: Run yarn install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install # will run `yarn install` command
+
       - name: Run Tests
         run: docker-compose -f docker-compose.test.yml up --build
