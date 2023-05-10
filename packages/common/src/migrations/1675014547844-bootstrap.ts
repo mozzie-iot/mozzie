@@ -9,8 +9,8 @@ export class bootstrap1675014547844 implements MigrationInterface {
         "id" varchar PRIMARY KEY NOT NULL, \
         "username" text NOT NULL, \
         "password" text NOT NULL, \
-        "role" text NOT NULL \
-        "refresh_toke" text \
+        "role" text NOT NULL, \
+        "refresh_token" text \
       )`
     );
   }
