@@ -8,7 +8,7 @@
         "packages/*"
     ],
     "scripts": {
-        "new-version": "lerna version",
+        "new-version-api": "lerna version --conventional-commits --yes --tag-version-prefix='api-v'",
         "test": "echo \"Error: no test specified\" && exit 1",
         "migration:generate": "yarn workspace @huebot-hub-core/common run typeorm:migration-generate $0",
         "migration:create": "yarn workspace @huebot-hub-core/common run typeorm:migration-create $0",
