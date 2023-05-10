@@ -16,8 +16,7 @@ services:
       - ./packages/api:/usr/app/packages/api
       - ./packages/common:/usr/app/packages/common
     command: yarn workspace @huebot-hub-core/api test
-    networks:
-      - huebot-proxy-net
+
   # mqtt:
   #   container_name: huebot_mqtt_prod
   #   build:
@@ -31,7 +30,4 @@ services:
   #   networks:
   #     - huebot-proxy-net
 
-networks:
-  huebot-proxy-net:
-    external:
-      name: hubNetwork
+
