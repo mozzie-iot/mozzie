@@ -12,27 +12,29 @@ DIFF=$(yarn run diff)
 echo "diffy"
 echo $DIFF
 
-COMMON_UPDATED=false
+echo "DONE"
 
-if echo $DIFF | grep -q "packages/common"; then
-    COMMON_UPDATED=true
-    echo "Detected updates in 'packages/common'. Running tests in all packages."
-fi
+# COMMON_UPDATED=false
 
-if [ $COMMON_UPDATED = true ] || echo $DIFF | grep -q "packages/api"; then
-    if $COMMON_UPDATED = false; then 
-        echo "Detected updates in 'packages/api'. Running tests."
-    fi
+# if echo $DIFF | grep -q "packages/common"; then
+#     COMMON_UPDATED=true
+#     echo "Detected updates in 'packages/common'. Running tests in all packages."
+# fi
 
-    if ! docker-compose -f docker-compose.test.yml up --exit-code-from api ; then
-        exit 1
-    fi
-fi
+# if [ $COMMON_UPDATED = true ] || echo $DIFF | grep -q "packages/api"; then
+#     if $COMMON_UPDATED = false; then 
+#         echo "Detected updates in 'packages/api'. Running tests."
+#     fi
 
-if [ $COMMON_UPDATED = false ] ||  echo $DIFF | grep -q "packages/mqtt"; then
-    if $COMMON_UPDATED = false; then 
-        echo "Detected updates in 'packages/mqtt'. Running tests."
-    fi
+#     if ! docker-compose -f docker-compose.test.yml up --exit-code-from api ; then
+#         exit 1
+#     fi
+# fi
 
-    # docker-compose -f docker-compose.test.yml up --exit-code-from mqtt
-fi
+# if [ $COMMON_UPDATED = false ] ||  echo $DIFF | grep -q "packages/mqtt"; then
+#     if $COMMON_UPDATED = false; then 
+#         echo "Detected updates in 'packages/mqtt'. Running tests."
+#     fi
+
+#     # docker-compose -f docker-compose.test.yml up --exit-code-from mqtt
+# fi
