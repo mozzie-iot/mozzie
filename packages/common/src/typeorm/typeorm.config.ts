@@ -2,10 +2,7 @@ import { DataSourceOptions } from 'typeorm';
 
 import { NodeEnv } from './typeorm.interface';
 
-export const typeormConfig = (
-  env: NodeEnv,
-  dataSource = false
-): DataSourceOptions => {
+export const typeormConfig = (env: NodeEnv): DataSourceOptions => {
   if (env === 'production') {
     return {
       type: 'sqlite',
@@ -22,7 +19,7 @@ export const typeormConfig = (
       database: '/usr/db/db-dev.sqlite',
       entities: [`${__dirname}/../entities/**/*.entity.{ts,js}`],
       migrations: [`${__dirname}/../migrations/*.{ts,js}`],
-      synchronize: !dataSource,
+      synchronize: true,
       dropSchema: false,
       migrationsTableName: 'migrations',
     };
