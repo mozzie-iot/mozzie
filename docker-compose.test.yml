@@ -1,7 +1,6 @@
 version: "3.9"
 services:
   api:
-    container_name: huebot_api_test
     build:
       context: .
       dockerfile: Dockerfile
