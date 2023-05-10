@@ -3,11 +3,14 @@ name: package-release
 on:
   push:
     branches:
-      - test_release
+      - devops
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Tester
-        run: echo "HELLLLLLO"
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Run Tests
+        run: docker-compose -f docker-compose.test.yml up
