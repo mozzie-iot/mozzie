@@ -8,7 +8,8 @@
         "packages/*"
     ],
     "scripts": {
-        "new-version-api": "lerna version --conventional-commits --yes --tag-version-prefix='api-v'",
+        "diff": "lerna diff",
+        "new-version-api": "lerna version --conventional-commits --yes",
         "new-version-mqtt": "lerna version --conventional-commits --yes --tag-version-prefix='mqtt-v'",
         "test": "echo \"Error: no test specified\" && exit 1",
         "migration:generate": "yarn workspace @huebot-hub-core/common run typeorm:migration-generate $0",
@@ -20,6 +21,7 @@
     "packageManager": "yarn@3.5.0",
     "devDependencies": {
         "@lerna-lite/cli": "^2.3.0",
+        "@lerna-lite/diff": "^2.3.0",
         "@lerna-lite/version": "^2.3.0"
     }
 }
