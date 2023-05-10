@@ -30,4 +30,4 @@ jobs:
         run: yarn workspace @huebot-hub-core/common build
 
       - name: Run Tests
-        run: yarn diff
+        run: yarn run diff
