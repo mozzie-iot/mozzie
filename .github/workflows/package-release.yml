@@ -32,7 +32,7 @@ jobs:
       #   run: yarn workspace @huebot-hub-core/common build
 
       - name: Install Lerna
-        run: npm install -g @lerna-lite/cli
+        run: yarn workspaces focus ~@huebot-hub-core/main
 
       - name: Run Tests
         run: ./scripts/deploy-tests.sh
