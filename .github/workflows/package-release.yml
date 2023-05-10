@@ -12,7 +12,7 @@ env:
   REFRESH_TOKEN_EXP: 26ed941b-c851-48f2-99e1-f0d8121a7da6
 
 jobs:
-  test-packages:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -25,11 +25,14 @@ jobs:
         with:
           node-version: 18.x
 
-      - name: Install Yarn packages
-        run: yarn install
+      # - name: Install Yarn packages
+      #   run: yarn install
 
       # - name: Build common package
       #   run: yarn workspace @huebot-hub-core/common build
+
+      - name: Install Lerna
+        run: npm install -g @lerna-lite/cli
 
       - name: Run Tests
         run: ./scripts/deploy-tests.sh
