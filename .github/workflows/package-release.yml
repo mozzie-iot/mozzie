@@ -28,8 +28,8 @@ jobs:
       - name: Install Yarn packages
         run: yarn install
 
-      # - name: Build common package
-      #   run: yarn workspace @huebot-hub-core/common build
+      - name: Build common package
+        run: yarn workspace @huebot-hub-core/common build
 
       - name: Run Tests
         run: ./scripts/deploy-tests.sh

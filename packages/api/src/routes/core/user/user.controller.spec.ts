@@ -29,7 +29,7 @@ describe('UserController', () => {
 
   describe('login', () => {
     it('should return a null user', async () => {
-      expect(await userController.current_user(null)).toBe('');
+      expect(await userController.current_user(null)).toBe(null);
     });
   });
 
