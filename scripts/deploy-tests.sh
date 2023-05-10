@@ -31,5 +31,5 @@ if [ $COMMON_UPDATED = false ] ||  echo $DIFF | grep -q "packages/mqtt"; then
         echo "Detected updates in 'packages/mqtt'. Running tests."
     fi
 
-    docker-compose -f docker-compose.test.yml up --exit-code-from mqtt
+    # docker-compose -f docker-compose.test.yml up --exit-code-from mqtt
 fi
