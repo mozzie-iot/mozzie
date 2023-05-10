@@ -31,8 +31,11 @@ jobs:
       # - name: Build common package
       #   run: yarn workspace @huebot-hub-core/common build
 
+      - name: Yarn Workspace Tools
+        run: yarn plugin import workspace-tools
+
       - name: Install Lerna
-        run: yarn workspaces focus
+        run: yarn workspaces focus @huebot-hub-core/main
 
       - name: Run Tests
         run: ./scripts/deploy-tests.sh
