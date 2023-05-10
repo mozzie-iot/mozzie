@@ -23,8 +23,8 @@ jobs:
         with:
           node-version: 18.x
 
-      # - name: Install Yarn packages
-      #   run: yarn install
+      - name: Install Yarn packages
+        run: yarn install
 
       # - name: Build common package
       #   run: yarn workspace @huebot-hub-core/common build
