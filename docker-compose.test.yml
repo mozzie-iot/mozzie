@@ -1,0 +1,37 @@
+version: "3.9"
+services:
+  api:
+    container_name: huebot_api_test
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: api_test
+    environment:
+      - NODE_ENV=test
+      - ACCESS_TOKEN_SECRET=$ACCESS_TOKEN_SECRET
+      - REFRESH_TOKEN_SECRET=$REFRESH_TOKEN_SECRET
+      - ACCESS_TOKEN_EXP=$ACCESS_TOKEN_EXP
+      - REFRESH_TOKEN_EXP=$REFRESH_TOKEN_EXP
+    volumes:
+      - ./packages/api:/usr/app/packages/api
+      - ./packages/common:/usr/app/packages/common
+    command: yarn workspace @huebot-hub-core/api test
+    networks:
+      - huebot-proxy-net
+  # mqtt:
+  #   container_name: huebot_mqtt_prod
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #     target: mqtt_production
+  #   environment:
+  #     - NODE_ENV=production
+  #     - MQTT_USERNAME=$MQTT_USERNAME
+  #     - MQTT_PASSWORD=$MQTT_PASSWORD
+  #   networks:
+  #     - huebot-proxy-net
+
+networks:
+  huebot-proxy-net:
+    external:
+      name: hubNetwork
