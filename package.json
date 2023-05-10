@@ -20,6 +20,7 @@
     "packageManager": "yarn@3.5.0",
     "devDependencies": {
         "@lerna-lite/cli": "^2.3.0",
+        "@lerna-lite/diff": "^2.3.0",
         "@lerna-lite/version": "^2.3.0"
     }
 }
