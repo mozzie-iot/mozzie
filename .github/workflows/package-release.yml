@@ -20,8 +20,6 @@ jobs:
         with:
           # Required for lerna diff/version
           fetch-depth: 0 
-          repository: huebot-iot/hub-core
-          token: ${{ secrets.GH_PAT }}
 
       - name: Set Node.js 18.x
         uses: actions/setup-node@v3
@@ -30,6 +28,11 @@ jobs:
 
       - name: Install Yarn packages
         run: yarn install
+
+      - name: setup git config
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
 
       # - name: Build common package
       #   run: yarn workspace @huebot-hub-core/common build
