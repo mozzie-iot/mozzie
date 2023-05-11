@@ -41,7 +41,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: hub-core-api
+          images: huebot-iot/hub-core-api
 
       - name: Log into the Container registry
         uses: docker/login-action@v2
