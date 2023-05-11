@@ -56,7 +56,7 @@ jobs:
           password: ${{ secrets.GH_PAT }}
 
       - name: BIG OL TEST
-        run: echo ${{ steps.meta.outputs }}
+        run: echo ${{ steps.meta.outputs.tags }}
 
 
       # - name: setup git config
