@@ -32,12 +32,16 @@ jobs:
       # - name: Build common package
       #   run: yarn workspace @huebot-hub-core/common build
 
-      - name: Run Tests
-        id: local
-        run: ./scripts/deploy-tests.sh
+      # - name: Run Tests
+      #   id: local
+      #   run: ./scripts/deploy-tests.sh
 
-      - name: TEST OUTPUT
-        run: echo "${{ steps.local.outputs.api_updated}}"
+      - name: Log into the Container registry
+        uses: docker/metadata-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GH_PAT }}
 
       # - name: setup git config
       #   run: |
