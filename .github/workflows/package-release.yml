@@ -34,7 +34,7 @@ jobs:
 
       - name: Run Tests
         id: local
-        run: ./scripts/deploy-tests.sh
+        run: bash ./scripts/deploy-tests.sh
 
       # - name: TEST OUTPUT
       #   run: echo ${{ steps.meta.outputs }}
