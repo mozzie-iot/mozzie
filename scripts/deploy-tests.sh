@@ -7,6 +7,8 @@ if [ $GIT_BRANCH != "devops" ]; then
     exit 1;
 fi
 
+# set -e
+
 echo "YARN RUN DIFF"
 DIFF=$(yarn run diff)
 echo $DIFF
