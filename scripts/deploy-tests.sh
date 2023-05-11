@@ -14,8 +14,8 @@ DIFF=$(yarn run diff)
 echo "$DIFF"
 
 echo "greppy"
-echo "$DIFF" | grep -q "packages/api"
-if (( $? == 0 )); then
+# echo "$DIFF" | grep -q "packages/api"
+if echo "$DIFF" | grep -q "packages/api" ; then
     echo "OK!"
 fi
 
