@@ -43,7 +43,7 @@ if [ $COMMON_UPDATED = false ] ||  echo $DIFF | grep -q "packages/mqtt"; then
     # docker-compose -f docker-compose.test.yml up --exit-code-from mqtt
 fi
 
-echo "HELLLLO"
+echo "UPDATED"
 echo $API_UPDATED
 
 # Set Github action variable
