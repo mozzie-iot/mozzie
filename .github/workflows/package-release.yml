@@ -29,16 +29,25 @@ jobs:
       - name: Install Yarn packages
         run: yarn install
 
-      - name: setup git config
-        run: |
-          git config user.name "GitHub Actions Bot"
-          git config user.email "<>"
-
       # - name: Build common package
       #   run: yarn workspace @huebot-hub-core/common build
 
       # - name: Run Tests
       #   run: ./scripts/deploy-tests.sh
 
+      - name: setup git config
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+
       - name: Version packages
         run: yarn run new-version
+
+      - name: Get API package version
+        id: api-package-version
+        uses: martinbeentjes/npm-get-version-action@v1.3.1
+        with:
+          path: packages/api
+
+      - name: OUTPUT DA VERSION
+        run: echo ${{ steps.api-package-version.outputs.current-version}}
