@@ -22,7 +22,7 @@ async function bootstrap() {
 
     await app.listen(configService.API_PORT);
 
-    logger.log('API started successfully1');
+    logger.log('API started successfully');
   } catch (error) {
     logger.error('API failed to start', error);
   }
