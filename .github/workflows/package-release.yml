@@ -39,8 +39,8 @@ jobs:
       - name: Log into the Container registry
         uses: docker/metadata-action@v4
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
+          registry: "ghcr.io"
+          username: ${{ secrets.actor }}
           password: ${{ secrets.GH_PAT }}
 
       # - name: setup git config
