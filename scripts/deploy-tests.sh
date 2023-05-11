@@ -43,4 +43,4 @@ if [ $COMMON_UPDATED = false ] ||  echo $DIFF | grep -q "packages/mqtt"; then
 fi
 
 # Set Github action variable
-echo "updated_packages=$UPDATED_PACKAGES)" >> $GITHUB_ENV
+echo "updated_packages=$UPDATED_PACKAGES)" >> $GITHUB_OUTPUT

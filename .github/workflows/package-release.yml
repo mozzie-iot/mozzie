@@ -26,8 +26,8 @@ jobs:
         with:
           node-version: 18.x
 
-      - name: Install Yarn packages
-        run: yarn install
+      # - name: Install Yarn packages
+      #   run: yarn install
 
       # - name: Build common package
       #   run: yarn workspace @huebot-hub-core/common build
@@ -37,7 +37,7 @@ jobs:
         run: ./scripts/deploy-tests.sh
 
       - name: TEST OUTPUT
-        run: echo ${{ steps.local.outputs.updated_packages}}
+        run: echo "${{ steps.local.outputs.updated_packages}}"
 
       # - name: setup git config
       #   run: |
