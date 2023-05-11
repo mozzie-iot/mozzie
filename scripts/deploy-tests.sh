@@ -15,9 +15,9 @@ echo "$DIFF"
 
 echo "greppy"
 # echo "$DIFF" | grep -q "packages/api"
-if echo "$DIFF" | grep -q "packages/api" ; then
-    echo "OK!"
-fi
+# if echo "$DIFF" | grep -q "packages/api" ; then
+#     echo "OK!"
+# fi
 
 # DIFF=$(yarn run diff)
 
@@ -34,19 +34,19 @@ fi
 #     echo "Detected updates in 'packages/common'. Running tests in all packages."
 # fi
 
-# if [ $COMMON_UPDATED = true ] || echo $DIFF | grep -q "packages/api"; then
-#     if [ $COMMON_UPDATED = false ]; then 
-#         echo "Detected updates in 'packages/api'. Running tests."
-#     fi
+if [ $COMMON_UPDATED = true ] || echo "$DIFF" | grep -q "packages/api"; then
+    if [ $COMMON_UPDATED = false ]; then 
+        echo "Detected updates in 'packages/api'. Running tests."
+    fi
 
-#     # if ! docker-compose -f docker-compose.test.yml up --exit-code-from api ; then
-#     #     exit 1
-#     # fi
+    # if ! docker-compose -f docker-compose.test.yml up --exit-code-from api ; then
+    #     exit 1
+    # fi
 
-#     echo "API UPDATED"
+    echo "API UPDATED"
 
-#     API_UPDATED=true
-# fi
+    API_UPDATED=true
+fi
 
 # if [ $COMMON_UPDATED = true ] ||  echo $DIFF | grep -q "packages/mqtt"; then
 #     if [ $COMMON_UPDATED = false ]; then 
