@@ -11,8 +11,8 @@ set -e
 
 # echo "YARN RUN DIFF"
 DIFF=$(yarn run diff)
-echo "${DIFF}"
-# echo "END YARN RUN FIFG"
+echo $DIFF
+echo "END YARN RUN FIFG"
 
 # DIFF=$(yarn run diff)
 
