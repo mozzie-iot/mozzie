@@ -36,8 +36,8 @@ jobs:
         id: local
         run: ./scripts/deploy-tests.sh
 
-      - name: TEST OUTPUT
-        run: echo ${{ steps.meta.outputs }}
+      # - name: TEST OUTPUT
+      #   run: echo ${{ steps.meta.outputs }}
 
 
       # - name: setup git config
