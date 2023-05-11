@@ -37,7 +37,7 @@ jobs:
         run: ./scripts/deploy-tests.sh
 
       - name: TEST OUTPUT
-        run: echo "${{ steps.local.outputs.updated_packages}}"
+        run: echo "${{ steps.local.outputs.api_updated}}"
 
       # - name: setup git config
       #   run: |
