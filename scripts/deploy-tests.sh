@@ -36,7 +36,7 @@ if [ $COMMON_UPDATED = true ] || echo $DIFF | grep -q "packages/api"; then
     API_UPDATED=true
 fi
 
-if [ $COMMON_UPDATED = false ] ||  echo $DIFF | grep -q "packages/mqtt"; then
+if [ $COMMON_UPDATED = true ] ||  echo $DIFF | grep -q "packages/mqtt"; then
     if [ $COMMON_UPDATED = false ]; then 
         echo "Detected updates in 'packages/mqtt'. Running tests."
     fi
