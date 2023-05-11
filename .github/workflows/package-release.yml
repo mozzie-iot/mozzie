@@ -43,10 +43,10 @@ jobs:
         with:
           images: ghcr.io/huebot-iot/hub-core-api
           flavor: latest=true
-          tags: |
-            type=ref,event=branch
-            type=ref,event=pr
-            type=semver
+          # tags: |
+          #   type=ref,event=branch
+          #   type=ref,event=pr
+          #   type=semver,pattern={{version}}
 
       - name: Log into the Container registry
         uses: docker/login-action@v2
