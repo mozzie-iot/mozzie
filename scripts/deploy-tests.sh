@@ -29,6 +29,8 @@ if [ $COMMON_UPDATED = true ] || echo $DIFF | grep -q "packages/api"; then
     #     exit 1
     # fi
 
+    echo "API UPDATED"
+
     API_UPDATED=true
 fi
 
@@ -40,6 +42,9 @@ if [ $COMMON_UPDATED = false ] ||  echo $DIFF | grep -q "packages/mqtt"; then
     MQTT_UPDATED=true
     # docker-compose -f docker-compose.test.yml up --exit-code-from mqtt
 fi
+
+echo "HELLLLO"
+echo $API_UPDATED
 
 # Set Github action variable
 echo "api_updated=$API_UPDATED" >> $GITHUB_OUTPUT
