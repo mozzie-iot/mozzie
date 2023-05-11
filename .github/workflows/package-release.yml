@@ -42,7 +42,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: ghcr.io/huebot-iot/hub-core-api
-          flavor: latest=true
+          # flavor: latest=true
           # tags: |
           #   type=ref,event=branch
           #   type=ref,event=pr
