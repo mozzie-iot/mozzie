@@ -36,6 +36,13 @@ jobs:
       #   id: local
       #   run: ./scripts/deploy-tests.sh
 
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: hub-core-api
+
       - name: Log into the Container registry
         uses: docker/login-action@v2
         with:
