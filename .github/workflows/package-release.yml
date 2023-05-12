@@ -74,7 +74,7 @@ jobs:
           target: api_production
           push: true
           tags: |
-            ${{ github.repository  }}/hub-core-api:${{ steps.api-package-version.outputs.current-version}}
-            ${{ github.repository  }}/hub-core-api:latest
+            ${{ github.repository_owner  }}/hub-core-api:${{ steps.api-package-version.outputs.current-version}}
+            ${{ github.repository_owner  }}/hub-core-api:latest
 
     
