@@ -10,7 +10,7 @@ fi
 set -e
 
 DIFF=$(yarn run diff)
-echo "$DIFF"
+# echo "$DIFF"
 COMMON_UPDATED=false
 
 # # Used for GH actions vars
@@ -22,7 +22,7 @@ COMMON_UPDATED=false
 #     echo "Detected updates in 'packages/common'. Running tests in all packages."
 # fi
 
-if [ $COMMON_UPDATED = true ] || echo "$DIFF" | grep -q "packages/api" ; then
+if echo "$DIFF" | grep -q "packages/api" ; then
     if [ $COMMON_UPDATED = false ]; then 
         echo "Detected updates in 'packages/api'. Running tests."
     fi
