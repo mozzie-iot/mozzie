@@ -10,6 +10,7 @@ fi
 set -e
 
 DIFF=$(yarn run diff)
+echo "$DIFF"
 COMMON_UPDATED=false
 
 # # Used for GH actions vars
