@@ -44,6 +44,9 @@ jobs:
         if: ${{ steps.updated.outputs.mqtt == 'true' }}
         run: echo "YAY, we update"
 
+      - name: TEST OUTPUT 
+        run: echo ${{ steps.updated.outputs.mqtt }}
+
 
       # - name: setup git config
       #   run: |
