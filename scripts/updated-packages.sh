@@ -13,6 +13,8 @@ set -e
 
 DIFF=$(yarn run diff)
 
+echo "$DIFF"
+
 COMMON_UPDATED=false
 
 if echo $DIFF | grep -q "packages/common"; then
