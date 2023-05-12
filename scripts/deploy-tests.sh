@@ -10,19 +10,15 @@ fi
 set -e
 
 DIFF=$(yarn run diff)
-# echo "$DIFF"
+
 COMMON_UPDATED=false
 
-# # Used for GH actions vars
-# API_UPDATED=false
-# MQTT_UPDATED=false
+if echo $DIFF | grep -q "packages/common"; then
+    COMMON_UPDATED=true
+    echo "Detected updates in 'packages/common'. Running tests in all packages."
+fi
 
-# if echo $DIFF | grep -q "packages/common"; then
-#     COMMON_UPDATED=true
-#     echo "Detected updates in 'packages/common'. Running tests in all packages."
-# fi
-
-if [ $COMMON_UPDATED = true ] || ( echo $DIFF | grep -q "packages/api" ); then
+if [ $COMMON_UPDATED = true ] || ( echo $DIFF | grep -q "packages/api" ) ; then
     if [ $COMMON_UPDATED = false ]; then 
         echo "Detected updates in 'packages/api'. Running tests."
     fi
@@ -32,18 +28,19 @@ if [ $COMMON_UPDATED = true ] || ( echo $DIFF | grep -q "packages/api" ); then
     # fi
 
     echo "API UPDATED"
+    echo "api_updated=true" >> $GITHUB_OUTPUT
 
-    API_UPDATED=true
 fi
 
-# if [ $COMMON_UPDATED = true ] ||  echo $DIFF | grep -q "packages/mqtt"; then
-#     if [ $COMMON_UPDATED = false ]; then 
-#         echo "Detected updates in 'packages/mqtt'. Running tests."
-#     fi
-#     # export FOO=bar
-#     MQTT_UPDATED=true
-#     # docker-compose -f docker-compose.test.yml up --exit-code-from mqtt
-# fi
+if [ $COMMON_UPDATED = true ] ||  ( echo $DIFF | grep -q "packages/mqtt" ) ; then
+    if [ $COMMON_UPDATED = false ]; then 
+        echo "Detected updates in 'packages/mqtt'. Running tests."
+    fi
+
+    # docker-compose -f docker-compose.test.yml up --exit-code-from mqtt
+
+    echo "MQTT UPDATED"
+fi
 
 # echo "UPDATED"
 # echo $API_UPDATED
