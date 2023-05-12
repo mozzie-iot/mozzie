@@ -40,7 +40,7 @@ if [ $COMMON_UPDATED = true ] ||  ( echo $DIFF | grep -q "packages/mqtt" ) ; the
     fi
 
     # docker-compose -f docker-compose.test.yml up --exit-code-from mqtt
-
+    
     echo "mqtt=true" >> $GITHUB_OUTPUT
 fi
 
