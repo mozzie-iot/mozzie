@@ -22,7 +22,7 @@ COMMON_UPDATED=false
 #     echo "Detected updates in 'packages/common'. Running tests in all packages."
 # fi
 
-if echo $DIFF | grep -q "packages/api" ; then
+if [ $COMMON_UPDATED = true ] || ( echo $DIFF | grep -q "packages/api" ); then
     if [ $COMMON_UPDATED = false ]; then 
         echo "Detected updates in 'packages/api'. Running tests."
     fi
