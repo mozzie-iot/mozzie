@@ -36,8 +36,12 @@ jobs:
         id: local
         run: ./scripts/deploy-tests.sh
 
-      - name: TEST OUTPUT
+      - name: UPDATE API PACKAGE
         if: ${{ steps.local.outputs.api_updated == 'true' }}
+        run: echo "YAY, we update"
+
+      - name: UPDATE MQTT PACKAGE
+        if: ${{ steps.local.outputs.mqtt_updated == 'true' }}
         run: echo "YAY, we update"
 
 
