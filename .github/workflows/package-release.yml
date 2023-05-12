@@ -60,14 +60,14 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Get API package version
-        if: ${{ steps.updated.outputs.api == 'true' }}
+        # if: ${{ steps.updated.outputs.api == 'true' }}
         id: api-package-version
         uses: martinbeentjes/npm-get-version-action@v1.3.1
         with:
           path: packages/api
 
       - name: Build and push API image
-        if: ${{ steps.updated.outputs.api == 'true' }}
+        # if: ${{ steps.updated.outputs.api == 'true' }}
         uses: docker/build-push-action@v4
         with:
           context: .
