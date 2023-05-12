@@ -9,20 +9,6 @@ fi
 
 set -e
 
-# echo "YARN RUN DIFF"
-DIFF=$(yarn run diff)
-echo "$DIFF"
-
-echo "greppy"
-# echo "$DIFF" | grep -q "packages/api"
-# if echo "$DIFF" | grep -q "packages/api" ; then
-#     echo "OK!"
-# fi
-
-# DIFF=$(yarn run diff)
-
-# echo $DIFF
-
 COMMON_UPDATED=false
 
 # # Used for GH actions vars
