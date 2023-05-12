@@ -32,16 +32,16 @@ jobs:
       # - name: Build common package
       #   run: yarn workspace @huebot-hub-core/common build
 
-      - name: Run Tests
-        id: local
-        run: ./scripts/deploy-tests.sh
+      - name: Get updated packages
+        id: updated
+        run: ./scripts/updated-packages.sh
 
       - name: UPDATE API PACKAGE
-        if: ${{ steps.local.outputs.api_updated == 'true' }}
+        if: ${{ steps.updated.outputs.api == 'true' }}
         run: echo "YAY, we update"
 
       - name: UPDATE MQTT PACKAGE
-        if: ${{ steps.local.outputs.mqtt_updated == 'true' }}
+        if: ${{ steps.updated.outputs.mqtt == 'true' }}
         run: echo "YAY, we update"
 
 

@@ -1,5 +1,7 @@
 #! /bin/bash
 
+# This script is used by GH actions to indicates which packages have been updated
+
 GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
 if [ $GIT_BRANCH != "devops" ]; then
@@ -28,7 +30,7 @@ if [ $COMMON_UPDATED = true ] || ( echo $DIFF | grep -q "packages/api" ) ; then
     # fi
 
     echo "API UPDATED"
-    echo "api_updated=true" >> $GITHUB_OUTPUT
+    echo "api=true" >> $GITHUB_OUTPUT
 
 fi
 
@@ -39,7 +41,7 @@ if [ $COMMON_UPDATED = true ] ||  ( echo $DIFF | grep -q "packages/mqtt" ) ; the
 
     # docker-compose -f docker-compose.test.yml up --exit-code-from mqtt
 
-    echo "mqtt_updated=true" >> $GITHUB_OUTPUT
+    echo "mqtt=true" >> $GITHUB_OUTPUT
 fi
 
 # echo "UPDATED"
