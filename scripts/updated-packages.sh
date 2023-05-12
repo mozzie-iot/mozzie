@@ -32,6 +32,8 @@ if [ $COMMON_UPDATED = true ] || ( echo $DIFF | grep -q "packages/api" ) ; then
     echo "API UPDATED"
     echo "api=true" >> $GITHUB_OUTPUT
 
+else
+    echo "api=false" >> $GITHUB_OUTPUT
 fi
 
 if [ $COMMON_UPDATED = true ] ||  ( echo $DIFF | grep -q "packages/mqtt" ) ; then
@@ -42,6 +44,8 @@ if [ $COMMON_UPDATED = true ] ||  ( echo $DIFF | grep -q "packages/mqtt" ) ; the
     # docker-compose -f docker-compose.test.yml up --exit-code-from mqtt
     
     echo "mqtt=true" >> $GITHUB_OUTPUT
+else
+    echo "mqtt=false" >> $GITHUB_OUTPUT
 fi
 
 # echo "UPDATED"
