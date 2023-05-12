@@ -37,7 +37,8 @@ jobs:
         run: ./scripts/deploy-tests.sh
 
       - name: TEST OUTPUT
-        run: echo ${{ steps.local.outputs.api_updated }}
+        if: ${{ steps.local.outputs.api_updated == 'true' }}
+        run: echo "YAY, we update"
 
 
       # - name: setup git config
