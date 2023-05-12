@@ -52,20 +52,29 @@ jobs:
       - name: Update package versions
         run: yarn run new-version
 
+      - name: Log in to GHCR 
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GH_PAT }}
 
-      # - name: setup git config
-      #   run: |
-      #     git config user.name "GitHub Actions Bot"
-      #     git config user.email "<>"
+      - name: Get API package version
+        if: ${{ steps.updated.outputs.api == 'true' }}
+        id: api-package-version
+        uses: martinbeentjes/npm-get-version-action@v1.3.1
+        with:
+          path: packages/api
 
-      # - name: Version packages
-      #   run: yarn run new-version
+      - name: Build and push API image
+        if: ${{ steps.updated.outputs.api == 'true' }}
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          target: api_production
+          push: true
+          tags: |
+            ${{ github.repository  }}/hub-core-api:${{ steps.api-package-version.outputs.current-version}}
+            ${{ github.repository  }}/hub-core-api:latest
 
-      # - name: Get API package version
-      #   id: api-package-version
-      #   uses: martinbeentjes/npm-get-version-action@v1.3.1
-      #   with:
-      #     path: packages/api
-
-      # - name: OUTPUT DA VERSION
-      #   run: echo ${{ steps.api-package-version.outputs.current-version}}
+    
