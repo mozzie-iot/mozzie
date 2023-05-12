@@ -36,16 +36,21 @@ jobs:
         id: updated
         run: ./scripts/updated-packages.sh
 
-      - name: UPDATE API PACKAGE
+      - name: Test API package
         if: ${{ steps.updated.outputs.api == 'true' }}
-        run: echo "YAY, we update"
+        run: docker-compose -f docker-compose.test.yml up --exit-code-from api
 
-      - name: UPDATE MQTT PACKAGE
+      - name: Test MQTT package
         if: ${{ steps.updated.outputs.mqtt == 'true' }}
-        run: echo "YAY, we update"
+        run: echo "No test support in docker-compose yet!"
 
-      - name: TEST OUTPUT 
-        run: echo ${{ steps.updated.outputs.mqtt }}
+      - name: Set git config credentials
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+
+      - name: Update package versions
+        run: yarn run new-version
 
 
       # - name: setup git config

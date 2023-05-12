@@ -13,8 +13,6 @@ set -e
 
 DIFF=$(yarn run diff)
 
-echo "$DIFF"
-
 COMMON_UPDATED=false
 
 if echo $DIFF | grep -q "packages/common"; then
@@ -31,11 +29,7 @@ if [ $COMMON_UPDATED = true ] || ( echo $DIFF | grep -q "packages/api" ) ; then
     #     exit 1
     # fi
 
-    echo "API UPDATED"
     echo "api=true" >> $GITHUB_OUTPUT
-
-else
-    echo "api=false" >> $GITHUB_OUTPUT
 fi
 
 if [ $COMMON_UPDATED = true ] ||  ( echo $DIFF | grep -q "packages/mqtt" ) ; then
@@ -44,14 +38,5 @@ if [ $COMMON_UPDATED = true ] ||  ( echo $DIFF | grep -q "packages/mqtt" ) ; the
     fi
 
     # docker-compose -f docker-compose.test.yml up --exit-code-from mqtt
-    echo "MQTT UPDATED"
     echo "mqtt=true" >> $GITHUB_OUTPUT
-else
-    echo "mqtt=false" >> $GITHUB_OUTPUT
 fi
-
-# echo "UPDATED"
-# echo $API_UPDATED
-
-# # Set Github action variable
-# echo "api_updated=$API_UPDATED" >> $GITHUB_OUTPUT
