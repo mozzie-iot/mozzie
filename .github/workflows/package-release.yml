@@ -3,7 +3,7 @@ name: package-release
 on:
   push:
     branches:
-      - devops
+      - release
 
 env:
   ACCESS_TOKEN_SECRET: db9cb0ba-e035-46e0-ab30-65142cfda22f

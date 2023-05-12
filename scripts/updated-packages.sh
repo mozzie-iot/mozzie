@@ -4,7 +4,7 @@
 
 GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
-if [ $GIT_BRANCH != "devops" ]; then
+if [ $GIT_BRANCH != "release" ]; then
     echo "Must be on the 'release' branch to deploy!"
     exit 1;
 fi
@@ -25,10 +25,6 @@ if [ $COMMON_UPDATED = true ] || ( echo $DIFF | grep -q "packages/api" ) ; then
         echo "Detected updates in 'packages/api'. Running tests."
     fi
 
-    # if ! docker-compose -f docker-compose.test.yml up --exit-code-from api ; then
-    #     exit 1
-    # fi
-
     echo "api=true" >> $GITHUB_OUTPUT
 fi
 
@@ -37,6 +33,5 @@ if [ $COMMON_UPDATED = true ] ||  ( echo $DIFF | grep -q "packages/mqtt" ) ; the
         echo "Detected updates in 'packages/mqtt'. Running tests."
     fi
 
-    # docker-compose -f docker-compose.test.yml up --exit-code-from mqtt
     echo "mqtt=true" >> $GITHUB_OUTPUT
 fi
