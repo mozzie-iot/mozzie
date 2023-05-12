@@ -23,7 +23,7 @@ echo "greppy"
 
 # echo $DIFF
 
-# COMMON_UPDATED=false
+COMMON_UPDATED=false
 
 # # Used for GH actions vars
 # API_UPDATED=false
@@ -34,7 +34,7 @@ echo "greppy"
 #     echo "Detected updates in 'packages/common'. Running tests in all packages."
 # fi
 
-if [ $COMMON_UPDATED = true ] || echo "$DIFF" | grep -q "packages/api"; then
+if [ $COMMON_UPDATED = true ] || echo "$DIFF" | grep -q "packages/api" ; then
     if [ $COMMON_UPDATED = false ]; then 
         echo "Detected updates in 'packages/api'. Running tests."
     fi
