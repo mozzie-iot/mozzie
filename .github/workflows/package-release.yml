@@ -3,7 +3,7 @@ name: package-release
 on:
   push:
     branches:
-      - release
+      - test-release
 
 env:
   ACCESS_TOKEN_SECRET: db9cb0ba-e035-46e0-ab30-65142cfda22f
@@ -19,7 +19,8 @@ jobs:
         uses: actions/checkout@v3
         with:
           # Required for lerna diff/version
-          fetch-depth: 0 
+          fetch-depth: 0
+          token: ${{ secrets.GH_PAT }}
 
       - name: Set Node.js 18.x
         uses: actions/setup-node@v3
