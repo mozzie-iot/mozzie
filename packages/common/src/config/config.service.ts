@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService as NestConfigService } from '@nestjs/config';
 
+import { NodeEnv } from '@huebot-common/typeorm/typeorm.interface';
+
 @Injectable()
 export class ConfigService {
   constructor(private configService: NestConfigService) {}
@@ -58,6 +60,6 @@ export class ConfigService {
   }
 
   get NODE_ENV() {
-    return this.configService.get<string>('NODE_ENV');
+    return this.configService.get<NodeEnv>('NODE_ENV');
   }
 }

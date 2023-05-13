@@ -17,6 +17,7 @@
     "noFallthroughCasesInSwitch": false,
     "preserveSymlinks": true,
     "esModuleInterop": true,
+    "allowJs": true,
     "typeRoots": [
       "./node_modules/@types",
       "./packages/*/src/types"

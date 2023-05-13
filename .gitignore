@@ -1,5 +1,5 @@
 node_modules
-.yarn
-.yarnrc.yml
+.yarn/*
+!.yarn/releases
 **tsconfig.tsbuildinfo
 .env

@@ -1,3 +1,5 @@
+![build](https://github.com/huebot-iot/hub-core/actions/workflows/package-release.yml/badge.svg)
+
 # Huebot Hub Core 
 Yarn workspace containing API, MQTT transport, Native packages
 

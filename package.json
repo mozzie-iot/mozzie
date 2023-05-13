@@ -8,6 +8,8 @@
         "packages/*"
     ],
     "scripts": {
+        "diff": "lerna diff",
+        "new-version": "lerna version --conventional-commits --yes",
         "test": "echo \"Error: no test specified\" && exit 1",
         "migration:generate": "yarn workspace @huebot-hub-core/common run typeorm:migration-generate $0",
         "migration:create": "yarn workspace @huebot-hub-core/common run typeorm:migration-create $0",
@@ -15,5 +17,10 @@
         "migration:revert": "yarn workspace @huebot-hub-core/common run typeorm:migration-revert"
     },
     "license": "ISC",
-    "packageManager": "yarn@3.5.0"
+    "packageManager": "yarn@3.5.0",
+    "devDependencies": {
+        "@lerna-lite/cli": "^2.3.0",
+        "@lerna-lite/diff": "^2.3.0",
+        "@lerna-lite/version": "^2.3.0"
+    }
 }
