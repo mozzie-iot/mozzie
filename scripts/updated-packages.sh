@@ -4,10 +4,10 @@
 
 GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
-if [ $GIT_BRANCH != "release" ]; then
-    echo "Must be on the 'release' branch to deploy!"
-    exit 1;
-fi
+# if [ $GIT_BRANCH != "release" ]; then
+#     echo "Must be on the 'release' branch to deploy!"
+#     exit 1;
+# fi
 
 set -e
 
