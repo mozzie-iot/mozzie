@@ -1,6 +1,6 @@
 {
     "name": "@huebot-hub-core/common",
-    "version": "0.1.19",
+    "version": "0.1.0",
     "description": "",
     "main": "dist/index.js",
     "scripts": {
