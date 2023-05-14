@@ -643,6 +643,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@huebot-hub-core/main@workspace:."
   dependencies:
+    "@lerna-lite/changed": ^2.3.0
     "@lerna-lite/cli": ^2.3.0
     "@lerna-lite/diff": ^2.3.0
     "@lerna-lite/version": ^2.3.0
@@ -1066,6 +1067,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@lerna-lite/changed@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "@lerna-lite/changed@npm:2.3.0"
+  dependencies:
+    "@lerna-lite/cli": 2.3.0
+    "@lerna-lite/core": 2.3.0
+    "@lerna-lite/list": 2.3.0
+    "@lerna-lite/listable": 2.3.0
+  checksum: e2406a01db926186d5eb755a3d4048cf8e949b8afb3501862cff7994d7e3b67806dd39d64df45cf86e9d9ee17f567620cb11c00f6da81a031d803d2e6c9859e1
+  languageName: node
+  linkType: hard
+
 "@lerna-lite/cli@npm:2.3.0, @lerna-lite/cli@npm:^2.3.0":
   version: 2.3.0
   resolution: "@lerna-lite/cli@npm:2.3.0"
@@ -1141,6 +1154,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@lerna-lite/filter-packages@npm:2.3.0":
+  version: 2.3.0
+  resolution: "@lerna-lite/filter-packages@npm:2.3.0"
+  dependencies:
+    "@lerna-lite/core": 2.3.0
+    multimatch: ^6.0.0
+    npmlog: ^7.0.1
+  checksum: e54b757f9dc8dea7aae2b2145ab3b2513083427282afa0d90f0e6588639a8eca481c22aeb85408ce3b5321598b4dcd02efb5cdd9dd08cb43ba225a5361b13619
+  languageName: node
+  linkType: hard
+
 "@lerna-lite/init@npm:2.3.0":
   version: 2.3.0
   resolution: "@lerna-lite/init@npm:2.3.0"
@@ -1150,6 +1174,29 @@ __metadata:
     p-map: ^6.0.0
     write-json-file: ^5.0.0
   checksum: 39c7e1df05474eecbda369c25af2b9e8c885ed63542fb810886854db7c9748e18890234e87f0742f9f14ef01c12a15c6de171e53fd009311a7df1f3d0c86783d
+  languageName: node
+  linkType: hard
+
+"@lerna-lite/list@npm:2.3.0":
+  version: 2.3.0
+  resolution: "@lerna-lite/list@npm:2.3.0"
+  dependencies:
+    "@lerna-lite/cli": 2.3.0
+    "@lerna-lite/core": 2.3.0
+    "@lerna-lite/filter-packages": 2.3.0
+    "@lerna-lite/listable": 2.3.0
+  checksum: 3238ede07ea2b2f6a580e64105c113afcbde25c8afed9b20ebe9556d6ceb800f1a1dd89a2f081c209b42734ea765729668f193010577cd9896867dc6836d9cb5
+  languageName: node
+  linkType: hard
+
+"@lerna-lite/listable@npm:2.3.0":
+  version: 2.3.0
+  resolution: "@lerna-lite/listable@npm:2.3.0"
+  dependencies:
+    "@lerna-lite/core": 2.3.0
+    chalk: ^5.2.0
+    columnify: ^1.6.0
+  checksum: 979a5c043c341262f12fbd1d4a64a218de6f319944c19e5c9e2704950dd6368956b0a6bcf1e84caa4c169f602f9bee723760fef9c995bdaaec8235def90510a8
   languageName: node
   linkType: hard
 
@@ -2169,6 +2216,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/minimatch@npm:^3.0.5":
+  version: 3.0.5
+  resolution: "@types/minimatch@npm:3.0.5"
+  checksum: c41d136f67231c3131cf1d4ca0b06687f4a322918a3a5adddc87ce90ed9dbd175a3610adee36b106ae68c0b92c637c35e02b58c8a56c424f71d30993ea220b92
+  languageName: node
+  linkType: hard
+
 "@types/minimist@npm:^1.2.0":
   version: 1.2.2
   resolution: "@types/minimist@npm:1.2.2"
@@ -3099,6 +3153,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"array-differ@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "array-differ@npm:4.0.0"
+  checksum: 1de99a06bc3219f96b062a561a4c19af7a68bfaf2c1e0ccedd1d82ce1fbc7757f939e03cf0d3ad76b71f855a8ad2b2a16bf53df331bf5f0c90002774f04fb0b5
+  languageName: node
+  linkType: hard
+
 "array-flatten@npm:1.1.1":
   version: 1.1.1
   resolution: "array-flatten@npm:1.1.1"
@@ -3139,6 +3200,13 @@ __metadata:
   version: 2.1.0
   resolution: "array-union@npm:2.1.0"
   checksum: 5bee12395cba82da674931df6d0fea23c4aa4660cb3b338ced9f828782a65caa232573e6bf3968f23e0c5eb301764a382cef2f128b170a9dc59de0e36c39f98d
+  languageName: node
+  linkType: hard
+
+"array-union@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "array-union@npm:3.0.1"
+  checksum: 47b29f88258e8f37ffb93ddaa327d4308edd950b52943c172b73558afdd3fa74cfd68816ba5aa4b894242cf281fa3c6d0362ae057e4a18bddbaedbe46ebe7112
   languageName: node
   linkType: hard
 
@@ -3952,6 +4020,16 @@ __metadata:
   bin:
     color-support: bin.js
   checksum: 9b7356817670b9a13a26ca5af1c21615463b500783b739b7634a0c2047c16cef4b2865d7576875c31c3cddf9dd621fa19285e628f20198b233a5cfdda6d0793b
+  languageName: node
+  linkType: hard
+
+"columnify@npm:^1.6.0":
+  version: 1.6.0
+  resolution: "columnify@npm:1.6.0"
+  dependencies:
+    strip-ansi: ^6.0.1
+    wcwidth: ^1.0.0
+  checksum: 0d590023616a27bcd2135c0f6ddd6fac94543263f9995538bbe391068976e30545e5534d369737ec7c3e9db4e53e70a277462de46aeb5a36e6997b4c7559c335
   languageName: node
   linkType: hard
 
@@ -8478,6 +8556,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"multimatch@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "multimatch@npm:6.0.0"
+  dependencies:
+    "@types/minimatch": ^3.0.5
+    array-differ: ^4.0.0
+    array-union: ^3.0.1
+    minimatch: ^3.0.4
+  checksum: c04233765f664f556af12309cdad1a11c137655f756674b853a981f287984a49f3916955b57d306ed36bba3d2d6d5b6fbba4b48f483f11bd24e3c124a09e05b5
+  languageName: node
+  linkType: hard
+
 "mute-stream@npm:0.0.8":
   version: 0.0.8
   resolution: "mute-stream@npm:0.0.8"
@@ -11739,7 +11829,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"wcwidth@npm:^1.0.1":
+"wcwidth@npm:^1.0.0, wcwidth@npm:^1.0.1":
   version: 1.0.1
   resolution: "wcwidth@npm:1.0.1"
   dependencies:
