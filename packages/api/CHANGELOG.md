@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/huebot-iot/hub-core/compare/v0.2.0...v0.3.0) (2023-05-14)
+
+### Features
+
+* :rocket: it's a big new feature!! ([68444e7](https://github.com/huebot-iot/hub-core/commit/68444e7a144e71c7f4504d661be77bd2ca717bd3))
+
 # 0.2.0 (2023-05-14)
 
 ### Bug Fixes
