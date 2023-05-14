@@ -5,7 +5,7 @@ on:
     branches:
       - devops
     tags:
-      - 'v*'
+      - 'v[0-9]+.[0-9]+.[0-9]+'
 
 env:
   ACCESS_TOKEN_SECRET: db9cb0ba-e035-46e0-ab30-65142cfda22f
