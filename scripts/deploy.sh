@@ -13,11 +13,19 @@ set -e
 
 CHANGED=$(yarn run changed)
 
+if [ -z "$CHANGED" ] ; then
+    echo "Deploy failed: no package changes found."
+    exit 0
+fi
+
 COMMON_UPDATED=false
 
-if echo $CHANGED | grep -q "packages/common"; then
+UPDATED_PACKAGES=""
+
+if echo $CHANGED | grep -q "huebot-hub-core/common"; then
     COMMON_UPDATED=true
     echo "Detected updates in 'packages/common'. Running tests in all packages."
+    UPDATED_PACKAGES="api, mqtt"
 fi
 
 if [ $COMMON_UPDATED = true ] || ( echo $CHANGED | grep -q "huebot-hub-core/api" ) ; then
@@ -25,6 +33,7 @@ if [ $COMMON_UPDATED = true ] || ( echo $CHANGED | grep -q "huebot-hub-core/api"
         echo "Detected updates in 'packages/api'. Running tests."
     fi
 
+    UPDATED_PACKAGES="api"
     # echo "api=true" >> $GITHUB_OUTPUT
 fi
 
@@ -33,5 +42,14 @@ if [ $COMMON_UPDATED = true ] ||  ( echo $CHANGED | grep -q "huebot-hub-core/mqt
         echo "Detected updates in 'huebot-hub-core/mqtt'. Running tests."
     fi
 
+    
+    if [ -z "$UPDATED_PACKAGES" ] ; then
+        UPDATED_PACKAGES="mqtt"
+    else
+        UPDATED_PACKAGES="$UPDATED_PACKAGES, mqtt"
+    fi
     # echo "mqtt=true" >> $GITHUB_OUTPUT
 fi
+
+
+echo $UPDATED_PACKAGES
