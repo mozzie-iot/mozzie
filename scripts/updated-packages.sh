@@ -17,6 +17,8 @@ COMMON_UPDATED=false
 
 echo "updated script!"
 
+echo $DIFF
+
 if echo $DIFF | grep -q "packages/common"; then
     COMMON_UPDATED=true
     echo "Detected updates in 'packages/common'. Running tests in all packages."
