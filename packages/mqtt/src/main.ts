@@ -27,7 +27,7 @@ async function bootstrap() {
 
     await app.startAllMicroservices();
 
-    logger.log('Controller started successfully');
+    logger.log('Controller started successfully!');
   } catch (error) {
     logger.error('Controller failed to start');
   }
