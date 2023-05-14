@@ -12,22 +12,25 @@
 11 silly isBehindUpstream devops is behind origin/devops by 0 commit(s) and ahead by 0
 12 silly hasTags
 13 verbose hasTags true
-14 silly git-describe parsed => {"lastTagName":"v0.2.0","lastVersion":"v0.2.0","refCount":"3","sha":"794a040","isDirty":false}
+14 silly git-describe parsed => {"lastTagName":"v0.2.0","lastVersion":"v0.2.0","refCount":"5","sha":"99aeeda","isDirty":false}
 15 info Looking for changed packages since v0.2.0
 16 silly checking diff packages/api
+17 silly found diff in packages/api/CHANGELOG.md
 17 silly found diff in packages/api/package.json
 17 silly found diff in packages/api/src/main.ts
-18 verbose filtered diff packages/api/package.json packages/api/src/main.ts
+18 verbose filtered diff packages/api/CHANGELOG.md packages/api/package.json packages/api/src/main.ts
 19 silly checking diff packages/common
+20 silly found diff in packages/common/CHANGELOG.md
 20 silly found diff in packages/common/package.json
-21 verbose filtered diff packages/common/package.json
+21 verbose filtered diff packages/common/CHANGELOG.md packages/common/package.json
 22 silly checking diff packages/mqtt
+23 silly found diff in packages/mqtt/CHANGELOG.md
 23 silly found diff in packages/mqtt/package.json
-24 verbose filtered diff packages/mqtt/package.json
+24 verbose filtered diff packages/mqtt/CHANGELOG.md packages/mqtt/package.json
 25 verbose updated @huebot-hub-core/api
 26 verbose updated @huebot-hub-core/common
 27 verbose updated @huebot-hub-core/mqtt
-28 silly git-describe parsed => {"lastTagName":"v0.2.0","lastVersion":"v0.2.0","refCount":"3","sha":"794a040","isDirty":false}
+28 silly git-describe parsed => {"lastTagName":"v0.2.0","lastVersion":"v0.2.0","refCount":"5","sha":"99aeeda","isDirty":false}
 29 silly fixed for @huebot-hub-core/api at /home/tyler/hub-core/packages/api
 30 verbose getChangelogConfig using preset "conventional-changelog-angular"
 31 silly npa Result {
