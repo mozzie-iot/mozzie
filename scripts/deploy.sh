@@ -13,31 +13,25 @@ set -e
 
 CHANGED=$(yarn run changed)
 
-echo $CHANGED
+COMMON_UPDATED=false
 
-# COMMON_UPDATED=false
+if echo $CHANGED | grep -q "packages/common"; then
+    COMMON_UPDATED=true
+    echo "Detected updates in 'packages/common'. Running tests in all packages."
+fi
 
-# echo "updated script!"
+if [ $COMMON_UPDATED = true ] || ( echo $CHANGED | grep -q "huebot-hub-core/api" ) ; then
+    if [ $COMMON_UPDATED = false ]; then 
+        echo "Detected updates in 'packages/api'. Running tests."
+    fi
 
-# echo $DIFF
+    # echo "api=true" >> $GITHUB_OUTPUT
+fi
 
-# if echo $DIFF | grep -q "packages/common"; then
-#     COMMON_UPDATED=true
-#     echo "Detected updates in 'packages/common'. Running tests in all packages."
-# fi
+if [ $COMMON_UPDATED = true ] ||  ( echo $CHANGED | grep -q "huebot-hub-core/mqtt" ) ; then
+    if [ $COMMON_UPDATED = false ]; then 
+        echo "Detected updates in 'huebot-hub-core/mqtt'. Running tests."
+    fi
 
-# if [ $COMMON_UPDATED = true ] || ( echo $DIFF | grep -q "packages/api" ) ; then
-#     if [ $COMMON_UPDATED = false ]; then 
-#         echo "Detected updates in 'packages/api'. Running tests."
-#     fi
-
-#     echo "api=true" >> $GITHUB_OUTPUT
-# fi
-
-# if [ $COMMON_UPDATED = true ] ||  ( echo $DIFF | grep -q "packages/mqtt" ) ; then
-#     if [ $COMMON_UPDATED = false ]; then 
-#         echo "Detected updates in 'packages/mqtt'. Running tests."
-#     fi
-
-#     echo "mqtt=true" >> $GITHUB_OUTPUT
-# fi
+    # echo "mqtt=true" >> $GITHUB_OUTPUT
+fi
