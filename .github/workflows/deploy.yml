@@ -1,4 +1,4 @@
-name: package-release
+name: core-deploy
 
 on:
   push:
