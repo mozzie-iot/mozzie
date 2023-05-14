@@ -22,78 +22,57 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GH_PAT }}
 
-      - name: TEST TAG OUTPUT
-        run: echo ${{  github.ref_name }}
+      - name: Set Node.js 18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
 
-      - name: TEST PACKAGE
+      - name: Install Yarn packages
+        run: yarn install
+
+      - name: Build common package
+        run: yarn workspace @huebot-hub-core/common build
+
+      - name: Test API package
         if: contains(github.event.head_commit.message, 'api')
-        run: echo "UPDATE THE API PACKAGE"
+        run: docker-compose -f docker-compose.test.yml up --exit-code-from api
 
-      # - name: Set Node.js 18.x
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: 18.x
+      - name: Test MQTT package
+        if: contains(github.event.head_commit.message, 'mqtt')
+        run: echo "No test support in docker-compose yet!"
 
-      # - name: Install Yarn packages
-      #   run: yarn install
+      - name: Set git config credentials
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
 
-      # - name: Build common package
-      #   run: yarn workspace @huebot-hub-core/common build
+      - name: Log in to GHCR 
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      # - name: Test API package
-      #   if: contains(github.event.head_commit.message, 'api')
-      #   run: docker-compose -f docker-compose.test.yml up --exit-code-from api
+      - name: Build and push API image
+        if: contains(github.event.head_commit.message, 'api')
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          target: api_production
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner  }}/hub-core-api:${{ github.ref_name }}
+            ghcr.io/${{ github.repository_owner  }}/hub-core-api:latest
 
-      # - name: Test MQTT package
-      #   if: contains(github.event.head_commit.message, 'mqtt')
-      #   run: echo "No test support in docker-compose yet!"
-
-      # - name: Set git config credentials
-      #   run: |
-      #     git config user.name "GitHub Actions Bot"
-      #     git config user.email "<>"
-
-      # - name: Log in to GHCR 
-      #   uses: docker/login-action@v2
-      #   with:
-      #     registry: ghcr.io
-      #     username: ${{ github.actor }}
-      #     password: ${{ secrets.GITHUB_TOKEN }}
-
-      # - name: Get API package version
-      #   if: contains(github.event.head_commit.message, 'api')
-      #   id: api-package-version
-      #   uses: martinbeentjes/npm-get-version-action@v1.3.1
-      #   with:
-      #     path: packages/api
-
-      # - name: Build and push API image
-      #   if: contains(github.event.head_commit.message, 'api')
-      #   uses: docker/build-push-action@v4
-      #   with:
-      #     context: .
-      #     target: api_production
-      #     push: true
-      #     tags: |
-      #       ghcr.io/${{ github.repository_owner  }}/hub-core-api:${{ steps.api-package-version.outputs.current-version}}
-      #       ghcr.io/${{ github.repository_owner  }}/hub-core-api:latest
-
-      # - name: Get MQTT package version
-      #   if: contains(github.event.head_commit.message, 'mqtt')
-      #   id: mqtt-package-version
-      #   uses: martinbeentjes/npm-get-version-action@v1.3.1
-      #   with:
-      #     path: packages/mqtt
-
-      # - name: Build and push MQTT image
-      #   if: contains(github.event.head_commit.message, 'mqtt')
-      #   uses: docker/build-push-action@v4
-      #   with:
-      #     context: .
-      #     target: mqtt_production
-      #     push: true
-      #     tags: |
-      #       ghcr.io/${{ github.repository_owner  }}/hub-core-mqtt:${{ steps.mqtt-package-version.outputs.current-version}}
-      #       ghcr.io/${{ github.repository_owner  }}/hub-core-mqtt:latest
+      - name: Build and push MQTT image
+        if: contains(github.event.head_commit.message, 'mqtt')
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          target: mqtt_production
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner  }}/hub-core-mqtt:${{ github.ref_name }}
+            ghcr.io/${{ github.repository_owner  }}/hub-core-mqtt:latest
 
     
