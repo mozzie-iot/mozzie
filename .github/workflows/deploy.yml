@@ -25,6 +25,10 @@ jobs:
       - name: TEST OUTPUT
         run: echo ${{ github.event.head_commit.message }}
 
+      - name: TEST PACKAGE
+        if: contains(ithub.event.head_commit.message, 'api')
+        run: echo "UPDATE THE API PACKAGE"
+
       # - name: Set Node.js 18.x
       #   uses: actions/setup-node@v3
       #   with:
