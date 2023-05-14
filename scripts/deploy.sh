@@ -49,4 +49,4 @@ if [ $COMMON_UPDATED = true ] ||  ( echo $CHANGED | grep -q "huebot-hub-core/mqt
     # echo "mqtt=true" >> $GITHUB_OUTPUT
 fi
 
-yarn run lerna version --conventional-commits --yes --message "%v: $UPDATED_PACKAGES"
+yarn run lerna version --conventional-commits --yes --tag-version-prefix='' --message "%v: $UPDATED_PACKAGES"
