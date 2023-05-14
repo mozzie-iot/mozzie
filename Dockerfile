@@ -63,9 +63,8 @@ COPY --chown=node:node yarn.lock .
 COPY --chown=node:node .yarnrc.yml .
 COPY --chown=node:node .yarn ./.yarn
 COPY --chown=node:node tsconfig.json .
-COPY --chown=node:node packages/common/package.json ./common/package.json
-# COPY --chown=node:node --from=common_build /usr/app/packages/common/dist ./common/dist
-COPY --chown=node:node packages/api/package.json ./api/package.json
+COPY --chown=node:node packages/common/package.json ./packages/common/package.json
+COPY --chown=node:node --from=common_build /usr/app/packages/common/dist ./packages/common/dist
 COPY --chown=node:node packages/api ./packages/api
 
 WORKDIR /usr/app
