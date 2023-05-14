@@ -19,9 +19,9 @@ WORKDIR /usr/app
 RUN yarn workspace @huebot-hub-core/common install
 RUN yarn workspace @huebot-hub-core/common build
 
-##################
-API DEVELOPMENT
-##################
+# ##################
+# API DEVELOPMENT
+# ##################
 FROM node:18-slim AS api_development
 
 # Needed to reload app when watching for changes
@@ -46,7 +46,7 @@ RUN yarn workspace @huebot-hub-core/api install
 
 COPY --chown=node:node packages/api ./packages/api
 
-# USER node
+USER node
 
 ###################
 # API TEST
