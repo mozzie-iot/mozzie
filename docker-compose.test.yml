@@ -3,8 +3,6 @@ services:
   api:
     build:
       context: .
-      args:
-        DOCKER_BUILDKIT: 1
       dockerfile: Dockerfile
       target: api_test
     environment:

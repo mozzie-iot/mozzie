@@ -20,16 +20,8 @@ jobs:
         with:
           token: ${{ secrets.GH_PAT }}
 
-      # - name: Set Node.js 18.x
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: 18.x
-
-      # - name: Install Yarn packages
-      #   run: yarn install
-
-      # - name: Build common package
-      #   run: yarn workspace @huebot-hub-core/common build
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
       - name: Test API package
         if: contains(github.event.head_commit.message, 'api')
