@@ -54,6 +54,9 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository_owner }}/hub-core-api:${{ github.ref_name }}
             ghcr.io/${{ github.repository_owner }}/hub-core-api:latest
+          build-args: |
+            DOCKER_BUILDKIT=1
+            COMPOSE_DOCKER_CLI_BUILD=1
 
       - name: Build and push MQTT image
         if: contains(github.event.head_commit.message, 'mqtt')
