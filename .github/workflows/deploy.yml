@@ -18,20 +18,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          # Required for lerna diff/version
-          fetch-depth: 0
           token: ${{ secrets.GH_PAT }}
 
-      - name: Set Node.js 18.x
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18.x
+      # - name: Set Node.js 18.x
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: 18.x
 
-      - name: Install Yarn packages
-        run: yarn install
+      # - name: Install Yarn packages
+      #   run: yarn install
 
-      - name: Build common package
-        run: yarn workspace @huebot-hub-core/common build
+      # - name: Build common package
+      #   run: yarn workspace @huebot-hub-core/common build
 
       - name: Test API package
         if: contains(github.event.head_commit.message, 'api')
@@ -40,11 +38,6 @@ jobs:
       - name: Test MQTT package
         if: contains(github.event.head_commit.message, 'mqtt')
         run: echo "No test support in docker-compose yet!"
-
-      - name: Set git config credentials
-        run: |
-          git config user.name "GitHub Actions Bot"
-          git config user.email "<>"
 
       - name: Log in to GHCR 
         uses: docker/login-action@v2
@@ -61,8 +54,8 @@ jobs:
           target: api_production
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner  }}/hub-core-api:${{ github.ref_name }}
-            ghcr.io/${{ github.repository_owner  }}/hub-core-api:latest
+            ghcr.io/${{ github.repository_owner }}/hub-core-api:${{ github.ref_name }}
+            ghcr.io/${{ github.repository_owner }}/hub-core-api:latest
 
       - name: Build and push MQTT image
         if: contains(github.event.head_commit.message, 'mqtt')
@@ -72,7 +65,7 @@ jobs:
           target: mqtt_production
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner  }}/hub-core-mqtt:${{ github.ref_name }}
-            ghcr.io/${{ github.repository_owner  }}/hub-core-mqtt:latest
+            ghcr.io/${{ github.repository_owner }}/hub-core-mqtt:${{ github.ref_name }}
+            ghcr.io/${{ github.repository_owner }}/hub-core-mqtt:latest
 
     
