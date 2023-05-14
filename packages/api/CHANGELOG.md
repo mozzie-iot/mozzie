@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.10.13](https://github.com/huebot-iot/hub-core/compare/0.10.12...0.10.13) (2023-05-14)
+
+**Note:** Version bump only for package @huebot-hub-core/api
+
 ## [0.10.12](https://github.com/huebot-iot/hub-core/compare/0.10.11...0.10.12) (2023-05-14)
 
 **Note:** Version bump only for package @huebot-hub-core/api
