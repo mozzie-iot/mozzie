@@ -11,16 +11,7 @@
 
 set -e
 
-
 if ! CHANGED=$(yarn run changed); then 
-    echo "hi"
-    exit 0
-fi
-
-echo "CHANGED"
-echo $CHANGED
-
-if [ -z "$CHANGED" ] ; then
     echo "Deploy failed: no package changes found."
     exit 0
 fi
