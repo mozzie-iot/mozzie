@@ -11,10 +11,6 @@ services:
       - REFRESH_TOKEN_SECRET=$REFRESH_TOKEN_SECRET
       - ACCESS_TOKEN_EXP=$ACCESS_TOKEN_EXP
       - REFRESH_TOKEN_EXP=$REFRESH_TOKEN_EXP
-    volumes:
-      - ./node_modules:/usr/app/node_modules
-      - ./packages/api:/usr/app/packages/api
-      - ./packages/common:/usr/app/packages/common
     command: yarn workspace @huebot-hub-core/api test
 
   # mqtt:

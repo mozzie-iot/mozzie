@@ -19,9 +19,9 @@ WORKDIR /usr/app
 RUN yarn workspace @huebot-hub-core/common install
 RUN yarn workspace @huebot-hub-core/common build
 
-###################
+# ##################
 # API DEVELOPMENT
-###################
+# ##################
 FROM node:18-slim AS api_development
 
 # Needed to reload app when watching for changes
@@ -53,22 +53,22 @@ USER node
 ###################
 FROM node:18-slim AS api_test
 
+WORKDIR /usr
+RUN mkdir -p db
+RUN chown node db
+
 WORKDIR /usr/app
 COPY --chown=node:node package.json .
 COPY --chown=node:node yarn.lock .
 COPY --chown=node:node .yarnrc.yml .
 COPY --chown=node:node .yarn ./.yarn
 COPY --chown=node:node tsconfig.json .
-
-WORKDIR /usr/app/packages
-COPY --chown=node:node packages/common ./common
-COPY --chown=node:node packages/api ./api
-
-WORKDIR /usr
-RUN mkdir -p db
-RUN chown node db
+COPY --chown=node:node packages/common/package.json ./packages/common/package.json
+COPY --chown=node:node --from=common_build /usr/app/packages/common/dist ./packages/common/dist
+COPY --chown=node:node packages/api ./packages/api
 
 WORKDIR /usr/app
+RUN yarn workspace @huebot-hub-core/api install
 USER node
 
 ###################
