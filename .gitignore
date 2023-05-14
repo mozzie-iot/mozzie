@@ -3,3 +3,4 @@
 !.yarn/releases
 **tsconfig.tsbuildinfo
 .env
+lerna-debug.log
