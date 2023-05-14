@@ -1,14 +1,5 @@
 #! /bin/bash
 
-# This script is used by GH actions to indicates which packages have been updated
-
-# GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-
-# if [ $GIT_BRANCH != "release" ]; then
-#     echo "Must be on the 'release' branch to deploy!"
-#     exit 1;
-# fi
-
 set -e
 
 if ! CHANGED=$(yarn run changed); then 
