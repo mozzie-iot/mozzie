@@ -9,6 +9,7 @@
     ],
     "scripts": {
         "diff": "lerna diff",
+        "changed": "lerna changed",
         "new-version": "lerna version --conventional-commits --yes",
         "test": "echo \"Error: no test specified\" && exit 1",
         "migration:generate": "yarn workspace @huebot-hub-core/common run typeorm:migration-generate $0",
@@ -19,6 +20,7 @@
     "license": "ISC",
     "packageManager": "yarn@3.5.0",
     "devDependencies": {
+        "@lerna-lite/changed": "^2.3.0",
         "@lerna-lite/cli": "^2.3.0",
         "@lerna-lite/diff": "^2.3.0",
         "@lerna-lite/version": "^2.3.0"

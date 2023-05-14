@@ -23,7 +23,7 @@ jobs:
           token: ${{ secrets.GH_PAT }}
 
       - name: TEST OUTPUT
-        run: echo "hello new version"
+        run: yarn run changed
 
       # - name: Set Node.js 18.x
       #   uses: actions/setup-node@v3
