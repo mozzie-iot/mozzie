@@ -645,7 +645,6 @@ __metadata:
   dependencies:
     "@lerna-lite/changed": ^2.3.0
     "@lerna-lite/cli": ^2.3.0
-    "@lerna-lite/diff": ^2.3.0
     "@lerna-lite/version": ^2.3.0
   languageName: unknown
   linkType: soft
@@ -1141,16 +1140,6 @@ __metadata:
     write-json-file: ^5.0.0
     write-pkg: ^5.1.0
   checksum: d0f9100bfbb6c6dc26a889d5781269439d16e82a14b15797231efc296f284fbec25e99a758b7ced771a97b10bc2d0e280d3967797b3a823267b662a3dc1cef33
-  languageName: node
-  linkType: hard
-
-"@lerna-lite/diff@npm:^2.3.0":
-  version: 2.3.0
-  resolution: "@lerna-lite/diff@npm:2.3.0"
-  dependencies:
-    "@lerna-lite/cli": 2.3.0
-    "@lerna-lite/core": 2.3.0
-  checksum: 869a0930cf44618e374ad64c0f1ad05fd5124faed701b5f654fac5588910da8c30dc4763bd50dfaccc23d7040ba8781b3c8b6bb4c17880343c42905b98f0de67
   languageName: node
   linkType: hard
 

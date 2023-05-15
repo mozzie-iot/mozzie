@@ -22,7 +22,6 @@
     "devDependencies": {
         "@lerna-lite/changed": "^2.3.0",
         "@lerna-lite/cli": "^2.3.0",
-        "@lerna-lite/diff": "^2.3.0",
         "@lerna-lite/version": "^2.3.0"
     }
 }
