@@ -55,7 +55,7 @@ export class UserService {
 
     if (!user || !compareSync(input.password, user.password)) {
       throw new HttpException(
-        'Invalid email or password!',
+        'Invalid username or password!',
         HttpStatus.BAD_REQUEST,
       );
     }
