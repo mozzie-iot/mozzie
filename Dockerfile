@@ -53,10 +53,6 @@ USER node
 ###################
 FROM node:18-slim AS api_test
 
-WORKDIR /usr
-RUN mkdir -p db
-RUN chown node db
-
 WORKDIR /usr/app
 COPY --chown=node:node package.json .
 COPY --chown=node:node yarn.lock .

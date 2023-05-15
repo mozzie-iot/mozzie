@@ -1,3 +1,5 @@
+import os from 'os';
+
 import { DataSourceOptions } from 'typeorm';
 
 import { NodeEnv } from './typeorm.interface';
@@ -26,7 +28,7 @@ export const typeormConfig = (env: NodeEnv): DataSourceOptions => {
   } else if (env === 'test') {
     return {
       type: 'sqlite',
-      database: '/usr/db/db-test.sqlite',
+      database: `${os.homedir()}/db/db-test.sqlite`,
       entities: [`${__dirname}/../entities/**/*.entity.{ts,js}`],
       synchronize: true,
       dropSchema: true,
