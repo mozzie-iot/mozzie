@@ -1,4 +1,6 @@
+![version](https://img.shields.io/github/v/release/huebot-iot/huebot)
 ![core-deploy](https://github.com/huebot-iot/hub-core/actions/workflows/deploy.yml/badge.svg)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 ## Description
 Huebot is an IoT framework that allows clients to be controlled or sensed via HTTP endpoint. 
@@ -44,10 +46,6 @@ Create admin user (required to get started with http endpoints)
 - `yarn workspace @huebot-hub-core/common build`
 - `COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose -f docker/docker-compose.dev.yml build`
 - `docker-compose -f docker/docker-compose.dev.yml up `
-
-![version](https://img.shields.io/github/package-json/v/huebot-iot/hub-runner)
-![core-deploy](https://github.com/huebot-iot/hub-core/actions/workflows/deploy.yml/badge.svg)
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 ## License
 See [License.txt](https://github.com/huebot-iot/hub-core/blob/main/LICENSE.txt)
