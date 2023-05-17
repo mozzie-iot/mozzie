@@ -23,7 +23,6 @@ if [ $COMMON_UPDATED = true ] || ( echo $CHANGED | grep -q "huebot-hub-core/api"
     fi
 
     UPDATED_PACKAGES="api"
-    # echo "api=true" >> $GITHUB_OUTPUT
 fi
 
 if [ $COMMON_UPDATED = true ] ||  ( echo $CHANGED | grep -q "huebot-hub-core/mqtt" ) ; then
@@ -37,7 +36,6 @@ if [ $COMMON_UPDATED = true ] ||  ( echo $CHANGED | grep -q "huebot-hub-core/mqt
     else
         UPDATED_PACKAGES="$UPDATED_PACKAGES, mqtt"
     fi
-    # echo "mqtt=true" >> $GITHUB_OUTPUT
 fi
 
 yarn run lerna version --conventional-commits --yes --tag-version-prefix='' --message "%v: $UPDATED_PACKAGES"
