@@ -105,7 +105,7 @@ COPY --chown=node:node --from=common_build /usr/app/packages/common/dist ./dist
 WORKDIR /usr/app/packages/api
 COPY --chown=node:node --from=api_build /usr/app/packages/api/dist ./dist
 ENV NODE_ENV production
-COPY --chown=node:node docker-entrypoint.sh ./entrypoint.sh
+COPY --chown=node:node docker/docker-entrypoint.sh ./entrypoint.sh
 RUN chmod +x entrypoint.sh
 CMD ./entrypoint.sh
 
