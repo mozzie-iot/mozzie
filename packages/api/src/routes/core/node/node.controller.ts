@@ -1,3 +1,5 @@
+import { Roles } from '@huebot-api/roles/roles.decorator';
+import { RolesGuard } from '@huebot-api/roles/roles.guard';
 import {
   ClassSerializerInterceptor,
   Controller,
@@ -5,9 +7,6 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-
-import { Roles } from '@huebot-api/roles/roles.decorator';
-import { RolesGuard } from '@huebot-api/roles/roles.guard';
 
 import { NodeService } from './node.service';
 

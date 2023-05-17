@@ -1,4 +1,4 @@
-![core-deploy](https://github.com/huebot-iot/hub-core/actions/workflows/deploy.yml/badge.svg)
+![core-deploy](https://github.com/huebot-iot/huebot/actions/workflows/deploy.yml/badge.svg)
 
 # Huebot 
 Yarn workspace containing API and MQTT transport packages
@@ -11,7 +11,7 @@ Yarn workspace containing API and MQTT transport packages
 - `docker-compose -f docker/docker-compose.dev.yml up `
 
 ## License
-See [License.txt](https://github.com/huebot-iot/hub-core/blob/main/LICENSE.txt)
+See [License.txt](https://github.com/huebot-iot/huebot/blob/main/LICENSE.txt)
 
 Huebot is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
