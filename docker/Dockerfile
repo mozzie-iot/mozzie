@@ -70,8 +70,9 @@ COPY --chown=node:node yarn.lock .
 COPY --chown=node:node .yarnrc.yml .
 COPY --chown=node:node .yarn ./.yarn
 COPY --chown=node:node tsconfig.json .
-COPY --chown=node:node --from=api_development /usr/app/node_modules ./node_modules
-COPY --chown=node:node --from=api_development /usr/app/packages/common ./packages/common
+
+COPY --chown=node:node --from=api_test /usr/app/node_modules ./node_modules
+COPY --chown=node:node --from=api_test /usr/app/packages/common ./packages/common
 COPY --chown=node:node packages/api ./packages/api
 RUN yarn workspace @huebot-hub-core/api build
 
