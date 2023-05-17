@@ -9,7 +9,7 @@
     ],
     "scripts": {
         "changed": "lerna changed -a",
-        "deploy": "lerna version --conventional-commits --yes",
+        "deploy": "lerna version prerelease --conventional-commits --yes --conventional-prerelease",
         "test": "echo \"Error: no test specified\" && exit 1",
         "migration:generate": "yarn workspace @huebot-hub-core/common run typeorm:migration-generate $0",
         "migration:create": "yarn workspace @huebot-hub-core/common run typeorm:migration-create $0",
