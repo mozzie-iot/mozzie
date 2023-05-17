@@ -3,8 +3,8 @@ services:
   api:
     container_name: huebot_api_dev
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ../
+      dockerfile: ./docker/Dockerfile
       target: api_development
     environment:
       - NODE_ENV=development
@@ -14,8 +14,9 @@ services:
       - ACCESS_TOKEN_EXP=$ACCESS_TOKEN_EXP
       - REFRESH_TOKEN_EXP=$REFRESH_TOKEN_EXP
     volumes:
-      - ./packages/api:/usr/app/packages/api
-      - ./packages/common:/usr/app/packages/common
+      - ../node_modules:/usr/app/node_modules
+      - ../packages/api:/usr/app/packages/api
+      - ../packages/common:/usr/app/packages/common
       - ${HOME}/db:/usr/db
     ports:
       - 3000:3000
@@ -25,16 +26,17 @@ services:
   mqtt:
     container_name: huebot_mqtt_dev
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ../
+      dockerfile: ./docker/Dockerfile
       target: mqtt_development
     environment:
       - NODE_ENV=development
       - MQTT_USERNAME=$MQTT_USERNAME
       - MQTT_PASSWORD=$MQTT_PASSWORD
     volumes:
-      - ./packages/mqtt:/usr/app/packages/mqtt
-      - ./packages/common:/usr/app/packages/common
+      - ../node_modules:/usr/app/node_modules
+      - ../packages/mqtt:/usr/app/packages/mqtt
+      - ../packages/common:/usr/app/packages/common
     command: yarn workspace @huebot-hub-core/mqtt start:dev
     networks:
       - huebot-proxy-net

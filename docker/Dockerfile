@@ -27,24 +27,16 @@ FROM node:18-slim AS api_development
 # Needed to reload app when watching for changes
 RUN apt-get update && apt-get -y install procps
 
+WORKDIR /usr/app/packages
+COPY --chown=node:node packages/common ./common
+COPY --chown=node:node packages/api ./api
+
 WORKDIR /usr/app
 COPY --chown=node:node package.json .
 COPY --chown=node:node yarn.lock .
 COPY --chown=node:node .yarnrc.yml .
 COPY --chown=node:node .yarn ./.yarn
 COPY --chown=node:node tsconfig.json .
-
-WORKDIR /usr/app/packages/common
-COPY --chown=node:node packages/common/package.json .
-COPY --chown=node:node --from=common_build /usr/app/packages/common/dist ./dist
-
-WORKDIR /usr/app/packages/api
-COPY --chown=node:node packages/api/package.json .
-
-WORKDIR /usr/app
-RUN yarn workspace @huebot-hub-core/api install
-
-COPY --chown=node:node packages/api ./packages/api
 
 USER node
 

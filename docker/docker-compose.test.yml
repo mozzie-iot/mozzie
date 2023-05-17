@@ -2,8 +2,8 @@ version: "3.9"
 services:
   api:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ../
+      dockerfile: ./docker/Dockerfile
       target: api_test
     environment:
       - NODE_ENV=test
@@ -16,8 +16,8 @@ services:
   # mqtt:
   #   container_name: huebot_mqtt_prod
   #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
+  #     context: ../
+  #     dockerfile: ./docker/Dockerfile
   #     target: mqtt_production
   #   environment:
   #     - NODE_ENV=production
