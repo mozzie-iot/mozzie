@@ -1,6 +1,6 @@
 {
   "name": "@huebot-hub-core/mqtt",
-  "version": "0.1.2",
+  "version": "0.1.0-beta",
   "description": "",
   "author": "",
   "private": true,
