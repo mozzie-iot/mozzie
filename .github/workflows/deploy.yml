@@ -56,8 +56,8 @@ jobs:
           target: api_production
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/hub-core-api:${{ github.ref_name }}
-            ghcr.io/${{ github.repository_owner }}/hub-core-api:latest
+            ghcr.io/${{ github.repository_owner }}/api:${{ github.ref_name }}
+            ghcr.io/${{ github.repository_owner }}/api:latest
           build-args: |
             DOCKER_BUILDKIT=1
             COMPOSE_DOCKER_CLI_BUILD=1
@@ -71,8 +71,8 @@ jobs:
           target: mqtt_production
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/hub-core-mqtt:${{ github.ref_name }}
-            ghcr.io/${{ github.repository_owner }}/hub-core-mqtt:latest
+            ghcr.io/${{ github.repository_owner }}/mqtt:${{ github.ref_name }}
+            ghcr.io/${{ github.repository_owner }}/mqtt:latest
           build-args: |
             DOCKER_BUILDKIT=1
             COMPOSE_DOCKER_CLI_BUILD=1

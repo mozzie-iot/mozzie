@@ -91,7 +91,7 @@ USER node
 # API PRODUCTION
 ###################
 FROM node:18-alpine AS api_production
-LABEL org.opencontainers.image.source https://github.com/huebot-iot/hub-core
+LABEL org.opencontainers.image.source https://github.com/huebot-iot/huebot
 
 WORKDIR /usr/app
 COPY --chown=node:node package.json .
@@ -180,7 +180,7 @@ USER node
 # MQTT PRODUCTION
 ###################
 FROM node:18-alpine AS mqtt_production
-LABEL org.opencontainers.image.source https://github.com/huebot-iot/hub-core
+LABEL org.opencontainers.image.source https://github.com/huebot-iot/huebot
 
 WORKDIR /usr/app
 COPY --chown=node:node package.json .
