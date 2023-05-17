@@ -5,6 +5,8 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @huebot/common
 
+**Note:** Version bump only for package @huebot/common
+
 # 0.1.0-beta.0 (2023-05-17)
 
 ### Bug Fixes

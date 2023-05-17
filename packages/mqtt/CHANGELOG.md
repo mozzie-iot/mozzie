@@ -5,6 +5,8 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @huebot/mqtt
 
+**Note:** Version bump only for package @huebot/mqtt
+
 # 0.1.0-beta.0 (2023-05-17)
 
 **Note:** Version bump only for package @huebot/mqtt
