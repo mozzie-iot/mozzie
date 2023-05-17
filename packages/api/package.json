@@ -1,6 +1,6 @@
 {
-    "name": "@huebot-hub-core/api",
-    "version": "0.1.0-beta.0",
+    "name": "@huebot/api",
+    "version": "0.1.0-beta",
     "description": "",
     "author": "",
     "private": true,
@@ -21,7 +21,7 @@
         "test:e2e": "jest --config ./test/jest-e2e.json"
     },
     "dependencies": {
-        "@huebot-hub-core/common": "workspace:^",
+        "@huebot/common": "workspace:^",
         "@nestjs/common": "^9.4.0",
         "@nestjs/core": "^9.4.0",
         "@nestjs/jwt": "^10.0.3",

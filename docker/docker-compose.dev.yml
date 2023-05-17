@@ -20,7 +20,7 @@ services:
       - ${HOME}/db:/usr/db
     ports:
       - 3000:3000
-    command: yarn workspace @huebot-hub-core/api start:dev
+    command: yarn workspace @huebot/api start:dev
     networks:
       - huebot-proxy-net
   mqtt:
@@ -37,7 +37,7 @@ services:
       - ../node_modules:/usr/app/node_modules
       - ../packages/mqtt:/usr/app/packages/mqtt
       - ../packages/common:/usr/app/packages/common
-    command: yarn workspace @huebot-hub-core/mqtt start:dev
+    command: yarn workspace @huebot/mqtt start:dev
     networks:
       - huebot-proxy-net
 

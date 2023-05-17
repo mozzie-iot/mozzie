@@ -97,8 +97,6 @@ WORKDIR /usr/app
 COPY --chown=node:node package.json .
 COPY --chown=node:node --from=api_build /usr/app/node_modules ./node_modules
 
-RUN cat /usr/app/package.json
-
 WORKDIR /usr/app/packages/common
 COPY --chown=node:node packages/common/package.json .
 COPY --chown=node:node --from=common_build /usr/app/packages/common/dist ./dist
@@ -118,6 +116,10 @@ FROM node:18-slim AS mqtt_development
 # Needed to reload app when watching for changes
 RUN apt-get update && apt-get -y install procps
 
+WORKDIR /usr/app/packages
+COPY --chown=node:node packages/common ./common
+COPY --chown=node:node packages/api ./mqtt
+
 WORKDIR /usr/app
 COPY --chown=node:node package.json .
 COPY --chown=node:node yarn.lock .
@@ -125,18 +127,25 @@ COPY --chown=node:node .yarnrc.yml .
 COPY --chown=node:node .yarn ./.yarn
 COPY --chown=node:node tsconfig.json .
 
-WORKDIR /usr/app/packages/common
-COPY --chown=node:node packages/common/package.json .
-COPY --chown=node:node --from=common_build /usr/app/packages/common/dist ./dist
+USER node
 
-WORKDIR /usr/app/packages/mqtt
-COPY --chown=node:node packages/mqtt/package.json .
+###################
+# MQTT TEST
+###################
+FROM node:18-slim AS mqtt_test
+
+WORKDIR /usr/app
+COPY --chown=node:node package.json .
+COPY --chown=node:node yarn.lock .
+COPY --chown=node:node .yarnrc.yml .
+COPY --chown=node:node .yarn ./.yarn
+COPY --chown=node:node tsconfig.json .
+COPY --chown=node:node packages/common/package.json ./packages/common/package.json
+COPY --chown=node:node --from=common_build /usr/app/packages/common/dist ./packages/common/dist
+COPY --chown=node:node packages/mqtt ./packages/mqtt
 
 WORKDIR /usr/app
 RUN yarn workspace @huebot-hub-core/mqtt install
-
-COPY --chown=node:node packages/mqtt ./packages/mqtt
-
 USER node
 
 ###################
@@ -150,8 +159,9 @@ COPY --chown=node:node yarn.lock .
 COPY --chown=node:node .yarnrc.yml .
 COPY --chown=node:node .yarn ./.yarn
 COPY --chown=node:node tsconfig.json .
-COPY --chown=node:node --from=mqtt_development /usr/app/node_modules ./node_modules
-COPY --chown=node:node --from=mqtt_development /usr/app/packages/common ./packages/common
+
+COPY --chown=node:node --from=mqtt_test /usr/app/node_modules ./node_modules
+COPY --chown=node:node --from=mqtt_test /usr/app/packages/common ./packages/common
 COPY --chown=node:node packages/mqtt ./packages/mqtt
 RUN yarn workspace @huebot-hub-core/mqtt build
 
@@ -171,6 +181,7 @@ USER node
 ###################
 FROM node:18-alpine AS mqtt_production
 LABEL org.opencontainers.image.source https://github.com/huebot-iot/hub-core
+
 WORKDIR /usr/app
 COPY --chown=node:node package.json .
 COPY --chown=node:node --from=mqtt_build /usr/app/node_modules ./node_modules
