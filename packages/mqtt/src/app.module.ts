@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 
-import { ConfigModule } from '@huebot-hub-core/common';
+import { ConfigModule } from '@huebot/common';
 
 import { NodeModule } from './node/node.module';
 

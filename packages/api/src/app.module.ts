@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 
-import { ConfigModule, TypeOrmModule } from '@huebot-hub-core/common';
+import { ConfigModule, TypeOrmModule } from '@huebot/common';
 
 import { RoutesModule } from './routes/routes.module';
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
-import { ConfigService, UserEntity } from '@huebot-hub-core/common';
+import { ConfigService, UserEntity } from '@huebot/common';
 
 @Injectable()
 export class AuthService {

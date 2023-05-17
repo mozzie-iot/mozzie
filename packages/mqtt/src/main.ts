@@ -2,7 +2,7 @@ import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { Transport } from '@nestjs/microservices';
 
-import { ConfigService } from '@huebot-hub-core/common';
+import { ConfigService } from '@huebot/common';
 
 import { AppModule } from './app.module';
 

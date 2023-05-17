@@ -6,7 +6,7 @@ Yarn workspace containing API and MQTT transport packages
 ## Development Setup
 - `git clone https://github.com/huebot-iot/huebot.git`
 - `cd huebot && yarn`
-- `yarn workspace @huebot-hub-core/common build`
+- `yarn workspace @huebot/common build`
 - `COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose -f docker/docker-compose.dev.yml build`
 - `docker-compose -f docker/docker-compose.dev.yml up `
 
