@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 
-import { UserEntityModule } from '@huebot-hub-core/common';
+import { UserEntityModule } from '@huebot/common';
 
 import { AuthService } from './auth.service';
 import { AccessTokenStrategy } from './strategies/access-token.strategy';

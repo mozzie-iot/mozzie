@@ -3,7 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Request } from 'express';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
-import { ConfigService, UserEntityService } from '@huebot-hub-core/common';
+import { ConfigService, UserEntityService } from '@huebot/common';
 
 type JwtPayload = {
   userId: string;

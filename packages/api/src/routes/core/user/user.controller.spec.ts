@@ -1,8 +1,8 @@
+import { AuthModule } from '@huebot-api/auth/auth.module';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { AuthModule } from '@huebot-api/auth/auth.module';
-import { TypeOrmModule, UserEntityModule } from '@huebot-hub-core/common';
+import { TypeOrmModule, UserEntityModule } from '@huebot/common';
 
 import { UserController } from './user.controller';
 import { UserService } from './user.service';

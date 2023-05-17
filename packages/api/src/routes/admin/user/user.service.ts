@@ -1,10 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 
-import {
-  UserEntityService,
-  ConfigService,
-  UserEntity,
-} from '@huebot-hub-core/common';
+import { UserEntityService, ConfigService, UserEntity } from '@huebot/common';
 
 import { AdminUserCreateDto } from './dto/create.dto';
 

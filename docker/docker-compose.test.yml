@@ -11,7 +11,7 @@ services:
       - REFRESH_TOKEN_SECRET=$REFRESH_TOKEN_SECRET
       - ACCESS_TOKEN_EXP=$ACCESS_TOKEN_EXP
       - REFRESH_TOKEN_EXP=$REFRESH_TOKEN_EXP
-    command: yarn workspace @huebot-hub-core/api test
+    command: yarn workspace @huebot/api test
 
   # mqtt:
   #   container_name: huebot_mqtt_prod

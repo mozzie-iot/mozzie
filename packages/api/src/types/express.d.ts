@@ -1,4 +1,4 @@
-import { UserEntity } from '@huebot-hub-core/common';
+import { UserEntity } from '@huebot/common';
 
 declare global {
   namespace Express {

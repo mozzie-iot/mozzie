@@ -33,7 +33,7 @@ module.exports = {
         pathGroupsExcludedImportTypes: ["internal"],
         pathGroups: [
           {
-            pattern: "@huebot-*/**",
+            pattern: "@huebot/**",
             group: "internal",
             position: "before",
           },

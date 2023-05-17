@@ -1,5 +1,5 @@
 {
-    "name": "@huebot-hub-core/main",
+    "name": "@huebot/main",
     "version": "1.0.0",
     "description": "",
     "main": "index.js",
@@ -9,12 +9,12 @@
     ],
     "scripts": {
         "changed": "lerna changed -a",
-        "deploy": "lerna version --conventional-commits --yes",
+        "deploy": "lerna version prerelease --conventional-commits --yes --conventional-prerelease",
         "test": "echo \"Error: no test specified\" && exit 1",
-        "migration:generate": "yarn workspace @huebot-hub-core/common run typeorm:migration-generate $0",
-        "migration:create": "yarn workspace @huebot-hub-core/common run typeorm:migration-create $0",
-        "migration:run": "yarn workspace @huebot-hub-core/common run typeorm:migration-run",
-        "migration:revert": "yarn workspace @huebot-hub-core/common run typeorm:migration-revert"
+        "migration:generate": "yarn workspace @huebot/common run typeorm:migration-generate $0",
+        "migration:create": "yarn workspace @huebot/common run typeorm:migration-create $0",
+        "migration:run": "yarn workspace @huebot/common run typeorm:migration-run",
+        "migration:revert": "yarn workspace @huebot/common run typeorm:migration-revert"
     },
     "license": "ISC",
     "packageManager": "yarn@3.5.0",

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 
-import { UserEntityModule } from '@huebot-hub-core/common';
+import { UserEntityModule } from '@huebot/common';
 
 import { NodeController } from './node.controller';
 import { NodeService } from './node.service';

@@ -43,12 +43,12 @@ Create admin user (required to get started with http endpoints)
 ## Development Setup
 - `git clone https://github.com/huebot-iot/huebot.git`
 - `cd huebot && yarn`
-- `yarn workspace @huebot-hub-core/common build`
+- `yarn workspace @huebot/common build`
 - `COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose -f docker/docker-compose.dev.yml build`
 - `docker-compose -f docker/docker-compose.dev.yml up `
 
 ## License
-See [License.txt](https://github.com/huebot-iot/hub-core/blob/main/LICENSE.txt)
+See [License.txt](https://github.com/huebot-iot/huebot/blob/main/LICENSE.txt)
 
 Huebot is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 

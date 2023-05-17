@@ -1,3 +1,7 @@
+import { AccessTokenGuard } from '@huebot-api/auth/guards/access-token.guard';
+import { RefreshTokenGuard } from '@huebot-api/auth/guards/refresh-token.guard';
+import { Roles } from '@huebot-api/roles/roles.decorator';
+import { RolesGuard } from '@huebot-api/roles/roles.guard';
 import {
   Body,
   ClassSerializerInterceptor,
@@ -8,11 +12,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 
-import { AccessTokenGuard } from '@huebot-api/auth/guards/access-token.guard';
-import { RefreshTokenGuard } from '@huebot-api/auth/guards/refresh-token.guard';
-import { Roles } from '@huebot-api/roles/roles.decorator';
-import { RolesGuard } from '@huebot-api/roles/roles.guard';
-import { UserEntity } from '@huebot-hub-core/common';
+import { UserEntity } from '@huebot/common';
 
 import { UserCreateDto } from './dto/create.dto';
 import { UserLoginDto } from './dto/login.dto';

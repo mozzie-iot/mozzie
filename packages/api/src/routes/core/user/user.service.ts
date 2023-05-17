@@ -1,9 +1,9 @@
+import { AuthService } from '@huebot-api/auth/auth.service';
+import { ROLES } from '@huebot-api/roles/roles.constant';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { compareSync } from 'bcryptjs';
 
-import { AuthService } from '@huebot-api/auth/auth.service';
-import { ROLES } from '@huebot-api/roles/roles.constant';
-import { UserEntityService, UserEntity } from '@huebot-hub-core/common';
+import { UserEntityService, UserEntity } from '@huebot/common';
 
 import { UserCreateDto } from './dto/create.dto';
 import { UserLoginDto } from './dto/login.dto';

@@ -1,7 +1,7 @@
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 
-import { ConfigService } from '@huebot-hub-core/common';
+import { ConfigService } from '@huebot/common';
 
 import { AppModule } from './app.module';
 
