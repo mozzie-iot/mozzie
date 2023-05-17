@@ -553,11 +553,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@huebot-hub-core/api@workspace:packages/api":
+"@huebot/api@workspace:packages/api":
   version: 0.0.0-use.local
-  resolution: "@huebot-hub-core/api@workspace:packages/api"
+  resolution: "@huebot/api@workspace:packages/api"
   dependencies:
-    "@huebot-hub-core/common": "workspace:^"
+    "@huebot/common": "workspace:^"
     "@nestjs/cli": ^9.4.2
     "@nestjs/common": ^9.4.0
     "@nestjs/core": ^9.4.0
@@ -601,9 +601,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@huebot-hub-core/common@workspace:^, @huebot-hub-core/common@workspace:packages/common":
+"@huebot/common@workspace:^, @huebot/common@workspace:packages/common":
   version: 0.0.0-use.local
-  resolution: "@huebot-hub-core/common@workspace:packages/common"
+  resolution: "@huebot/common@workspace:packages/common"
   dependencies:
     "@liaoliaots/nestjs-redis": ^9.0.4
     "@nestjs/common": ^9.4.0
@@ -639,9 +639,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@huebot-hub-core/main@workspace:.":
+"@huebot/main@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@huebot-hub-core/main@workspace:."
+  resolution: "@huebot/main@workspace:."
   dependencies:
     "@lerna-lite/changed": ^2.3.0
     "@lerna-lite/cli": ^2.3.0
@@ -649,11 +649,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@huebot-hub-core/mqtt@workspace:packages/mqtt":
+"@huebot/mqtt@workspace:packages/mqtt":
   version: 0.0.0-use.local
-  resolution: "@huebot-hub-core/mqtt@workspace:packages/mqtt"
+  resolution: "@huebot/mqtt@workspace:packages/mqtt"
   dependencies:
-    "@huebot-hub-core/common": "workspace:^"
+    "@huebot/common": "workspace:^"
     "@nestjs/cli": ^9.4.2
     "@nestjs/common": ^9.4.0
     "@nestjs/core": ^9.4.0

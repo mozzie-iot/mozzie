@@ -11,13 +11,13 @@ COMMON_UPDATED=false
 
 UPDATED_PACKAGES=""
 
-if echo $CHANGED | grep -q "huebot-hub-core/common"; then
+if echo $CHANGED | grep -q "huebot/common"; then
     COMMON_UPDATED=true
     echo "Detected updates in 'packages/common'. Running tests in all packages."
     UPDATED_PACKAGES="api, mqtt"
 fi
 
-if [ $COMMON_UPDATED = true ] || ( echo $CHANGED | grep -q "huebot-hub-core/api" ) ; then
+if [ $COMMON_UPDATED = true ] || ( echo $CHANGED | grep -q "huebot/api" ) ; then
     if [ $COMMON_UPDATED = false ]; then 
         echo "Detected updates in 'packages/api'. Running tests."
     fi
@@ -25,9 +25,9 @@ if [ $COMMON_UPDATED = true ] || ( echo $CHANGED | grep -q "huebot-hub-core/api"
     UPDATED_PACKAGES="api"
 fi
 
-if [ $COMMON_UPDATED = true ] ||  ( echo $CHANGED | grep -q "huebot-hub-core/mqtt" ) ; then
+if [ $COMMON_UPDATED = true ] ||  ( echo $CHANGED | grep -q "huebot/mqtt" ) ; then
     if [ $COMMON_UPDATED = false ]; then 
-        echo "Detected updates in 'huebot-hub-core/mqtt'. Running tests."
+        echo "Detected updates in 'packages/mqtt'. Running tests."
     fi
 
     
