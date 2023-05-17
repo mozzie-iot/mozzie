@@ -1,54 +1,14 @@
 ![core-deploy](https://github.com/huebot-iot/hub-core/actions/workflows/deploy.yml/badge.svg)
 
-# Huebot Hub Core 
-Yarn workspace containing API, MQTT transport, Native packages
+# Huebot 
+Yarn workspace containing API and MQTT transport packages
 
 ## Development Setup
-- Make sure corepack has been enabled: `sudo corepack enable` (not sure why `sudo` req'd)
-- Update global Yarn version: `corepack prepare yarn@stable --activate`
-- In repo dir: `yarn set version berry`
-- Add `nodeLinker: node-modules` to `.yarnrc.yml` file
-- Run `yarn`
-- Run `yarn workspace @huebot-hub-core/common build` (Not sure why this needs to be done outside the container - need to look into this)
-
-## Packages
-Run all packages in development with `docker-compose -f docker-compose.dev.yml up` or production with `docker-compose -f docker-compose.prod.yml up`
-
-### Run (development)
-`docker-compose -f docker-compose.dev.yml up [package name]`
-
-### Build
-`docker build -t ghcr.io/huebot-iot/hub-core-[package name]:[version] -t ghcr.io/huebot-iot/hub-core-[package name]:latest --target [package name]_production .`
-
-### Push
-1. `docker push ghcr.io/huebot-iot/hub-core-[package name]:[version]`
-2. `docker push ghcr.io/huebot-iot/hub-core-[package name]:latest` (just tags as 'latest')
-
-## DB Migrations
-- Run migration commands inside Docker container: `docker exec -it huebot_api_dev sh`
-- Must build `common` (`yarn workspace @huebot-hub-core/common build`) package before running migrations (migrations must be located in dist dir)
-
-### Generating migration
-`yarn migration:generate [migration_name]`
-- Database must not reflect that schema change in order to successfully generate schema 
-- When schema is ready to be generated (after developing in development environment with `synchronize` enabled):
-1. Spin up docker container pointing to temp database outside db volumes path (so db won't persist - assuming you want to persist development data, otherwise deleting existing database would suffice) and <b>set synchronize to false</b>
-2. Run `yarn migration:run` to bring database to current state
-3. Run `yarn migration:generate [migration_name]`
-
-### Create migration
-`yarn migration:create [migration_name]`
-- Created empty migration file allowing entry of custom SQL command
-
-### Run migration
-`yarn migration:run`
-
-### Revert migration
-`yarn migration:revert`
-
-## Notes
-- For `denied: permission_denied: The token provided does not match expected scopes.` error, login into GHCR with `docker login ghcr.io`
-- Issues pushing larger Docker images over SSH connection. May need to put hub on WiFi network if getting `connection reset by peer` timeout
+- `git clone https://github.com/huebot-iot/huebot.git`
+- `cd huebot && yarn`
+- `yarn workspace @huebot-hub-core/common build`
+- `COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose -f docker/docker-compose.dev.yml build`
+- `docker-compose -f docker/docker-compose.dev.yml up `
 
 ## License
 See [License.txt](https://github.com/huebot-iot/hub-core/blob/main/LICENSE.txt)
