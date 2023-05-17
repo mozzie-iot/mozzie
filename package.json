@@ -8,7 +8,6 @@
         "packages/*"
     ],
     "scripts": {
-        "diff": "lerna diff",
         "changed": "lerna changed -a",
         "deploy": "lerna version --conventional-commits --yes",
         "test": "echo \"Error: no test specified\" && exit 1",
