@@ -78,7 +78,7 @@ runInstall() {
 		error_found
 	fi
 
-	PACKAGES=$(apt-get install -y docker docker-compose >> $LOG_FILE 2>&1)
+	PACKAGES=$(apt-get install -y docker docker-compose ufw >> $LOG_FILE 2>&1)
 	
 	if ! $PACKAGES ; then
 		printf "Install packages failed\n"
