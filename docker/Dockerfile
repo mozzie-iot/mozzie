@@ -3,7 +3,7 @@
 ###################
 FROM node:18-slim AS common_build
 
-RUN apt-get update && apt-get install -y libsqlite3-dev
+RUN apt-get update && apt-get install -y python3-dev gcc
 
 WORKDIR /usr/app
 COPY --chown=node:node package.json .
