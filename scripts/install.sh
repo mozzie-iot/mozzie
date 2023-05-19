@@ -57,14 +57,14 @@ runInstall() {
 		error_found
 	fi
 
-# 	if [ -f "/etc/needrestart/needrestart.conf" ] ; then
-# 		printf "Disabling interactive prompts..."
-# 		if ! sed -i "/^#\$nrconf{restart} = 'i';/ c\$nrconf{restart} = 'a';" /etc/needrestart/needrestart.conf >> $LOG_FILE 2>&1; then
-# 			printf "Failed to disable interactive prompt\n"
-# 			error_found
-# 		fi
-# 		printf "Done.\n"
-# 	fi
+	if [ -f "/etc/needrestart/needrestart.conf" ] ; then
+		printf "Disabling interactive prompts..."
+		if ! sed -i "/^#\$nrconf{restart} = 'i';/ c\$nrconf{restart} = 'a';" /etc/needrestart/needrestart.conf >> $LOG_FILE 2>&1; then
+			printf "Failed to disable interactive prompt\n"
+			error_found
+		fi
+		printf "Done.\n"
+	fi
 
 	printf "Installing required packages. This could take a while..."
 
