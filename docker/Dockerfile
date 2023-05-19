@@ -1,9 +1,7 @@
 ###################
 # COMMON BUILD
 ###################
-FROM node:18-slim AS common_build
-
-RUN apt-get update && apt-get install -y python
+FROM node:18-alpine AS common_build
 
 WORKDIR /usr/app
 COPY --chown=node:node package.json .
