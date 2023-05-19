@@ -3,6 +3,8 @@
 ###################
 FROM node:18-slim AS common_build
 
+RUN apt-get update && apt-get install -y libsqlite3-dev
+
 WORKDIR /usr/app
 COPY --chown=node:node package.json .
 COPY --chown=node:node yarn.lock .

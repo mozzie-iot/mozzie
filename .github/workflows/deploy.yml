@@ -52,7 +52,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          platforms: linux/amd64,linux/arm/v7
+          platforms: linux/arm/v7
           file: docker/Dockerfile
           target: api_production
           push: true
@@ -63,20 +63,20 @@ jobs:
             DOCKER_BUILDKIT=1
             COMPOSE_DOCKER_CLI_BUILD=1
 
-      - name: Build and push MQTT image
-        if: contains(github.event.head_commit.message, 'mqtt')
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          platforms: linux/amd64,linux/arm/v7
-          file: docker/Dockerfile
-          target: mqtt_production
-          push: true
-          tags: |
-            ghcr.io/${{ github.repository_owner }}/mqtt:${{ github.ref_name }}
-            ghcr.io/${{ github.repository_owner }}/mqtt:latest
-          build-args: |
-            DOCKER_BUILDKIT=1
-            COMPOSE_DOCKER_CLI_BUILD=1
+      # - name: Build and push MQTT image
+      #   if: contains(github.event.head_commit.message, 'mqtt')
+      #   uses: docker/build-push-action@v4
+      #   with:
+      #     context: .
+      #     platforms: linux/amd64,linux/arm/v7
+      #     file: docker/Dockerfile
+      #     target: mqtt_production
+      #     push: true
+      #     tags: |
+      #       ghcr.io/${{ github.repository_owner }}/mqtt:${{ github.ref_name }}
+      #       ghcr.io/${{ github.repository_owner }}/mqtt:latest
+      #     build-args: |
+      #       DOCKER_BUILDKIT=1
+      #       COMPOSE_DOCKER_CLI_BUILD=1
 
     
