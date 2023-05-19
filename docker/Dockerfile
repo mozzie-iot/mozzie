@@ -3,7 +3,7 @@
 ###################
 FROM node:18-slim AS common_build
 
-RUN apt-get update && apt-get install -y python3-dev gcc
+RUN apt-get update && apt-get install -y python
 
 WORKDIR /usr/app
 COPY --chown=node:node package.json .
