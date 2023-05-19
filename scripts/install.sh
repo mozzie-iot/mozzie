@@ -57,12 +57,14 @@ runInstall() {
 		error_found
 	fi
 
-	printf "Disabling interactive prompts..."
-	if ! sed -i "/^#\$nrconf{restart} = 'i';/ c\$nrconf{restart} = 'a';" /etc/needrestart/needrestart.conf >> $LOG_FILE 2>&1; then
-		printf "Failed to disable interactive prompt\n"
-		error_found
+	if [ -f "/etc/needrestart/needrestart.conf" ] ; then
+		printf "Disabling interactive prompts..."
+		if ! sed -i "/^#\$nrconf{restart} = 'i';/ c\$nrconf{restart} = 'a';" /etc/needrestart/needrestart.conf >> $LOG_FILE 2>&1; then
+			printf "Failed to disable interactive prompt\n"
+			error_found
+		fi
+		printf "Done.\n"
 	fi
-	printf "Done.\n"
 
 	printf "Installing required packages. This could take a while..."
 
@@ -76,7 +78,7 @@ runInstall() {
 		error_found
 	fi
 
-	PACKAGES=$(apt-get install -y docker docker-compose >> $LOG_FILE 2>&1)
+	PACKAGES=$(apt-get install -y docker docker-compose ufw >> $LOG_FILE 2>&1)
 	
 	if ! $PACKAGES ; then
 		printf "Install packages failed\n"
@@ -109,7 +111,7 @@ runInstall() {
 
 	if ! grep -q ACCESS_TOKEN_SECRET $ENV_FILE >> $LOG_FILE 2>&1 ; then
 		ACCESS_TOKEN_SECRET=$(password_generator 30)
-		if ! echo "export ACCESS_TOKEN_SECRET=${ACCESS_TOKEN_SECRET}" >> $ENV_FILE ; then
+		if ! echo "ACCESS_TOKEN_SECRET=${ACCESS_TOKEN_SECRET}" >> $ENV_FILE ; then
 			printf "Failed: Error when attempting to set environment variable: ACCESS_TOKEN_SECRET\n"
 			error_found
 		fi
@@ -117,7 +119,7 @@ runInstall() {
 
 	if ! grep -q REFRESH_TOKEN_SECRET $ENV_FILE >> $LOG_FILE 2>&1 ; then
 		REFRESH_TOKEN_SECRET=$(password_generator 30)
-		if ! echo "export REFRESH_TOKEN_SECRET=${ACCESS_TOKEN_SECRET}" >> $ENV_FILE ; then
+		if ! echo "REFRESH_TOKEN_SECRET=${ACCESS_TOKEN_SECRET}" >> $ENV_FILE ; then
 			printf "Failed: Error when attempting to set environment variable: REFRESH_TOKEN_SECRET\n"
 			error_found
 		fi
@@ -125,7 +127,7 @@ runInstall() {
 
 	if ! grep -q ACCESS_TOKEN_EXP $ENV_FILE >> $LOG_FILE 2>&1 ; then
 		ACCESS_TOKEN_EXP='15m'
-		if ! echo "export ACCESS_TOKEN_EXP=${ACCESS_TOKEN_EXP}" >> $ENV_FILE ; then
+		if ! echo "ACCESS_TOKEN_EXP=${ACCESS_TOKEN_EXP}" >> $ENV_FILE ; then
 			printf "Failed: Error when attempting to set environment variable: ACCESS_TOKEN_EXP\n"
 			error_found
 		fi
@@ -133,7 +135,7 @@ runInstall() {
 
 	if ! grep -q REFRESH_TOKEN_EXP $ENV_FILE >> $LOG_FILE 2>&1 ; then
 		REFRESH_TOKEN_EXP='7m'
-		if ! echo "export REFRESH_TOKEN_EXP=${REFRESH_TOKEN_EXP}" >> $ENV_FILE ; then
+		if ! echo "REFRESH_TOKEN_EXP=${REFRESH_TOKEN_EXP}" >> $ENV_FILE ; then
 			printf "Failed: Error when attempting to set environment variable: REFRESH_TOKEN_EXP\n"
 			error_found
 		fi
@@ -141,7 +143,7 @@ runInstall() {
 
 	if ! grep -q MQTT_USERNAME $ENV_FILE >> $LOG_FILE 2>&1 ; then
 		MQTT_USERNAME=$(password_generator 20)
-		if ! echo "export MQTT_USERNAME=${MQTT_USERNAME}" >> $ENV_FILE ; then
+		if ! echo "MQTT_USERNAME=${MQTT_USERNAME}" >> $ENV_FILE ; then
 			printf "Failed: Error when attempting to set environment variable: MQTT_USERNAME\n"
 			error_found
 		fi
@@ -149,7 +151,7 @@ runInstall() {
 
 	if ! grep -q MQTT_PASSWORD $ENV_FILE >> $LOG_FILE 2>&1 ; then
 		MQTT_PASSWORD=$(password_generator 30)
-		if ! echo "export MQTT_PASSWORD=${MQTT_PASSWORD}" >> $ENV_FILE ; then
+		if ! echo "MQTT_PASSWORD=${MQTT_PASSWORD}" >> $ENV_FILE ; then
 			printf "Failed: Error when attempting to set environment variable: MQTT_PASSWORD\n"
 			error_found
 		fi
