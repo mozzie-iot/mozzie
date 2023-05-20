@@ -24,7 +24,7 @@ services:
 
   api:
     container_name: huebot_api
-    image: ghcr.io/huebot-iot/api:0.1.0-beta.0
+    image: ghcr.io/huebot-iot/api:0.1.0-beta.2
     restart: unless-stopped
     environment:
       - NODE_ENV=production
@@ -41,7 +41,7 @@ services:
 
   mqtt:
     container_name: huebot_mqtt
-    image: ghcr.io/huebot-iot/mqtt:0.1.0-beta.0
+    image: ghcr.io/huebot-iot/mqtt:0.1.0-beta.2
     restart: unless-stopped
     environment:
       - NODE_ENV=production
