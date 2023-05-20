@@ -52,7 +52,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          platforms: linux/amd64,linux/arm
+          platforms: linux/arm64/v8
           file: docker/Dockerfile
           target: api_production
           push: true
