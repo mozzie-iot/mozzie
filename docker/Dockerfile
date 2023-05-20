@@ -1,7 +1,7 @@
 ###################
 # COMMON BUILD
 ###################
-FROM node:18-alpine AS common_build
+FROM node:18-slim AS common_build
 
 WORKDIR /usr/app
 COPY --chown=node:node package.json .
