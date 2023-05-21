@@ -7,7 +7,7 @@ import { NodeEnv } from './typeorm.interface';
 export const typeormConfig = (env: NodeEnv): DataSourceOptions => {
   if (env === 'production') {
     return {
-      type: 'sqlite',
+      type: 'better-sqlite3',
       database: '/usr/db/db.sqlite',
       entities: [`${__dirname}/../entities/**/*.entity.{ts,js}`],
       migrations: [`${__dirname}/../migrations/*.{ts,js}`],
@@ -17,7 +17,7 @@ export const typeormConfig = (env: NodeEnv): DataSourceOptions => {
     };
   } else if (env === 'development') {
     return {
-      type: 'sqlite',
+      type: 'better-sqlite3',
       database: '/usr/db/db-dev.sqlite',
       entities: [`${__dirname}/../entities/**/*.entity.{ts,js}`],
       migrations: [`${__dirname}/../migrations/*.{ts,js}`],
@@ -27,7 +27,7 @@ export const typeormConfig = (env: NodeEnv): DataSourceOptions => {
     };
   } else if (env === 'test') {
     return {
-      type: 'sqlite',
+      type: 'better-sqlite3',
       database: `${os.homedir()}/db/db-test.sqlite`,
       entities: [`${__dirname}/../entities/**/*.entity.{ts,js}`],
       synchronize: true,

@@ -86,6 +86,14 @@ runInstall() {
 	fi
 	printf "Done.\n"
 
+	NON_ROOT_USER=$(logname)
+	printf "Add user (%s) to Docker group..." "${NON_ROOT_USER}"
+	if ! usermod -aG docker $NON_ROOT_USER >> $LOG_FILE 2>&1 ; then
+		printf "Failed: Error while adding user to Docker group.\n"
+		error_found
+	fi
+	printf "Done.\n"
+
 	printf "Create host db dir..."
 	HOST_DB_DIR=$INSTALL_DIR/huebot/db
 	if [ -d "${HOST_DB_DIR}" ] ; then
@@ -97,7 +105,6 @@ runInstall() {
 		fi
 	fi
 	printf "Done.\n"
-
 
 	printf "Set environment variables..."
 	ENV_FILE=$INSTALL_DIR/huebot/.env

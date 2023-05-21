@@ -2,7 +2,7 @@ version: "3.9"
 services:
   nginx:
     container_name: huebot_nginx
-    image: ghcr.io/huebot-iot/nginx:0.1.1
+    image: ghcr.io/huebot-iot/nginx:0.1.0
     restart: unless-stopped
     network_mode: "host"
 
