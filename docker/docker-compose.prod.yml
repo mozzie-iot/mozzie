@@ -1,30 +1,30 @@
 version: "3.9"
-# services:
-#   nginx:
-#     container_name: huebot_nginx
-#     image: ghcr.io/huebot-iot/nginx:0.1.1
-#     restart: unless-stopped
-#     network_mode: "host"
+services:
+  nginx:
+    container_name: huebot_nginx
+    image: ghcr.io/huebot-iot/nginx:0.1.0
+    restart: unless-stopped
+    network_mode: "host"
 
-#   mqtt_broker:
-#     container_name: huebot_mqtt_broker
-#     image: ghcr.io/huebot-iot/mqtt-broker:0.1.0
-#     restart: unless-stopped
-#     environment:
-#       - MQTT_USERNAME=$MQTT_USERNAME
-#       - MQTT_PASSWORD=$MQTT_PASSWORD
-#     volumes:
-#       - /usr/local/bin/mosquitto/conf.d:/mosquitto/config/conf.d
-#       - /usr/local/bin/mosquitto/data:/mosquitto/data
-#       - /usr/local/bin/mosquitto/log:/mosquitto/log
-#     ports:
-#       - 18831:1883
-#     networks:
-#       - huebot-net
+  mqtt_broker:
+    container_name: huebot_mqtt_broker
+    image: ghcr.io/huebot-iot/mqtt-broker:0.1.0
+    restart: unless-stopped
+    environment:
+      - MQTT_USERNAME=$MQTT_USERNAME
+      - MQTT_PASSWORD=$MQTT_PASSWORD
+    volumes:
+      - /usr/local/bin/mosquitto/conf.d:/mosquitto/config/conf.d
+      - /usr/local/bin/mosquitto/data:/mosquitto/data
+      - /usr/local/bin/mosquitto/log:/mosquitto/log
+    ports:
+      - 18831:1883
+    networks:
+      - huebot-net
 
   api:
     container_name: huebot_api
-    image: ghcr.io/huebot-iot/api:0.1.0-beta.2
+    image: ghcr.io/huebot-iot/api:0.1.0-beta.0
     restart: unless-stopped
     environment:
       - NODE_ENV=production
@@ -39,16 +39,16 @@ version: "3.9"
     networks:
       - huebot-net
 
-  # mqtt:
-  #   container_name: huebot_mqtt
-  #   image: ghcr.io/huebot-iot/mqtt:0.1.0-beta.2
-  #   restart: unless-stopped
-  #   environment:
-  #     - NODE_ENV=production
-  #     - MQTT_USERNAME=$MQTT_USERNAME
-  #     - MQTT_PASSWORD=$MQTT_PASSWORD
-  #   networks:
-  #     - huebot-net
+  mqtt:
+    container_name: huebot_mqtt
+    image: ghcr.io/huebot-iot/mqtt:0.1.0-beta.0
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - MQTT_USERNAME=$MQTT_USERNAME
+      - MQTT_PASSWORD=$MQTT_PASSWORD
+    networks:
+      - huebot-net
 
 networks:
   huebot-net:
