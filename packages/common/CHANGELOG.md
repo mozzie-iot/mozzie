@@ -15,6 +15,10 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @huebot/common
 
+# [0.1.0-beta.2](https://github.com/huebot-iot/huebot/compare/0.1.0-beta.1...0.1.0-beta.2) (2023-05-21)
+
+**Note:** Version bump only for package @huebot/common
+
 # [0.1.0-beta.2](https://github.com/huebot-iot/huebot/compare/0.1.0-beta.3...0.1.0-beta.2) (2023-05-20)
 
 **Note:** Version bump only for package @huebot/common
