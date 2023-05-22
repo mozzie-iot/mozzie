@@ -92,6 +92,11 @@ runInstall() {
 		printf "Failed: Error while adding user to Docker group.\n"
 		error_found
 	fi
+
+	if ! su $NON_ROOT_USER >> $LOG_FILE 2>&1 ; then
+		printf "Failed: Error while switching user to apply Docker group.\n"
+		error_found
+	fi
 	printf "Done.\n"
 
 	printf "Create host db dir..."
