@@ -78,12 +78,18 @@ runInstall() {
 		error_found
 	fi
 
-	PACKAGES=$(apt-get install -y docker docker-compose ufw >> $LOG_FILE 2>&1)
+	PACKAGES=$(apt-get install -y ufw >> $LOG_FILE 2>&1)
 	
 	if ! $PACKAGES ; then
 		printf "Install packages failed\n"
 		error_found
 	fi
+
+	if ! curl -sSL https://get.docker.com | sh >> $TEST_LOG 2>&1 ; then 
+        printf "Install Docker failed\n"
+		error_found
+	fi
+
 	printf "Done.\n"
 
 	NON_ROOT_USER=$(logname)
@@ -245,7 +251,7 @@ runInstall() {
 	printf "Done.\n"
 
 	printf "Installing and starting docker containers..."
-	if ! docker-compose -f $INSTALL_DIR/huebot/runner/docker-compose.yml up -d >> $LOG_FILE 2>&1 ; then
+	if ! docker compose -f $INSTALL_DIR/huebot/runner/docker-compose.yml up -d >> $LOG_FILE 2>&1 ; then
 		printf "Failed: Error while pulling/starting Docker containers"
 		error_found
 	fi
