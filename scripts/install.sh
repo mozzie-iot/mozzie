@@ -85,7 +85,7 @@ runInstall() {
 		error_found
 	fi
 
-	if ! curl -sSL https://get.docker.com | sh >> $TEST_LOG 2>&1 ; then 
+	if ! curl -sSL https://get.docker.com | sh >> $LOG_FILE 2>&1 ; then 
         printf "Install Docker failed\n"
 		error_found
 	fi
