@@ -12,7 +12,7 @@ While Huebot makes use of a number of libraries, core functionality is made poss
 1. Install the CLI:<br>
 `npm install -g @huebot/cli` or `npx @huebot/cli@latest`
 2. Install the Huebot environment:<br>
-`sudo huebot install` (sudo is required to install apt-get packages and create directories)
+`huebot install`
 3. Create an admin user:<br>
 `huebot create-admin` (required to access API endpoints)
 
