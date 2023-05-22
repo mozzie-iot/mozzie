@@ -2,6 +2,8 @@
 
 exec 2>&1
 
+NON_ROOT_USER=$1
+
 INSTALL_DIR=/usr/local/bin
 LOG_STATUS=$INSTALL_DIR/huebot/.install
 LOG_FILE=$INSTALL_DIR/huebot/install.log
@@ -92,7 +94,6 @@ runInstall() {
 
 	printf "Done.\n"
 
-	NON_ROOT_USER=$(logname)
 	printf "Add user (%s) to Docker group..." "${NON_ROOT_USER}"
 	if ! usermod -aG docker $NON_ROOT_USER >> $LOG_FILE 2>&1 ; then
 		printf "Failed: Error while adding user to Docker group.\n"
