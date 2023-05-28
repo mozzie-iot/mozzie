@@ -128,6 +128,14 @@ runInstall() {
 		fi
 	fi
 
+	if ! grep -q REDIS_PASSWORD $ENV_FILE >> $LOG_FILE 2>&1 ; then
+		REDIS_PASSWORD=$(password_generator 30)
+		if ! echo "REDIS_PASSWORD=${REDIS_PASSWORD}" >> $ENV_FILE ; then
+			printf "Failed: Error when attempting to set environment variable: REDIS_PASSWORD\n"
+			error_found
+		fi
+	fi
+
 	if ! grep -q ACCESS_TOKEN_SECRET $ENV_FILE >> $LOG_FILE 2>&1 ; then
 		ACCESS_TOKEN_SECRET=$(password_generator 30)
 		if ! echo "ACCESS_TOKEN_SECRET=${ACCESS_TOKEN_SECRET}" >> $ENV_FILE ; then
