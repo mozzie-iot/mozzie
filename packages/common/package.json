@@ -37,6 +37,7 @@
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.4.0",
     "@nestjs/graphql": "^10.1.6",
+    "@nestjs/microservices": "^9.4.2",
     "@nestjs/typeorm": "^9.0.1",
     "bcryptjs": "^2.4.3",
     "better-sqlite3": "^8.3.0",

@@ -5,6 +5,7 @@ import { Transport } from '@nestjs/microservices';
 import { ConfigService } from '@huebot/common';
 
 import { AppModule } from './app.module';
+import { NodeService } from './node/node.service';
 
 async function bootstrap() {
   const logger = new Logger('Main:bootstrap');
@@ -26,6 +27,10 @@ async function bootstrap() {
     });
 
     await app.startAllMicroservices();
+
+    // Ping nodes so those with existing connection reflect as online
+    const nodeService: NodeService = app.get(NodeService);
+    nodeService.alive_check();
 
     logger.log('Controller started successfully');
   } catch (error) {
