@@ -1,3 +1,4 @@
+import { ROLES } from '@huebot-api/roles/roles.constant';
 import {
   Injectable,
   CanActivate,
@@ -7,8 +8,6 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
-
-import { ROLES } from '@huebot-api/roles/roles.constant';
 
 @Injectable()
 export class RolesGuard implements CanActivate {

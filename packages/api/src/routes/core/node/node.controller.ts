@@ -1,3 +1,4 @@
+import { AccessTokenGuard } from '@huebot-api/auth/guards/access-token.guard';
 import { Roles } from '@huebot-api/roles/roles.decorator';
 import { RolesGuard } from '@huebot-api/roles/roles.guard';
 import {
@@ -11,13 +12,13 @@ import {
 import { NodeService } from './node.service';
 
 @UseInterceptors(ClassSerializerInterceptor)
-@Controller('')
+@Controller()
 export class NodeController {
   constructor(private nodeService: NodeService) {}
 
   @Get('test')
   @Roles('operator')
-  @UseGuards(RolesGuard)
+  @UseGuards(AccessTokenGuard, RolesGuard)
   async test() {
     return this.nodeService.test();
   }
