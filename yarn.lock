@@ -605,7 +605,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@huebot/common@workspace:packages/common"
   dependencies:
-    "@liaoliaots/nestjs-redis": ^9.0.4
     "@nestjs/common": ^9.4.0
     "@nestjs/config": ^2.2.0
     "@nestjs/core": ^9.4.0
@@ -1226,19 +1225,6 @@ __metadata:
     uuid: ^9.0.0
     write-json-file: ^5.0.0
   checksum: c5bd30100afcd1ff2dfc1c644fd4f5e73c50d8674e94cd01eda9bb259a3da9e8321ab9901df609f74a0f73f75a99f25c75c088b06d70f276d1463f54273f9922
-  languageName: node
-  linkType: hard
-
-"@liaoliaots/nestjs-redis@npm:^9.0.4":
-  version: 9.0.5
-  resolution: "@liaoliaots/nestjs-redis@npm:9.0.5"
-  dependencies:
-    tslib: 2.4.1
-  peerDependencies:
-    "@nestjs/common": ^9.0.0
-    "@nestjs/core": ^9.0.0
-    ioredis: ^5.0.0
-  checksum: 6b292cb9dcfda862ae010b71bce3faf7fc514892b1d7142cba737d693ec390d01019b43a95c3c2d085ec873cacd41384576c8264a7b14509bb6674de3b299ebb
   languageName: node
   linkType: hard
 

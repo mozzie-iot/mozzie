@@ -1,7 +1,6 @@
+import { NodeEnv } from '@huebot-common/typeorm/typeorm.interface';
 import { Injectable } from '@nestjs/common';
 import { ConfigService as NestConfigService } from '@nestjs/config';
-
-import { NodeEnv } from '@huebot-common/typeorm/typeorm.interface';
 
 @Injectable()
 export class ConfigService {
