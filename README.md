@@ -5,7 +5,7 @@
 ## Description
 Huebot is an IoT framework that allows clients to be controlled or sensed via HTTP endpoint. 
 <br><br>
-While Huebot makes use of a number of libraries, core functionality is made possible by [Mosquitto](https://github.com/eclipse/mosquitto), [NGINX](https://github.com/nginx), [NestJS](https://github.com/nestjs/nest) and [MicroPython](https://github.com/micropython/micropython)
+While Huebot makes use of a number of libraries, core functionality is made possible by [Mosquitto](https://github.com/eclipse/mosquitto), [NGINX](https://github.com/nginx), [Redis](https://github.com/redis/redis), [NestJS](https://github.com/nestjs/nest) and [MicroPython](https://github.com/micropython/micropython)
 
 ## Getting Started
 **Node 16+ is required. Make sure it is installed before proceeding.**
