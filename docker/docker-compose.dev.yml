@@ -31,6 +31,7 @@ services:
       target: mqtt_development
     environment:
       - NODE_ENV=development
+      - REDIS_PASSWORD=$REDIS_PASSWORD
       - MQTT_USERNAME=$MQTT_USERNAME
       - MQTT_PASSWORD=$MQTT_PASSWORD
     volumes:

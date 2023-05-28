@@ -58,6 +58,7 @@ services:
     restart: unless-stopped
     environment:
       - NODE_ENV=production
+      - REDIS_PASSWORD=$REDIS_PASSWORD
       - MQTT_USERNAME=$MQTT_USERNAME
       - MQTT_PASSWORD=$MQTT_PASSWORD
     networks:
