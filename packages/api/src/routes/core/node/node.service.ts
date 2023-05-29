@@ -22,7 +22,7 @@ export class NodeService {
     return this.mqttClient.send(input.topic, input.payload).pipe(timeout(5000));
   }
 
-  public async retrieve(input: NodeRetrieveDto): Promise<string> {
-    return this.redisClient.get(`from_node:${input.client_id}`);
+  public async sensor(input: NodeRetrieveDto): Promise<string> {
+    return this.redisClient.get(`sensor:${input.client_id}`);
   }
 }

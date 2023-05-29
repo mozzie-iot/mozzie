@@ -34,10 +34,10 @@ export class NodeController {
     return this.nodeService.send(input);
   }
 
-  @Get('retrieve')
+  @Get('sensor')
   @Roles('operator')
   @UseGuards(AccessTokenGuard, RolesGuard)
-  async retrieve(@Body() input: NodeRetrieveDto) {
-    return this.nodeService.retrieve(input);
+  async sensor(@Body() input: NodeRetrieveDto) {
+    return this.nodeService.sensor(input);
   }
 }

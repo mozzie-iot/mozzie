@@ -25,8 +25,8 @@ export class NodeController {
     return this.nodeService.status_offline(client_name);
   }
 
-  @MessagePattern('from-node/+')
+  @MessagePattern('sensor/+')
   from_node(@Ctx() context: MqttContext, @Payload() data: string) {
-    return this.nodeService.from_node(context.getTopic(), data);
+    return this.nodeService.sensor(context.getTopic(), data);
   }
 }

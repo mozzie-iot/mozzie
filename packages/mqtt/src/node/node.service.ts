@@ -22,8 +22,8 @@ export class NodeService {
     return this.redisClient.del(`node:${client_name}`);
   }
 
-  public from_node(topic: string, payload: string) {
+  public sensor(topic: string, payload: string) {
     const client_id = topic.split('/')[1];
-    return this.redisClient.set(`from_node:${client_id}`, payload, 'EX', 60);
+    return this.redisClient.set(`sensor:${client_id}`, payload, 'EX', 180);
   }
 }
