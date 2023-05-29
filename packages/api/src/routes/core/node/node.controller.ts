@@ -5,6 +5,7 @@ import {
   Body,
   ClassSerializerInterceptor,
   Controller,
+  Get,
   Post,
   UseGuards,
   UseInterceptors,
@@ -17,6 +18,13 @@ import { NodeService } from './node.service';
 @Controller()
 export class NodeController {
   constructor(private nodeService: NodeService) {}
+
+  @Get('online')
+  @Roles('operator')
+  @UseGuards(AccessTokenGuard, RolesGuard)
+  async online() {
+    return this.nodeService.online();
+  }
 
   @Post('send')
   @Roles('operator')
