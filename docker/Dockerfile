@@ -81,8 +81,12 @@ RUN yarn plugin import workspace-tools
 
 ENV NODE_ENV production
 
+WORKDIR /usr/app/packages/common
+# Install common production packages
+RUN yarn workspaces focus --production
+
 WORKDIR /usr/app/packages/api
-# Only install production packages for current folder (overrides install from development stage)
+# Install API production packages
 RUN yarn workspaces focus --production
 
 USER node
@@ -170,8 +174,12 @@ RUN yarn plugin import workspace-tools
 
 ENV NODE_ENV production
 
+WORKDIR /usr/app/packages/common
+# Install common production packages
+RUN yarn workspaces focus --production
+
 WORKDIR /usr/app/packages/mqtt
-# Only install production packages for current folder (overrides install from development stage)
+# Install MQTT production packages
 RUN yarn workspaces focus --production
 
 USER node

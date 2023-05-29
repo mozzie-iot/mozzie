@@ -1,26 +1,28 @@
 {
-    "name": "@huebot/main",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "private": true,
-    "workspaces": [
-        "packages/*"
-    ],
-    "scripts": {
-        "changed": "lerna changed -a",
-        "deploy": "lerna version prerelease --conventional-commits --yes --conventional-prerelease",
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "migration:generate": "yarn workspace @huebot/common run typeorm:migration-generate $0",
-        "migration:create": "yarn workspace @huebot/common run typeorm:migration-create $0",
-        "migration:run": "yarn workspace @huebot/common run typeorm:migration-run",
-        "migration:revert": "yarn workspace @huebot/common run typeorm:migration-revert"
-    },
-    "license": "ISC",
-    "packageManager": "yarn@3.5.0",
-    "devDependencies": {
-        "@lerna-lite/changed": "^2.3.0",
-        "@lerna-lite/cli": "^2.3.0",
-        "@lerna-lite/version": "^2.3.0"
-    }
+  "name": "@huebot/main",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "changed": "lerna changed -a",
+    "deploy": "lerna version prerelease --conventional-commits --yes --conventional-prerelease",
+    "version": "node ./scripts/sync-version.js && git add ./docker/docker-compose.prod.yml",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "migration:generate": "yarn workspace @huebot/common run typeorm:migration-generate $0",
+    "migration:create": "yarn workspace @huebot/common run typeorm:migration-create $0",
+    "migration:run": "yarn workspace @huebot/common run typeorm:migration-run",
+    "migration:revert": "yarn workspace @huebot/common run typeorm:migration-revert"
+  },
+  "license": "ISC",
+  "packageManager": "yarn@3.5.0",
+  "devDependencies": {
+    "@lerna-lite/changed": "^2.3.0",
+    "@lerna-lite/cli": "^2.3.0",
+    "@lerna-lite/version": "^2.3.0",
+    "js-yaml": "^4.1.0"
+  }
 }

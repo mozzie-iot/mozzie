@@ -14,12 +14,11 @@ fi
 runUninstall() {
 
 	function error_found {
-      echo '2' > $LOG_STATUS
       printf "\n\n"
       printf "#### ERROR ####\n"
       printf "There was an error detected during uninstall. Please review the log at $LOG_FILE\n"
       exit 1
-  }
+  	}
 
 	# Remove stale uninstall log file if found
 	if [ -f $LOG_FILE ] ; then
@@ -36,7 +35,7 @@ runUninstall() {
 	fi
 
   printf "Shutting down docker containers..."
-	if ! docker-compose -f $INSTALL_DIR/huebot/runner/docker-compose.yml down --rmi all -v >> $LOG_FILE 2>&1 ; then
+	if ! docker compose -f $INSTALL_DIR/huebot/runner/docker-compose.yml down --rmi all -v >> $LOG_FILE 2>&1 ; then
 		printf "Failed: Error while shutting down Docker containers"
 		error_found
 	fi

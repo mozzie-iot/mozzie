@@ -1,6 +1,6 @@
 {
   "name": "@huebot/mqtt",
-  "version": "0.1.0-beta.0",
+  "version": "0.1.0-beta.2",
   "description": "",
   "author": "",
   "private": true,
@@ -25,7 +25,6 @@
     "@nestjs/common": "^9.4.0",
     "@nestjs/core": "^9.4.0",
     "@nestjs/microservices": "^9.2.1",
-    "@nestjs/platform-express": "^9.0.0",
     "mqtt": "^4.3.7",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",

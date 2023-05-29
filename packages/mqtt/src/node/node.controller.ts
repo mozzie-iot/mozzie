@@ -1,5 +1,11 @@
 import { Controller, Logger } from '@nestjs/common';
-import { EventPattern } from '@nestjs/microservices';
+import {
+  Ctx,
+  EventPattern,
+  MessagePattern,
+  MqttContext,
+  Payload,
+} from '@nestjs/microservices';
 
 import { NodeService } from './node.service';
 
@@ -17,5 +23,10 @@ export class NodeController {
   @EventPattern('status/offline')
   onOffline(client_name: string) {
     return this.nodeService.status_offline(client_name);
+  }
+
+  @MessagePattern('sensor/+')
+  from_node(@Ctx() context: MqttContext, @Payload() data: string) {
+    return this.nodeService.sensor(context.getTopic(), data);
   }
 }

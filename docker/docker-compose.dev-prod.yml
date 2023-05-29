@@ -9,6 +9,9 @@ services:
       target: api_production
     environment:
       - NODE_ENV=production
+      - REDIS_PASSWORD=$REDIS_PASSWORD
+      - MQTT_USERNAME=$MQTT_USERNAME
+      - MQTT_PASSWORD=$MQTT_PASSWORD
       - ACCESS_TOKEN_SECRET=$ACCESS_TOKEN_SECRET
       - REFRESH_TOKEN_SECRET=$REFRESH_TOKEN_SECRET
       - ACCESS_TOKEN_EXP=$ACCESS_TOKEN_EXP
@@ -27,6 +30,7 @@ services:
       target: mqtt_production
     environment:
       - NODE_ENV=production
+      - REDIS_PASSWORD=$REDIS_PASSWORD
       - MQTT_USERNAME=$MQTT_USERNAME
       - MQTT_PASSWORD=$MQTT_PASSWORD
     networks:

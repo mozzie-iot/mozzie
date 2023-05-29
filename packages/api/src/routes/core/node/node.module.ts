@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 
-import { UserEntityModule } from '@huebot/common';
+import { MqttModule, RedisModule, UserEntityModule } from '@huebot/common';
 
 import { NodeController } from './node.controller';
 import { NodeService } from './node.service';
 
 @Module({
-  imports: [UserEntityModule],
+  imports: [UserEntityModule, MqttModule, RedisModule],
   providers: [NodeService],
   controllers: [NodeController],
 })
