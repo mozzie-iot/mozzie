@@ -21,4 +21,9 @@ export class NodeService {
   public status_offline(client_name: string) {
     return this.redisClient.del(`node:${client_name}`);
   }
+
+  public from_node(topic: string, payload: string) {
+    const client_id = topic.split('/')[1];
+    return this.redisClient.set(`from_node:${client_id}`, payload, 'EX', 60);
+  }
 }

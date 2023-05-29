@@ -3,6 +3,7 @@ import { Observable, timeout } from 'rxjs';
 
 import { ClientProxy, MQTT_CLIENT, REDIS_CLIENT, Redis } from '@huebot/common';
 
+import { NodeRetrieveDto } from './dto/retrieve.dto';
 import { NodeSendDto } from './dto/send.dto';
 
 @Injectable()
@@ -19,5 +20,9 @@ export class NodeService {
 
   public send(input: NodeSendDto): Observable<any> {
     return this.mqttClient.send(input.topic, input.payload).pipe(timeout(5000));
+  }
+
+  public async retrieve(input: NodeRetrieveDto): Promise<string> {
+    return this.redisClient.get(`from_node:${input.client_id}`);
   }
 }

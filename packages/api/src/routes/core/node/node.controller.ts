@@ -11,6 +11,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 
+import { NodeRetrieveDto } from './dto/retrieve.dto';
 import { NodeSendDto } from './dto/send.dto';
 import { NodeService } from './node.service';
 
@@ -31,5 +32,12 @@ export class NodeController {
   @UseGuards(AccessTokenGuard, RolesGuard)
   async send(@Body() input: NodeSendDto) {
     return this.nodeService.send(input);
+  }
+
+  @Get('retrieve')
+  @Roles('operator')
+  @UseGuards(AccessTokenGuard, RolesGuard)
+  async retrieve(@Body() input: NodeRetrieveDto) {
+    return this.nodeService.retrieve(input);
   }
 }
