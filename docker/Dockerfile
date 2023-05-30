@@ -102,6 +102,7 @@ COPY --chown=node:node packages/common/package.json .
 COPY --chown=node:node --from=common_build /usr/app/packages/common/dist ./dist
 
 WORKDIR /usr/app/packages/api
+COPY --chown=node:node packages/api/package.json .
 COPY --chown=node:node --from=api_build /usr/app/packages/api/dist ./dist
 ENV NODE_ENV production
 COPY --chown=node:node docker/docker-entrypoint.sh ./entrypoint.sh
@@ -191,6 +192,7 @@ COPY --chown=node:node packages/common/package.json .
 COPY --chown=node:node --from=mqtt_build /usr/app/packages/common/dist ./dist
 
 WORKDIR /usr/app/packages/mqtt
+COPY --chown=node:node packages/mqtt/package.json .
 COPY --chown=node:node --from=mqtt_build /usr/app/packages/mqtt/dist ./dist
 ENV NODE_ENV production
 CMD [ "node", "dist/main.js" ]
