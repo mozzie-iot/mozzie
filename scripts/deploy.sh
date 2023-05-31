@@ -38,18 +38,4 @@ if [ $COMMON_UPDATED = true ] ||  ( echo $CHANGED | grep -q "huebot/mqtt" ) ; th
     fi
 fi
 
-yarn run lerna version --dry-run --conventional-commits --yes --tag-version-prefix='' --message "%v: $UPDATED_PACKAGES"
-
-# update package version tags in docker/docker-compose.prod.yml
-if [[ "$UPDATED_PACKAGES" == *"api"* ]]; then
-    node ./scripts/bump-version.js api
-fi
-
-if [[ "$UPDATED_PACKAGES" == *"mqtt"* ]]; then
-    node ./scripts/bump-version.js mqtt
-fi
-
-git add ../docker/docker-compose.prod.yml
-git commit -m "docker-compose.yml verson bump"
-
 yarn run lerna version --conventional-commits --yes --tag-version-prefix='' --message "%v: $UPDATED_PACKAGES"
