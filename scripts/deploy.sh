@@ -38,4 +38,4 @@ if [ $COMMON_UPDATED = true ] ||  ( echo $CHANGED | grep -q "huebot/mqtt" ) ; th
     fi
 fi
 
-yarn run lerna version --conventional-commits --yes --tag-version-prefix='' --message "%v: $UPDATED_PACKAGES"
+yarn run lerna version --dry-run --conventional-commits --yes --tag-version-prefix='' --message "%v: $UPDATED_PACKAGES"
