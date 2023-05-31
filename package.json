@@ -21,6 +21,7 @@
   "devDependencies": {
     "@lerna-lite/changed": "^2.3.0",
     "@lerna-lite/cli": "^2.3.0",
-    "@lerna-lite/version": "^2.3.0"
+    "@lerna-lite/version": "^2.3.0",
+    "js-yaml": "^4.1.0"
   }
 }
