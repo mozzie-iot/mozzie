@@ -14,12 +14,11 @@ fi
 runUninstall() {
 
 	function error_found {
-      echo '2' > $LOG_STATUS
       printf "\n\n"
       printf "#### ERROR ####\n"
       printf "There was an error detected during uninstall. Please review the log at $LOG_FILE\n"
       exit 1
-  }
+  	}
 
 	# Remove stale uninstall log file if found
 	if [ -f $LOG_FILE ] ; then
