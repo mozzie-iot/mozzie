@@ -202,3 +202,20 @@ WORKDIR /usr/app/packages/mqtt
 COPY --chown=node:node --from=mqtt_build /usr/app/packages/mqtt/dist ./dist
 ENV NODE_ENV production
 CMD [ "node", "dist/main.js" ]
+
+# ##################
+# CLIENT DEVELOPMENT
+# ##################
+FROM node:18-slim AS client_development
+
+WORKDIR /usr/app/packages
+COPY --chown=node:node packages/client ./client
+
+WORKDIR /usr/app
+COPY --chown=node:node package.json .
+COPY --chown=node:node yarn.lock .
+COPY --chown=node:node .yarnrc.yml .
+COPY --chown=node:node .yarn ./.yarn
+COPY --chown=node:node tsconfig.json .
+
+USER node
