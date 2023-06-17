@@ -3,8 +3,11 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-  "eslint.validate": ["typescript"],
+  "eslint.validate": ["typescript", "typescriptreact"],
   "[typescript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[typescriptreact]": {
     "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },
   "prettier.prettierPath": "./node_modules/prettier"
