@@ -6,5 +6,6 @@
   "eslint.validate": ["typescript"],
   "[typescript]": {
     "editor.defaultFormatter": "dbaeumer.vscode-eslint"
-},
+  },
+  "prettier.prettierPath": "./node_modules/prettier"
 }
