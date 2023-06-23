@@ -43,6 +43,22 @@ services:
     command: yarn workspace @huebot/mqtt start:dev
     networks:
       - huebot-proxy-net
+  client:
+    container_name: huebot_client_dev
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile
+      target: client_development
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ../node_modules:/usr/app/node_modules
+      - ../packages/client:/usr/app/packages/client
+    ports:
+      - 4000:3000
+    command: yarn workspace @huebot/client dev
+    networks:
+      - huebot-proxy-net
 
 networks:
   huebot-proxy-net:
