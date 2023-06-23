@@ -4,13 +4,13 @@ import { Repository } from 'typeorm';
 
 import { CrudService } from '@huebot/services/crud.service';
 
-import { UserEntity } from './user.entity';
+import { ApiKeyEntity } from './api-key.entity';
 
 @Injectable()
-export class UserEntityService extends CrudService<UserEntity> {
+export class ApiKeyEntityService extends CrudService<ApiKeyEntity> {
   constructor(
-    @InjectRepository(UserEntity)
-    protected readonly repository: Repository<UserEntity>
+    @InjectRepository(ApiKeyEntity)
+    protected readonly repository: Repository<ApiKeyEntity>
   ) {
     super();
   }

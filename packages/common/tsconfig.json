@@ -6,7 +6,7 @@
     "rootDir": "src",
     "incremental": false,
     "paths": {
-      "@huebot-common/*": ["src/*"]
+      "@huebot/*": ["src/*"]
     }
   },
   "include": ["src"],

@@ -11,10 +11,9 @@ services:
       - REDIS_PASSWORD=$REDIS_PASSWORD
       - MQTT_USERNAME=$MQTT_USERNAME
       - MQTT_PASSWORD=$MQTT_PASSWORD
-      - ACCESS_TOKEN_SECRET=$ACCESS_TOKEN_SECRET
-      - REFRESH_TOKEN_SECRET=$REFRESH_TOKEN_SECRET
-      - ACCESS_TOKEN_EXP=$ACCESS_TOKEN_EXP
-      - REFRESH_TOKEN_EXP=$REFRESH_TOKEN_EXP
+      - SESSION_SECRET=$SESSION_SECRET
+      - SESSION_MAX_AGE=$SESSION_MAX_AGE
+      - SESSION_NAME=$SESSION_NAME
     volumes:
       - ../node_modules:/usr/app/node_modules
       - ../packages/api:/usr/app/packages/api
@@ -51,6 +50,7 @@ services:
       target: client_development
     environment:
       - NODE_ENV=development
+      - SESSION_NAME=$SESSION_NAME
     volumes:
       - ../node_modules:/usr/app/node_modules
       - ../packages/client:/usr/app/packages/client

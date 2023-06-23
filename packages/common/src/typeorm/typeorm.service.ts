@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 
-import { ConfigService } from '@huebot-common/config';
+import { ConfigService } from '@huebot/config';
 
 import { typeormConfig } from './typeorm.config';
 

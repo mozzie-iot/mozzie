@@ -20,6 +20,8 @@ async function bootstrap() {
 
     app.useGlobalPipes(new ValidationPipe());
 
+    app.enableVersioning();
+
     await app.listen(configService.API_PORT);
 
     logger.log('API started successfully!');
