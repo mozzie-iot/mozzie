@@ -1,8 +1,17 @@
-import { UserEntity } from '@huebot/common';
+import { UserEntity, ApiKeyEntity } from '@huebot/common';
 
 declare global {
   namespace Express {
-    class User extends UserEntity {}
+    export interface Request {
+      user?: UserEntity;
+      api_key?: ApiKeyEntity;
+    }
+  }
+}
+
+declare module 'express-session' {
+  interface SessionData {
+    user_id?: string;
   }
 }
 

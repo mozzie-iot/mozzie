@@ -1,6 +1,7 @@
-import { NodeEnv } from '@huebot-common/typeorm/typeorm.interface';
 import { Injectable } from '@nestjs/common';
 import { ConfigService as NestConfigService } from '@nestjs/config';
+
+import { NodeEnv } from '@huebot/typeorm/typeorm.interface';
 
 @Injectable()
 export class ConfigService {
@@ -52,6 +53,18 @@ export class ConfigService {
 
   get MQTT_PASSWORD() {
     return this.configService.get<string>('MQTT_PASSWORD');
+  }
+
+  get SESSION_NAME() {
+    return this.configService.get<string>('SESSION_NAME');
+  }
+
+  get SESSION_SECRET() {
+    return this.configService.get<string>('SESSION_SECRET');
+  }
+
+  get SESSION_MAX_AGE() {
+    return parseInt(this.configService.get<string>('SESSION_MAX_AGE'), 10);
   }
 
   get HOME() {

@@ -1,8 +1,6 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { validate, ValidatorOptions } from 'class-validator';
-import { DeepPartial, Repository } from 'typeorm';
-
-import { BaseEntity } from '../entities/base';
+import { BaseEntity, DeepPartial, Repository } from 'typeorm';
 
 export class CrudService<T extends BaseEntity> {
   protected repository?: Repository<T>;
