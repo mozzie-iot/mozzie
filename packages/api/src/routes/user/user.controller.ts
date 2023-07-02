@@ -11,14 +11,12 @@ import {
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 
-import { UserEntity } from '@huebot/common';
+import { UserCreateDto, UserEntity, UserLoginDto } from '@huebot/common';
 import { Role } from '@huebot/role/role.decorator';
 import { RoleEnum } from '@huebot/role/role.enum';
 
 import { AuthGuard } from '../auth.guard';
 
-import { UserCreateDto } from './dto/create.dto';
-import { UserLoginDto } from './dto/login.dto';
 import { User } from './user.decorator';
 import { UserService } from './user.service';
 
@@ -53,5 +51,12 @@ export class UserController {
   @Post('logout')
   logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
     return this.userService.logout(req, res);
+  }
+
+  @Get('find-all')
+  @Role(RoleEnum.user_read)
+  @UseGuards(AuthGuard)
+  findAll() {
+    return this.userService.findAll();
   }
 }

@@ -1,17 +1,19 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
-import { UserLoginDto } from '@huebot/common';
+import { RoleEntity, UserCreateDto } from '@huebot/common';
 
 import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -19,25 +21,42 @@ import {
 } from '@/components/ui/form';
 import { Icons } from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
-const formSchema: z.ZodType<UserLoginDto> = z.object({
+const formSchema: z.ZodType<UserCreateDto> = z.object({
   email: z
     .string()
     .min(1, { message: 'E-mail is required' })
     .email('Invalid email'),
-  password: z.string().nonempty({ message: 'password is required' }),
+  password: z
+    .string()
+    .nonempty({ message: 'Password is required' })
+    .min(8, { message: 'Password must be at least 8 characters' }),
+  role: z.string().nonempty({ message: 'Role must selected' }),
 });
+
+interface Props {
+  roles: RoleEntity[];
+}
 
 interface FormState {
   loading: boolean;
   error: string;
 }
 
-const Page: React.FunctionComponent = () => {
+const AddUserForm: React.FunctionComponent<Props> = ({ roles }) => {
+  const queryClient = useQueryClient();
   const [formState, setFormState] = useState<FormState>({
     loading: false,
     error: '',
   });
+
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -45,13 +64,14 @@ const Page: React.FunctionComponent = () => {
     defaultValues: {
       email: '',
       password: '',
+      role: '',
     },
   });
 
   const onSubmit = async (input: z.infer<typeof formSchema>) => {
     setFormState({ error: '', loading: true });
 
-    const response = await fetch('/api/v1/users/login', {
+    const response = await fetch('/api/v1/users/create', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -66,7 +86,9 @@ const Page: React.FunctionComponent = () => {
       return;
     }
 
-    router.push('/');
+    queryClient.setQueryData(['users'], json);
+
+    router.push('/access/users');
   };
 
   return (
@@ -96,12 +118,13 @@ const Page: React.FunctionComponent = () => {
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>Temporary Password</FormLabel>
               <FormControl>
                 <Input
                   type="password"
@@ -109,20 +132,60 @@ const Page: React.FunctionComponent = () => {
                   {...field}
                 />
               </FormControl>
+              <FormDescription>
+                The user will be prompted to reset upon initial sign in
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full" disabled={formState.loading}>
-          {formState.loading && (
-            <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+
+        <FormField
+          control={form.control}
+          name="role"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Role</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="admin">
+                    Administrator - full access
+                  </SelectItem>
+                  {roles
+                    .sort((a, b) => (a.sort > b.sort ? 1 : -1))
+                    .map((role) => (
+                      <SelectItem key={role.id} value={role.nickname}>
+                        {role.nickname} - {role.description}
+                      </SelectItem>
+                    ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
           )}
-          Submit
-        </Button>
+        />
+
+        <div className="flex justify-end">
+          <Button
+            type="submit"
+            className="px-8 relative"
+            disabled={formState.loading}
+          >
+            {formState.loading && (
+              <Icons.spinner className="h-4 w-4 animate-spin absolute left-2.5" />
+            )}
+            Submit
+          </Button>
+        </div>
         {formState.error && <FormMessage>{formState.error}</FormMessage>}
       </form>
     </Form>
   );
 };
 
-export default Page;
+export default AddUserForm;

@@ -32,6 +32,9 @@ export class UserEntity extends BaseEntity {
   @ManyToOne(() => RoleEntity, { nullable: true })
   public role!: RoleEntity;
 
+  @Column({ type: 'boolean', default: false })
+  public temp_password!: boolean;
+
   @BeforeInsert()
   hashPasswordBeforeInsert() {
     if (this.password) {

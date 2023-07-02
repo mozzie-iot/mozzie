@@ -7,10 +7,9 @@ import {
   UserEntity,
   ConfigService,
   RoleEntityService,
+  UserCreateDto,
+  UserLoginDto,
 } from '@huebot/common';
-
-import { UserCreateDto } from './dto/create.dto';
-import { UserLoginDto } from './dto/login.dto';
 
 @Injectable()
 export class UserService {
@@ -54,11 +53,21 @@ export class UserService {
     const user = new UserEntity();
     user.email = input.email;
     user.password = input.password;
+    user.temp_password = true;
 
-    if (input.role) {
+    if (input.role === 'admin') {
+      user.is_admin = true;
+    } else {
       const role = await this.roleService.repo.findOne({
-        where: { id: input.role },
+        where: { nickname: input.role },
       });
+
+      if (!role) {
+        throw new HttpException(
+          `Role not found: ${input.role}`,
+          HttpStatus.BAD_REQUEST,
+        );
+      }
 
       user.role = role;
     }
@@ -103,5 +112,9 @@ export class UserService {
     } catch (error) {
       res.status(HttpStatus.BAD_REQUEST);
     }
+  }
+
+  public async findAll() {
+    return this.userService.repo.find({ relations: ['role'] });
   }
 }

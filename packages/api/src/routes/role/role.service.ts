@@ -1,8 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { RoleEntityService, RoleEntity } from '@huebot/common';
-
-import { RoleCreateDto } from './dto/create.dto';
+import { RoleEntityService, RoleEntity, RoleCreateDto } from '@huebot/common';
 
 @Injectable()
 export class RoleService {
@@ -13,5 +11,9 @@ export class RoleService {
     Object.assign(role, input);
     await this.roleService.save(role);
     return role;
+  }
+
+  public async findAll() {
+    return this.roleService.repo.find();
   }
 }

@@ -209,6 +209,7 @@ CMD [ "node", "dist/main.js" ]
 FROM node:18-slim AS client_development
 
 WORKDIR /usr/app/packages
+COPY --chown=node:node packages/common ./common
 COPY --chown=node:node packages/client ./client
 
 WORKDIR /usr/app
@@ -219,3 +220,56 @@ COPY --chown=node:node .yarn ./.yarn
 COPY --chown=node:node tsconfig.json .
 
 USER node
+
+###################
+# CLIENT BUILD (FOR PRODUCTION)
+###################
+FROM node:18-alpine AS client_build
+
+WORKDIR /usr/app
+COPY --chown=node:node package.json .
+COPY --chown=node:node yarn.lock .
+COPY --chown=node:node .yarnrc.yml .
+COPY --chown=node:node .yarn ./.yarn
+COPY --chown=node:node tsconfig.json .
+
+COPY --chown=node:node packages/common/package.json ./packages/common/package.json
+COPY --chown=node:node --from=common_build /usr/app/packages/common/dist ./packages/common/dist
+COPY --chown=node:node packages/client ./packages/client
+RUN yarn workspace @huebot/client install
+RUN yarn workspace @huebot/client build
+
+# Needed to use 'yarn workspaces focus' which installs prod deps in current dir (yarn 2)
+RUN yarn plugin import workspace-tools
+
+ENV NODE_ENV production
+
+WORKDIR /usr/app/packages/common
+# Install common production packages
+RUN yarn workspaces focus --production
+
+WORKDIR /usr/app/packages/client
+# Install client production packages
+RUN yarn workspaces focus --production
+
+USER node
+
+###################
+# CLIENT PRODUCTION
+###################
+FROM node:18-alpine AS client_production
+LABEL org.opencontainers.image.source https://github.com/huebot-iot/client
+
+WORKDIR /usr/app
+COPY --chown=node:node package.json .
+COPY --chown=node:node --from=client_build /usr/app/node_modules ./node_modules
+
+WORKDIR /usr/app/packages/common
+COPY --chown=node:node packages/common/package.json .
+COPY --chown=node:node --from=client_build /usr/app/packages/common/dist ./dist
+
+WORKDIR /usr/app/packages/client
+COPY --chown=node:node --from=client_build /usr/app/packages/client/dist ./dist
+# COPY --chown=node:node packages/client/package.json ./package.json
+ENV NODE_ENV production
+CMD [ "npm", "run", "start" ]
