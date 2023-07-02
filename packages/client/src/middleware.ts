@@ -15,17 +15,17 @@ export async function middleware(request: NextRequest) {
   if (!session_cookie) {
     is_auth = false;
   } else {
-    try {
-      await fetch('http://api:3000/v1/users/me', {
-        method: 'GET',
-        headers: {
-          Cookie: `${process.env.SESSION_NAME}=${session_cookie.value}`,
-        },
-      });
+    const res = await fetch('http://api:3000/v1/users/me', {
+      method: 'GET',
+      headers: {
+        Cookie: `${process.env.SESSION_NAME}=${session_cookie.value}`,
+      },
+    });
 
+    const resStr = await res.text();
+
+    if (resStr) {
       is_auth = true;
-    } catch (error) {
-      is_auth = false;
     }
   }
 
@@ -36,7 +36,9 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(url);
     }
 
-    return NextResponse.next();
+    const response = NextResponse.next();
+    response.cookies.delete(process.env.SESSION_NAME || '');
+    return response;
   }
 
   if (!is_auth) {

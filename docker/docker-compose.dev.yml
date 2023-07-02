@@ -54,6 +54,7 @@ services:
     volumes:
       - ../node_modules:/usr/app/node_modules
       - ../packages/client:/usr/app/packages/client
+      - ../packages/common:/usr/app/packages/common
     ports:
       - 4000:3000
     command: yarn workspace @huebot/client dev

@@ -26,6 +26,7 @@ export const serverFetch = async <TResponse>(
       ...(init && init.headers ? init.headers : {}),
       Cookie: `${SESSION_NAME}=${session.value}`,
     },
+    next: { revalidate: 60 },
   });
 
   return res.json() as Promise<TResponse>;

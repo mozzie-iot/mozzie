@@ -15,14 +15,11 @@ const Layout: React.FunctionComponent<Props> = ({ children }) => (
       <Image
         src="/images/huebot.svg"
         alt="Huebot Logo"
-        className="mx-auto h-20 w-auto"
-        width={100}
-        height={24}
+        className="mx-auto h-10 w-auto"
+        width={80}
+        height={20}
         priority
       />
-      <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-        Sign in
-      </h2>
     </div>
     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">{children}</div>
   </div>

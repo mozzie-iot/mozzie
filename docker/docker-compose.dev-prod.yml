@@ -36,6 +36,20 @@ services:
     networks:
       - huebot-proxy-net
 
+  client:
+    container_name: huebot_client_dev_prod
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile
+      target: client_production
+    environment:
+      - NODE_ENV=production
+      - SESSION_NAME=$SESSION_NAME
+    ports:
+      - 4000:3000
+    networks:
+      - huebot-proxy-net
+
 networks:
   huebot-proxy-net:
     external:

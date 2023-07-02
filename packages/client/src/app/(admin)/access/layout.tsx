@@ -1,20 +1,33 @@
-export default async function RootLayout({
-  children,
-}: {
+import React from 'react';
+
+import SubNav from './components/sub-nav';
+
+const navItems = [
+  {
+    name: 'Users',
+    href: '/access/users',
+  },
+  {
+    name: 'Roles',
+    href: '/access/roles',
+  },
+  {
+    name: 'API Keys',
+    href: '/access/api-keys',
+  },
+];
+
+interface Props {
   children: React.ReactNode;
-}) {
-  return (
-    <>
-      <header className="bg-white shadow">
-        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-            Access
-          </h1>
-        </div>
-      </header>
-      <main>
-        <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">{children}</div>
-      </main>
-    </>
-  );
 }
+
+const AccessLayout: React.FunctionComponent<Props> = ({ children }) => {
+  return (
+    <div className="container flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10">
+      <SubNav nav_items={navItems} />
+      <main className="py-6 lg:gap-10 lg:py-8">{children}</main>
+    </div>
+  );
+};
+
+export default AccessLayout;
