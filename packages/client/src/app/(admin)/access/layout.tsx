@@ -8,12 +8,12 @@ const navItems = [
     href: '/access/users',
   },
   {
-    name: 'Roles',
-    href: '/access/roles',
-  },
-  {
     name: 'API Keys',
     href: '/access/api-keys',
+  },
+  {
+    name: 'Roles',
+    href: '/access/roles',
   },
 ];
 

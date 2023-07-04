@@ -8,7 +8,10 @@ import {
   BeforeInsert,
   ManyToOne,
   BaseEntity,
+  AfterLoad,
 } from 'typeorm';
+
+import { AccessRolesEnum } from '@huebot/enums';
 
 import { RoleEntity } from '../role';
 
@@ -35,11 +38,28 @@ export class UserEntity extends BaseEntity {
   @Column({ type: 'boolean', default: false })
   public temp_password!: boolean;
 
+  // Virtual field
+  public role_access!: AccessRolesEnum[];
+
   @BeforeInsert()
   hashPasswordBeforeInsert() {
     if (this.password) {
       const salt = genSaltSync();
       this.password = hashSync(this.password, salt);
     }
+  }
+
+  @AfterLoad()
+  formatRoles() {
+    if (this.role) {
+      this.role_access = Object.entries(this.role).reduce(
+        (acc: string[], [p, v]) => (v === true ? [p, ...acc] : acc),
+        []
+      ) as AccessRolesEnum[];
+
+      return;
+    }
+
+    this.role_access = [];
   }
 }
