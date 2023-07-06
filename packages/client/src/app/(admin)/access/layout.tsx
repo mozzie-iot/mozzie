@@ -2,18 +2,23 @@ import React from 'react';
 
 import SubNav from './components/sub-nav';
 
+import { AccessRolesEnum } from '@/utils/access-roles.enum';
+
 const navItems = [
   {
     name: 'Users',
     href: '/access/users',
+    roles: [AccessRolesEnum.USER_READ],
   },
   {
     name: 'API Keys',
     href: '/access/api-keys',
+    roles: [AccessRolesEnum.API_KEY_READ],
   },
   {
     name: 'Roles',
     href: '/access/roles',
+    roles: [AccessRolesEnum.ROLE_READ],
   },
 ];
 

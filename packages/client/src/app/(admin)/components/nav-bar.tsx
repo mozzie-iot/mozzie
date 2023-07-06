@@ -20,6 +20,7 @@ import {
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 import { AccessRolesEnum } from '@/utils/access-roles.enum';
+import { userCanUtil } from '@/utils/user-can.util';
 
 interface Props {
   user: UserEntity;
@@ -83,14 +84,7 @@ export const NavBar: React.FunctionComponent<Props> = ({ user }) => {
                   <NavigationMenu className="ml-20">
                     <NavigationMenuList>
                       {navigation
-                        .filter(
-                          (item) =>
-                            user.is_admin ||
-                            item.roles.length === 0 ||
-                            item.roles.some((role) =>
-                              user.role_access.includes(role)
-                            )
-                        )
+                        .filter((item) => userCanUtil(user, item.roles))
                         .map((item) => {
                           return (
                             <NavigationMenuItem key={item.name}>

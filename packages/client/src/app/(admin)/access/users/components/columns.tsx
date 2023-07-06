@@ -22,18 +22,7 @@ export const columns: ColumnDef<UserEntity>[] = [
   {
     accessorKey: 'is_admin',
     header: 'Role',
-    accessorFn: (row) => {
-      if (row.is_admin) {
-        return 'admin';
-      }
-
-      // TO DO: remove this as role should be required when not an admin
-      if (!row.role) {
-        return 'no role';
-      }
-
-      return row.role.nickname;
-    },
+    accessorFn: (row) => (row.is_admin ? 'admin' : row.role.nickname),
   },
   {
     header: 'Actions',

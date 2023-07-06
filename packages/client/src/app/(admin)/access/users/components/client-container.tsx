@@ -8,24 +8,20 @@ import { UserEntity } from '@huebot/common';
 import { columns } from './columns';
 import { DataTable } from './data-table';
 
+import { findAllUsers } from '@/client-queries';
+
 interface Props {
   users: UserEntity[];
 }
 
-const getUsers = async (): Promise<UserEntity[]> => {
-  const res = await fetch('/api/v1/users/find-all');
-  const json = (await res.json()) as UserEntity[];
-  return json;
-};
-
-export const CacheContainer: React.FC<Props> = ({ users }) => {
+export const ClientContainer: React.FC<Props> = ({ users }) => {
   const { data } = useQuery({
     queryKey: ['users'],
-    queryFn: getUsers,
+    queryFn: findAllUsers,
     initialData: users,
   });
 
-  return <DataTable columns={columns} data={data} />;
+  return <DataTable columns={columns} table_data={data} />;
 };
 
-export default CacheContainer;
+export default ClientContainer;

@@ -6,7 +6,9 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
+import { useEffect } from 'react';
 
+import { useCurrentUser } from '@/app/(admin)/components/use-current-user';
 import {
   Table,
   TableBody,
@@ -15,21 +17,56 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { AccessRolesEnum } from '@/utils/access-roles.enum';
+import { userCanUtil } from '@/utils/user-can.util';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+  table_data: TData[];
 }
 
 export function DataTable<TData, TValue>({
   columns,
-  data,
+  table_data,
 }: DataTableProps<TData, TValue>) {
+  const { loading, data, error } = useCurrentUser();
+
   const table = useReactTable({
-    data,
+    data: table_data,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
+
+  useEffect(() => {
+    if (!data) {
+      return;
+    }
+
+    table
+      .getAllColumns()
+      .filter((column) => column.getCanHide())
+      .map((column) => {
+        if (column.id === 'actions') {
+          if (
+            !userCanUtil(data.current_user, [
+              AccessRolesEnum.USER_WRITE,
+              AccessRolesEnum.USER_DELETE,
+            ])
+          ) {
+            column.toggleVisibility(false);
+          }
+        }
+      });
+  }, [data]);
+
+  if (loading) {
+    return <h2>Loading...</h2>;
+  }
+
+  if (error || !data) {
+    console.error('Failed to load current user');
+    return null;
+  }
 
   return (
     <div className="rounded-md border">

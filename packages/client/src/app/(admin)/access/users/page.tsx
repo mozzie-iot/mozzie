@@ -5,7 +5,7 @@ import { UserEntity } from '@huebot/common';
 import { InsufficientPermissions } from '../../components/insufficient-permisssions';
 
 import { AddUserButton } from './components/add-user-button';
-import CacheContainer from './components/cache-container';
+import CacheContainer from './components/client-container';
 
 import { serverFetch } from '@/components/server-fetch';
 import { AccessRolesEnum } from '@/utils/access-roles.enum';
