@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import React, { useState } from 'react';
 
-import { UserEntity, AccessRolesEnum } from '@huebot/common';
+import { UserEntity } from '@huebot/common';
 
 import UserNav from './user-nav';
 
@@ -19,6 +19,8 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
+import { AccessRolesEnum } from '@/utils/access-roles.enum';
+import { userCanUtil } from '@/utils/user-can.util';
 
 interface Props {
   user: UserEntity;
@@ -29,10 +31,15 @@ const navigation = [
   {
     name: 'Access',
     href: '/access/users',
-    role: [AccessRolesEnum.ROLE_READ, AccessRolesEnum.USER_READ],
+    roles: [
+      AccessRolesEnum.ROLE_READ,
+      AccessRolesEnum.USER_READ,
+      AccessRolesEnum.API_KEY_READ,
+      AccessRolesEnum.BROKER_ACCESS_READ,
+    ],
   },
-  { name: 'Broker', href: '#', roles: [] },
-  { name: 'Controllers', href: '#', roles: [] },
+  { name: 'Broker', href: '#', roles: [AccessRolesEnum.SYSTEM_READ] },
+  { name: 'Controllers', href: '#', roles: [AccessRolesEnum.CONTROLLER_READ] },
 ];
 
 const userNavigation = [{ name: 'Settings', href: '#', icon: Settings }];
@@ -76,24 +83,25 @@ export const NavBar: React.FunctionComponent<Props> = ({ user }) => {
                 <div className="hidden md:block">
                   <NavigationMenu className="ml-20">
                     <NavigationMenuList>
-                      {navigation.map((item) => {
-                        console.log(user);
-                        return (
-                          <NavigationMenuItem key={item.href}>
-                            <Link href={item.href} legacyBehavior passHref>
-                              <NavigationMenuLink
-                                active={
-                                  item.href.split('/')[1] ===
-                                  pathname.split('/')[1]
-                                }
-                                className={navigationMenuTriggerStyle()}
-                              >
-                                {item.name}
-                              </NavigationMenuLink>
-                            </Link>
-                          </NavigationMenuItem>
-                        );
-                      })}
+                      {navigation
+                        .filter((item) => userCanUtil(user, item.roles))
+                        .map((item) => {
+                          return (
+                            <NavigationMenuItem key={item.name}>
+                              <Link href={item.href} legacyBehavior passHref>
+                                <NavigationMenuLink
+                                  active={
+                                    item.href.split('/')[1] ===
+                                    pathname.split('/')[1]
+                                  }
+                                  className={navigationMenuTriggerStyle()}
+                                >
+                                  {item.name}
+                                </NavigationMenuLink>
+                              </Link>
+                            </NavigationMenuItem>
+                          );
+                        })}
                     </NavigationMenuList>
                   </NavigationMenu>
                 </div>
