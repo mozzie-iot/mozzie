@@ -15,10 +15,13 @@ services:
       - SESSION_MAX_AGE=$SESSION_MAX_AGE
       - SESSION_NAME=$SESSION_NAME
     volumes:
-      - ../node_modules:/usr/app/node_modules
       - ../packages/api:/usr/app/packages/api
       - ../packages/common:/usr/app/packages/common
       - ${HOME}/db:/usr/db
+      - /usr/app/.yarn/cache
+      - /usr/app/node_modules
+      - /usr/app/packages/api/node_modules
+      - /usr/app/packages/common/node_modules
     ports:
       - 3000:3000
     command: yarn workspace @huebot/api start:dev
@@ -52,9 +55,13 @@ services:
       - NODE_ENV=development
       - SESSION_NAME=$SESSION_NAME
     volumes:
-      - ../node_modules:/usr/app/node_modules
       - ../packages/client:/usr/app/packages/client
       - ../packages/common:/usr/app/packages/common
+      - /usr/app/packages/client/.next
+      - /usr/app/.yarn/cache
+      - /usr/app/node_modules
+      - /usr/app/packages/api/node_modules
+      - /usr/app/packages/common/node_modules
     ports:
       - 4000:3000
     command: yarn workspace @huebot/client dev

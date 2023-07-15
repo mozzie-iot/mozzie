@@ -27,16 +27,21 @@ FROM node:18-slim AS api_development
 # Needed to reload app when watching for changes
 RUN apt-get update && apt-get -y install procps
 
-WORKDIR /usr/app/packages
-COPY --chown=node:node packages/common ./common
-COPY --chown=node:node packages/api ./api
-
 WORKDIR /usr/app
 COPY --chown=node:node package.json .
 COPY --chown=node:node yarn.lock .
 COPY --chown=node:node .yarnrc.yml .
 COPY --chown=node:node .yarn ./.yarn
 COPY --chown=node:node tsconfig.json .
+
+COPY --chown=node:node packages/common/package.json ./packages/common/package.json
+COPY --chown=node:node --from=common_build /usr/app/packages/common/dist ./packages/common/dist
+
+COPY --chown=node:node packages/api/package.json ./packages/api/package.json
+
+RUN yarn workspace @huebot/api install
+
+COPY --chown=node:node packages/api/. ./packages/api/
 
 USER node
 
@@ -218,6 +223,15 @@ COPY --chown=node:node yarn.lock .
 COPY --chown=node:node .yarnrc.yml .
 COPY --chown=node:node .yarn ./.yarn
 COPY --chown=node:node tsconfig.json .
+
+COPY --chown=node:node packages/common/package.json ./packages/common/package.json
+COPY --chown=node:node --from=common_build /usr/app/packages/common/dist ./packages/common/dist
+
+COPY --chown=node:node packages/client/package.json ./packages/client/package.json
+
+RUN yarn workspace @huebot/client install
+
+COPY --chown=node:node packages/client/. ./packages/client/
 
 USER node
 
