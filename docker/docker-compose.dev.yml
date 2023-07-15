@@ -22,6 +22,7 @@ services:
       - /usr/app/node_modules
       - /usr/app/packages/api/node_modules
       - /usr/app/packages/common/node_modules
+      - /usr/app/packages/common/dist
     ports:
       - 3000:3000
     command: yarn workspace @huebot/api start:dev

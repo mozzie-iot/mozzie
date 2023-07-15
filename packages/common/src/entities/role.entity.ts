@@ -1,7 +1,7 @@
 import { IsInt, IsString } from 'class-validator';
 import { Entity, Column, PrimaryGeneratedColumn, BaseEntity } from 'typeorm';
 
-import { AccessRolesEnum } from '../../enums';
+import { AccessRolesEnum } from '../enums';
 
 @Entity('roles')
 export class RoleEntity extends BaseEntity {

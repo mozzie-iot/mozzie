@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { ApiKeyEntityModule } from '@huebot/common';
+import { ApiKeyEntity } from '@huebot/common';
 
 import { ApiKeyController } from './api-key.controller';
 import { ApiKeyService } from './api-key.service';
 
 @Module({
-  imports: [ApiKeyEntityModule],
+  imports: [TypeOrmModule.forFeature([ApiKeyEntity])],
   providers: [ApiKeyService],
   controllers: [ApiKeyController],
 })

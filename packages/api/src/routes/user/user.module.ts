@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { RoleEntityModule, UserEntityModule } from '@huebot/common';
+import { RoleEntity, UserEntity } from '@huebot/common';
 
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 
 @Module({
-  imports: [UserEntityModule, RoleEntityModule],
+  imports: [TypeOrmModule.forFeature([UserEntity, RoleEntity])],
   providers: [UserService],
   controllers: [UserController],
 })

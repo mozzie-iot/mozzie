@@ -1,19 +1,27 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
-import { RoleEntityService, RoleEntity, RoleCreateDto } from '@huebot/common';
+import { RoleEntity, RoleCreateDto } from '@huebot/common';
+import { DatabaseCrudService } from '@huebot/database/database-crud.service';
 
 @Injectable()
-export class RoleService {
-  constructor(private roleService: RoleEntityService) {}
+export class RoleService extends DatabaseCrudService<RoleEntity> {
+  constructor(
+    @InjectRepository(RoleEntity)
+    protected readonly repository: Repository<RoleEntity>,
+  ) {
+    super();
+  }
 
   public async create(input: RoleCreateDto) {
     const role = new RoleEntity();
     Object.assign(role, input);
-    await this.roleService.save(role);
+    await this.repository.save(role);
     return role;
   }
 
   public async findAll() {
-    return this.roleService.repo.find();
+    return this.repository.find();
   }
 }

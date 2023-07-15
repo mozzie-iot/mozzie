@@ -13,7 +13,7 @@ import {
 
 import { AccessRolesEnum } from '@huebot/enums';
 
-import { RoleEntity } from '../role';
+import { RoleEntity } from './role.entity';
 
 @Entity('users')
 export class UserEntity extends BaseEntity {

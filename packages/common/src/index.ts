@@ -5,3 +5,4 @@ export * from './redis';
 export * from './mqtt';
 export * from './dto';
 export * from './enums';
+export * from './interfaces';

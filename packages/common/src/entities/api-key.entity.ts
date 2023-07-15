@@ -8,7 +8,7 @@ import {
   BaseEntity,
 } from 'typeorm';
 
-import { RoleEntity } from '../role';
+import { RoleEntity } from './role.entity';
 
 @Entity('api_keys')
 export class ApiKeyEntity extends BaseEntity {

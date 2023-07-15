@@ -1,28 +1,34 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import { Request, Response } from 'express';
+import { Repository } from 'typeorm';
 
 import {
-  UserEntityService,
   UserEntity,
   ConfigService,
-  RoleEntityService,
   UserCreateDto,
   UserLoginDto,
   UserUpdateDto,
   ResetPasswordDto,
+  RoleEntity,
 } from '@huebot/common';
+import { DatabaseCrudService } from '@huebot/database/database-crud.service';
 
 @Injectable()
-export class UserService {
+export class UserService extends DatabaseCrudService<UserEntity> {
   constructor(
-    private userService: UserEntityService,
-    private roleService: RoleEntityService,
     private configService: ConfigService,
-  ) {}
+    @InjectRepository(UserEntity)
+    protected readonly repository: Repository<UserEntity>,
+    @InjectRepository(RoleEntity)
+    protected readonly roleRepo: Repository<RoleEntity>,
+  ) {
+    super();
+  }
 
   public async create_admin(input: UserCreateDto) {
-    const users = await this.userService.repo.count();
+    const users = await this.repository.count();
 
     if (users > 0) {
       throw new HttpException(
@@ -35,13 +41,13 @@ export class UserService {
     user.email = input.email;
     user.password = input.password;
     user.is_admin = true;
-    await this.userService.save(user);
+    await this.repository.save(user);
 
     return user;
   }
 
   public async create(input: UserCreateDto) {
-    const user_exists = await this.userService.repo.findOne({
+    const user_exists = await this.repository.findOne({
       where: { email: input.email },
     });
 
@@ -60,7 +66,7 @@ export class UserService {
     if (input.role === 'admin') {
       user.is_admin = true;
     } else {
-      const role = await this.roleService.repo.findOne({
+      const role = await this.roleRepo.findOne({
         where: { nickname: input.role },
       });
 
@@ -74,13 +80,13 @@ export class UserService {
       user.role = role;
     }
 
-    await this.userService.save(user);
+    await this.repository.save(user);
 
     return user;
   }
 
   public async login(req: Request, input: UserLoginDto) {
-    const user = await this.userService.repo.findOne({
+    const user = await this.repository.findOne({
       where: { email: input.email },
     });
 
@@ -117,18 +123,18 @@ export class UserService {
   }
 
   public async findAll() {
-    return this.userService.repo.find({ relations: ['role'] });
+    return this.repository.find({ relations: ['role'] });
   }
 
   public async findOne(id: string): Promise<UserEntity | undefined> {
-    return this.userService.repo.findOne({
+    return this.repository.findOne({
       where: { id },
       relations: ['role'],
     });
   }
 
   public async update(id: string, input: UserUpdateDto) {
-    const user = await this.userService.repo.findOne({
+    const user = await this.repository.findOne({
       where: { id },
     });
 
@@ -143,7 +149,7 @@ export class UserService {
       if (input.role === 'admin') {
         user.is_admin = true;
       } else {
-        const role = await this.roleService.repo.findOne({
+        const role = await this.roleRepo.findOne({
           where: { nickname: input.role },
         });
 
@@ -158,14 +164,14 @@ export class UserService {
       }
     }
 
-    return this.userService.save(user);
+    return this.repository.save(user);
   }
 
   public async resetPassword(
     id: string,
     input: ResetPasswordDto,
   ): Promise<UserEntity> {
-    const user = await this.userService.repo.findOne({
+    const user = await this.repository.findOne({
       where: { id },
     });
 
@@ -179,6 +185,6 @@ export class UserService {
     const salt = genSaltSync();
     user.password = hashSync(input.password, salt);
     user.temp_password = true;
-    return this.userService.save(user);
+    return this.repository.save(user);
   }
 }
