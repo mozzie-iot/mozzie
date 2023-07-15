@@ -3,6 +3,7 @@ import {
   ClassSerializerInterceptor,
   Controller,
   Get,
+  Param,
   Post,
   Req,
   Res,
@@ -11,7 +12,13 @@ import {
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 
-import { UserCreateDto, UserEntity, UserLoginDto } from '@huebot/common';
+import {
+  ResetPasswordDto,
+  UserCreateDto,
+  UserEntity,
+  UserLoginDto,
+  UserUpdateDto,
+} from '@huebot/common';
 import { Role } from '@huebot/role/role.decorator';
 import { RoleEnum } from '@huebot/role/role.enum';
 
@@ -44,7 +51,7 @@ export class UserController {
   }
 
   @Get('me')
-  current_user(@User() user: UserEntity) {
+  me(@User() user: UserEntity) {
     return user;
   }
 
@@ -58,5 +65,26 @@ export class UserController {
   @UseGuards(AuthGuard)
   findAll() {
     return this.userService.findAll();
+  }
+
+  @Get(':id')
+  @Role(RoleEnum.user_read)
+  @UseGuards(AuthGuard)
+  findOne(@Param('id') id: string) {
+    return this.userService.findOne(id);
+  }
+
+  @Post('update/:id')
+  @Role(RoleEnum.user_write)
+  @UseGuards(AuthGuard)
+  update(@Param('id') id: string, @Body() input: UserUpdateDto) {
+    return this.userService.update(id, input);
+  }
+
+  @Post('reset-password/:id')
+  @Role(RoleEnum.user_write)
+  @UseGuards(AuthGuard)
+  resetPassword(@Param('id') id: string, @Body() input: ResetPasswordDto) {
+    return this.userService.resetPassword(id, input);
   }
 }

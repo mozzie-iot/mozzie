@@ -6,7 +6,11 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+
+import { UserEntity } from '@huebot/common';
 
 import { useCurrentUser } from '@/app/(admin)/components/use-current-user';
 import {
@@ -20,16 +24,17 @@ import {
 import { AccessRolesEnum } from '@/utils/access-roles.enum';
 import { userCanUtil } from '@/utils/user-can.util';
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  table_data: TData[];
+interface DataTableProps<TValue> {
+  columns: ColumnDef<UserEntity, TValue>[];
+  table_data: UserEntity[];
 }
 
-export function DataTable<TData, TValue>({
+export function DataTable<TValue>({
   columns,
   table_data,
-}: DataTableProps<TData, TValue>) {
-  const { loading, data, error } = useCurrentUser();
+}: DataTableProps<TValue>) {
+  const { loading, data: user_data, error } = useCurrentUser();
+  const router = useRouter();
 
   const table = useReactTable({
     data: table_data,
@@ -38,7 +43,7 @@ export function DataTable<TData, TValue>({
   });
 
   useEffect(() => {
-    if (!data) {
+    if (!user_data) {
       return;
     }
 
@@ -48,7 +53,7 @@ export function DataTable<TData, TValue>({
       .map((column) => {
         if (column.id === 'actions') {
           if (
-            !userCanUtil(data.current_user, [
+            !userCanUtil(user_data.current_user, [
               AccessRolesEnum.USER_WRITE,
               AccessRolesEnum.USER_DELETE,
             ])
@@ -57,16 +62,22 @@ export function DataTable<TData, TValue>({
           }
         }
       });
-  }, [data]);
+  }, [user_data]);
 
   if (loading) {
     return <h2>Loading...</h2>;
   }
 
-  if (error || !data) {
+  if (error || !user_data) {
     console.error('Failed to load current user');
     return null;
   }
+
+  const user_can =
+    user_data.current_user.is_admin ||
+    [AccessRolesEnum.USER_WRITE].some((permission) =>
+      user_data.current_user.role_access.includes(permission)
+    );
 
   return (
     <div className="rounded-md border">
@@ -95,6 +106,14 @@ export function DataTable<TData, TValue>({
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && 'selected'}
+                className={user_can ? 'hover:cursor-pointer' : ''}
+                onClick={() => {
+                  if (!user_can) {
+                    return;
+                  }
+
+                  router.push(`/access/users/${row.original.id}`);
+                }}
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>

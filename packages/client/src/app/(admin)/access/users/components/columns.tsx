@@ -2,6 +2,7 @@
 
 import { ColumnDef } from '@tanstack/react-table';
 import { MoreHorizontal } from 'lucide-react';
+import Link from 'next/link';
 
 import { UserEntity } from '@huebot/common';
 
@@ -27,7 +28,7 @@ export const columns: ColumnDef<UserEntity>[] = [
   {
     header: 'Actions',
     id: 'actions',
-    cell: () => {
+    cell: ({ row }) => {
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -38,7 +39,11 @@ export const columns: ColumnDef<UserEntity>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>Edit</DropdownMenuItem>
+            <DropdownMenuItem asChild className="hover:cursor-pointer">
+              <Link href={`/access/users/edit/${row.original.id}`} passHref>
+                Edit
+              </Link>
+            </DropdownMenuItem>
             <DropdownMenuItem>Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

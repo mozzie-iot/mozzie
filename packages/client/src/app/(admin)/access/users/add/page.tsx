@@ -15,6 +15,11 @@ const page: React.FunctionComponent = async () => {
     'http://api:3000/v1/roles/find-all'
   );
 
+  if (!roles) {
+    console.log('Unexpected undefined server response ');
+    return null;
+  }
+
   return (
     <div className="container mx-auto max-w-screen-sm">
       <h1 className="scroll-m-20 mb-10 text-4xl font-bold tracking-tight">

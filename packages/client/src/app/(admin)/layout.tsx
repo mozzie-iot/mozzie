@@ -13,6 +13,11 @@ interface Props {
 const AdminLayout: React.FunctionComponent<Props> = async ({ children }) => {
   const user = await serverFetch<UserEntity>('http://api:3000/v1/users/me');
 
+  if (!user) {
+    console.log('Unexpected undefined server response ');
+    return null;
+  }
+
   return (
     <div>
       <div className="md:border-b">

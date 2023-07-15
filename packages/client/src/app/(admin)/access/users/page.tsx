@@ -25,6 +25,11 @@ const page: React.FunctionComponent = async () => {
     'http://api:3000/v1/users/find-all'
   );
 
+  if (!initialData) {
+    console.log('Unexpected undefined server response ');
+    return null;
+  }
+
   return (
     <>
       <div className="flex justify-between">

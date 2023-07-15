@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { compareSync } from 'bcryptjs';
+import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import { Request, Response } from 'express';
 
 import {
@@ -9,6 +9,8 @@ import {
   RoleEntityService,
   UserCreateDto,
   UserLoginDto,
+  UserUpdateDto,
+  ResetPasswordDto,
 } from '@huebot/common';
 
 @Injectable()
@@ -116,5 +118,67 @@ export class UserService {
 
   public async findAll() {
     return this.userService.repo.find({ relations: ['role'] });
+  }
+
+  public async findOne(id: string): Promise<UserEntity | undefined> {
+    return this.userService.repo.findOne({
+      where: { id },
+      relations: ['role'],
+    });
+  }
+
+  public async update(id: string, input: UserUpdateDto) {
+    const user = await this.userService.repo.findOne({
+      where: { id },
+    });
+
+    if (!user) {
+      throw new HttpException(
+        `User not found with ID: ${id}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    if (input.role) {
+      if (input.role === 'admin') {
+        user.is_admin = true;
+      } else {
+        const role = await this.roleService.repo.findOne({
+          where: { nickname: input.role },
+        });
+
+        if (!role) {
+          throw new HttpException(
+            `Role not found: ${input.role}`,
+            HttpStatus.BAD_REQUEST,
+          );
+        }
+
+        user.role = role;
+      }
+    }
+
+    return this.userService.save(user);
+  }
+
+  public async resetPassword(
+    id: string,
+    input: ResetPasswordDto,
+  ): Promise<UserEntity> {
+    const user = await this.userService.repo.findOne({
+      where: { id },
+    });
+
+    if (!user) {
+      throw new HttpException(
+        `User not found with ID: ${id}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const salt = genSaltSync();
+    user.password = hashSync(input.password, salt);
+    user.temp_password = true;
+    return this.userService.save(user);
   }
 }

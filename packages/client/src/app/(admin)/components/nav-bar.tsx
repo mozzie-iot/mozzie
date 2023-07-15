@@ -2,6 +2,7 @@
 
 import { Disclosure } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { useQueryClient } from '@tanstack/react-query';
 import { Settings } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
@@ -49,6 +50,7 @@ function classNames(...classes: any) {
 }
 
 export const NavBar: React.FunctionComponent<Props> = ({ user }) => {
+  const queryClient = useQueryClient();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const pathname = usePathname() || '/';
@@ -63,6 +65,7 @@ export const NavBar: React.FunctionComponent<Props> = ({ user }) => {
       setLoading(false);
     }
 
+    queryClient.clear();
     router.replace('/login');
   };
 
